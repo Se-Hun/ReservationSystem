@@ -106,8 +106,6 @@ class Register extends Component {
                         <FormGroup>
                           <Label htmlFor="ccyear">Year</Label>
                           <Input type="select" name="ccyear" id="ccyear">
-                            <option>2017</option>
-                            <option>2018</option>
                             <option>2019</option>
                             <option>2020</option>
                             <option>2021</option>
@@ -116,6 +114,8 @@ class Register extends Component {
                             <option>2024</option>
                             <option>2025</option>
                             <option>2026</option>
+                            <option>2027</option>
+                            <option>2028</option>
                           </Input>
                         </FormGroup>
                       </Col>
@@ -130,16 +130,6 @@ class Register extends Component {
                   </Form>
 
                 </CardBody>
-                {/*<CardFooter className="p-4">
-                  <Row>
-                    <Col xs="12" sm="6">
-                      <Button className="btn-facebook mb-1" block><span>facebook</span></Button>
-                    </Col>
-                    <Col xs="12" sm="6">
-                      <Button className="btn-twitter mb-1" block><span>twitter</span></Button>
-                    </Col>
-                  </Row>
-                </CardFooter>*/}
               </Card>
             </Col>
           </Row>

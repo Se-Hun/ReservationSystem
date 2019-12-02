@@ -23,7 +23,7 @@ import {
 import {CustomTooltips} from '@coreui/coreui-plugin-chartjs-custom-tooltips';
 import {getStyle, hexToRgba} from '@coreui/coreui/dist/js/coreui-utilities'
 
-const Widget03 = lazy(() => import('../../views/Widgets/Widget03'));
+const Widget03 = lazy(() => import('../../../../../IdeaProjects/ReservationSystem/src/views/Widgets/Widget03'));
 
 const brandPrimary = getStyle('--primary')
 const brandSuccess = getStyle('--success')
@@ -509,7 +509,7 @@ class Dashboard extends Component {
               </Col>
             </Card>
           </Col>*/}
-
+          <Col></Col>
 
           <Col sm="6" lg="6">
             <Card className="text-white bg-info">
@@ -539,14 +539,16 @@ class Dashboard extends Component {
                       <Input type="text" id="date" placeholder="Enter your time" required/>
                     </FormGroup>
                   </Col>
-                  <Col col="6" sm="2" md="2" xl className="mb-3 mb-xl-0">
-                    <Button block color="primary">조회</Button>
-                  </Col>
+
                 </Row>
+                <Col col="6" sm="2" md="2" xl className="mb-3 mb-xl-0">
+                <Button block color="primary">조회</Button>
+                </Col>
               </CardBody>
             </Card>
           </Col>
 
+          <Col></Col>
         </Row>
         <Row>
           <Col>

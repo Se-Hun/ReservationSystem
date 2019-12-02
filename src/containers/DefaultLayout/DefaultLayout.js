@@ -16,12 +16,12 @@ import {
   AppSidebarNav2 as AppSidebarNav,
 } from '@coreui/react';
 // sidebar nav config
-import navigation from '../../_nav';
+import navigation from '../../../../../IdeaProjects/ReservationSystem/src/_nav';
 // routes config
-import routes from '../../routes';
+import routes from '../../../../../IdeaProjects/ReservationSystem/src/routes';
 
-const DefaultAside = React.lazy(() => import('./DefaultAside'));
-const DefaultFooter = React.lazy(() => import('./DefaultFooter'));
+const DefaultAside = React.lazy(() => import('../../../../../IdeaProjects/ReservationSystem/src/containers/DefaultLayout/DefaultAside'));
+const DefaultFooter = React.lazy(() => import('../../../../../IdeaProjects/ReservationSystem/src/containers/DefaultLayout/DefaultFooter'));
 const DefaultHeader = React.lazy(() => import('./DefaultHeader'));
 
 class DefaultLayout extends Component {
