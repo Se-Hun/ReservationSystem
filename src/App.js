@@ -16,7 +16,6 @@ const Page500 = React.lazy(() => import('./views/Pages/Page500'));
 const Bookmark = React.lazy(() => import('./views/Pages/Bookmark'));
 const ChangeUserInfo = React.lazy(() => import('./views/Pages/ChangeUserInfo'));
 class App extends Component {
-
   render() {
     return (
       <HashRouter>
