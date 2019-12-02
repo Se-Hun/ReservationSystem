@@ -4,8 +4,8 @@ import { Badge, UncontrolledDropdown, DropdownItem, DropdownMenu, DropdownToggle
 import PropTypes from 'prop-types';
 
 import { AppAsideToggler, AppNavbarBrand, AppSidebarToggler } from '@coreui/react';
-//import logo from '../../assets/img/brand/logo.svg'
-//import sygnet from '../../assets/img/brand/sygnet.svg'
+import logo from 'C:/Users/82103/IdeaProjects/ReservationSystem/src/assets/img/brand/logo.svg'
+import sygnet from 'C:/Users/82103/IdeaProjects/ReservationSystem/src/assets/img/brand/sygnet.svg'
 
 const propTypes = {
   children: PropTypes.node,
@@ -33,7 +33,12 @@ class DefaultHeader extends Component {
             {/*<NavLink to="/dashboard" className="nav-link" >Dashboard</NavLink>*/}
           </NavItem>
           <NavItem className="px-3">
-            {/*<Link to="/users" className="nav-link">Users</Link>*/}
+            <Link to="/users" className="nav-link">Q&A</Link>
+          </NavItem>
+        </Nav>
+        <Nav className="ml-auto" navbar>
+          <NavItem className="px-3">
+            <NavLink to="#" className="nav-link">회원가입</NavLink>
           </NavItem>
           <NavItem className="px-3">
             {/*<NavLink to="#" className="nav-link">Settings</NavLink>*/}
