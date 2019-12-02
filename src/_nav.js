@@ -1,14 +1,30 @@
 export default {
   items: [
     {
-      name: 'Dashboard',
+      name: '메인 페이지',
       url: '/dashboard',
-      icon: 'icon-speedometer',
+      icon: 'icon-star',
       badge: {
         variant: 'info',
-        text: 'NEW',
       },
     },
+    {
+      name: 'QnA',
+      url: '/QnA',
+      icon: 'icon-question',
+      badge: {
+        variant: 'info',
+      },
+    },
+    {
+      name: '공지사항',
+      url: '/Announcements',
+      icon: 'icon-bell',
+      badge: {
+        variant: 'info',
+      },
+    },
+    
     // {
     //   title: true,
     //   name: 'Theme',
