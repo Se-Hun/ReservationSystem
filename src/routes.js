@@ -1,6 +1,20 @@
 import React from 'react';
 
 const Dashboard = React.lazy(() => import('./views/Dashboard'));
+const Login = React.lazy(() => import('./views/Pages/Login'));
+const Register = React.lazy(() => import('./views/Pages/Register'));
+const Bookmark = React.lazy(() => import('./views/Pages/Bookmark'));
+const ChangeUserInfo = React.lazy(() => import('./views/Pages/ChangeUserInfo'));
+const Reserve = React.lazy(() => import('./views/Pages/Reserve'));
+const ConfirmCancelReservation = React.lazy(() => import('./views/Pages/ConfirmCancelReservation'));
+const EditReservation = React.lazy(() => import('./views/Pages/EditReservation'));
+const Notice = React.lazy(() => import('./views/Pages/Notice'));
+const QnA = React.lazy(() => import('./views/Pages/QnA'));
+const SearchRoutenSeat = React.lazy(() => import('./views/Pages/SearchRoutenSeat'));
+const SearchSeat = React.lazy(() => import('./views/Pages/SearchSeat'));
+const ConfirmReservation = React.lazy(() => import('./views/Pages/ConfirmReservation'));
+const CheckEditReserve = React.lazy(() => import('./views/Pages/CheckEditReserve'));
+const ConfirmLogin = React.lazy(() => import('./views/Pages/ConfirmLogin'));
 // const Breadcrumbs = React.lazy(() => import('./views/Base/Breadcrumbs'));
 // const Cards = React.lazy(() => import('./views/Base/Cards'));
 // const Carousels = React.lazy(() => import('./views/Base/Carousels'));
@@ -40,6 +54,21 @@ const Dashboard = React.lazy(() => import('./views/Dashboard'));
 const routes = [
   { path: '/', exact: true, name: 'Home' },
   { path: '/dashboard', name: 'Dashboard', component: Dashboard },
+  { path: '/login', name: 'Login', component: Login },
+  { path: '/register', name: 'register', component: Register },
+  { path: '/bookmark', name: 'bookmark', component: Bookmark },
+  { path: '/changeuserinfo', name: 'change user information', component: ChangeUserInfo },
+  { path: '/reserve', name: 'reserve', component: Reserve },
+
+  { path: '/confirmCancelReservation', name: 'confirm cancel reserve', component: ConfirmCancelReservation },
+  { path: '/confirmReservation', name: 'confirm reserve', component: ConfirmReservation },
+  { path: '/checkEditReserve', name: 'check edit reserve', component: CheckEditReserve },
+  { path: '/editReservation', name: 'edit reserve', component: EditReservation },
+  { path: '/notice', name: 'notice', component: Notice },
+  { path: '/QnA', name: 'QnA', component: QnA },
+  { path: '/searchRoutenSeat', name: 'search route and seat', component: SearchRoutenSeat },
+  { path: '/searchSeat', name: 'search seat', component: SearchSeat },
+  { path: '/confirmLogin', name: 'confirm log in', component: ConfirmLogin },
   // { path: '/theme', exact: true, name: 'Theme', component: Colors },
   // { path: '/theme/colors', name: 'Colors', component: Colors },
   // { path: '/theme/typography', name: 'Typography', component: Typography },

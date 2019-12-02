@@ -16,12 +16,12 @@ import {
   AppSidebarNav2 as AppSidebarNav,
 } from '@coreui/react';
 // sidebar nav config
-import navigation from '../../../../../IdeaProjects/ReservationSystem/src/_nav';
+import navigation from '../../_nav';
 // routes config
-import routes from '../../../../../IdeaProjects/ReservationSystem/src/routes';
+import routes from '../../routes';
 
-const DefaultAside = React.lazy(() => import('../../../../../IdeaProjects/ReservationSystem/src/containers/DefaultLayout/DefaultAside'));
-const DefaultFooter = React.lazy(() => import('../../../../../IdeaProjects/ReservationSystem/src/containers/DefaultLayout/DefaultFooter'));
+const DefaultAside = React.lazy(() => import('./DefaultAside'));
+const DefaultFooter = React.lazy(() => import('./DefaultFooter'));
 const DefaultHeader = React.lazy(() => import('./DefaultHeader'));
 
 class DefaultLayout extends Component {
@@ -30,7 +30,7 @@ class DefaultLayout extends Component {
 
   signOut(e) {
     e.preventDefault()
-    this.props.history.push('/login')
+    this.props.history.push('/Login')
   }
 
   render() {

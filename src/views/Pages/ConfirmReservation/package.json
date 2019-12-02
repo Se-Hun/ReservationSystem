@@ -1,0 +1,6 @@
+{
+  "name": "ConfirmReservation",
+  "version": "0.0.0",
+  "private": true,
+  "main": "ConfirmReservation.js"
+}
