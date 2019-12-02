@@ -47,10 +47,10 @@ class DefaultHeader extends Component {
             <NavLink to="#" className="nav-link"><i className="icon-location-pin"></i></NavLink>
           </NavItem>*/}
           <NavItem className="px-3">
-            <NavLink to="/register" className="nav-link">회원가입</NavLink>
+            <NavLink to="/Register" className="nav-link">회원가입</NavLink>
           </NavItem>
           <NavItem className="px-3">
-            <NavLink to="/login" className="nav-link">로그인</NavLink>
+            <NavLink to="/Login" className="nav-link">로그인</NavLink>
           </NavItem>
           <UncontrolledDropdown nav direction="down">
             <DropdownToggle nav>
