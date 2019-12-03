@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { Link } from 'react-router-dom';
 import {
   Button,
   Card,
@@ -25,8 +26,8 @@ class ChangeUserInfo extends Component {
               <Card className="mx-4">
                 <CardBody className="p-4">
                   <Form>
-                    <h1>Register</h1>
-                    <p className="text-muted">Create your account</p>
+                    <h1></h1>
+                    <p className="text-muted">Change Account Information</p>
                     <InputGroup className="mb-3">
                       <InputGroupAddon addonType="prepend">
                         <InputGroupText>
@@ -126,7 +127,9 @@ class ChangeUserInfo extends Component {
                         </FormGroup>
                       </Col>
                     </Row>
+                    <Link to="/dashboard" className="nav-link">
                     <Button color="success" block>Change Account Information</Button>
+                    </Link>
                   </Form>
 
                 </CardBody>

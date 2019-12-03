@@ -82,6 +82,21 @@ export default {
             url: '/confirmReservation',
             icon: 'icon-star',
         },
+        {
+            name: 'confirm Login',
+            url: '/confirmLogin',
+            icon: 'icon-star',
+        },
+        {
+            name: 'notice content',
+            url: '/noticeContent',
+            icon: 'icon-star',
+        },
+        {
+            name: 'QnA content',
+            url: '/QnAcontent',
+            icon: 'icon-star',
+        },
         // {
         //   title: true,
         //   name: 'Theme',

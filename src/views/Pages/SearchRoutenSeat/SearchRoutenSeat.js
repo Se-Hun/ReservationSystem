@@ -1,5 +1,6 @@
 import React, {Component, lazy, Suspense} from 'react';
 import {Bar, Line} from 'react-chartjs-2';
+import Dashboard from '../../Dashboard';
 import {
     Badge,
     Button,
@@ -22,9 +23,6 @@ import {
 } from 'reactstrap';
 import {CustomTooltips} from '@coreui/coreui-plugin-chartjs-custom-tooltips';
 import {getStyle, hexToRgba} from '@coreui/coreui/dist/js/coreui-utilities'
-
-//const Widget03 = lazy(() => import('../../../../../views/Widgets/Widget03'));
-
 const brandPrimary = getStyle('--primary')
 const brandSuccess = getStyle('--success')
 const brandInfo = getStyle('--info')
@@ -33,15 +31,28 @@ const brandDanger = getStyle('--danger')
 
 
 class SearchRoutenSeat extends Component {
+    static defaultProps={
+        peoplenum: 0,
+        disdegree: 'Enter your disdegree',
+        seat: 'Enter your seat',
+        departure: 'Enter your departure',
+        destination: 'Enter your destination',
+        date: 'Enter your date',
+        time: 'Enter your time',
+    }
     constructor(props) {
         super(props);
-
+        console.log(this.props.location);
         this.toggle = this.toggle.bind(this);
-        this.onRadioBtnClick = this.onRadioBtnClick.bind(this);
-
         this.state = {
             dropdownOpen: false,
-            radioSelected: 2,
+            peoplenum: 0,
+            disdegree: '',
+            seat: '',
+            departure: this.props.location.state.departure,
+            destination: this.props.location.state.destination,
+            date: this.props.location.state.date,
+            time: this.props.location.state.time,
         };
     }
 
@@ -50,17 +61,14 @@ class SearchRoutenSeat extends Component {
             dropdownOpen: !this.state.dropdownOpen,
         });
     }
-
-    onRadioBtnClick(radioSelected) {
+    handleChange = (e) => {
         this.setState({
-            radioSelected: radioSelected,
-        });
+            [e.target.name]: e.target.value
+        })
     }
-
     loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>
-
     render() {
-
+        console.log(this.state.departure);
         return (
             <div className="animated fadeIn">
                 <Row>
@@ -70,26 +78,23 @@ class SearchRoutenSeat extends Component {
                                 <Col xs="12">
                                     <FormGroup>
                                         <Label htmlFor="name">인원수</Label>
-                                        <Input type="text" id="peoplenum" placeholder="Enter your the number of peole" required/>
+                                        <Input type="text" name="peoplenum" onChange={this.handleChange}
+                                               id="peoplenum" placeholder="Enter your the number of peole" required/>
                                     </FormGroup>
                                 </Col>
                                 <Col xs="12">
                                     <FormGroup>
                                         <Label htmlFor="name">장애 정도</Label>
-                                        <Input type="text" id="disdegree" placeholder="Enter your disdegree" required/>
+                                        <Input type="text" name="disdegree" onChange={this.handleChange}
+                                               id="disdegree" placeholder="Enter your disdegree" required/>
                                     </FormGroup>
                                 </Col>
                                 <Row>
                                     <Col xs="6">
                                         <FormGroup>
                                             <Label htmlFor="name">좌석 종류</Label>
-                                            <Input type="text" id="seat" placeholder="Enter your seat" required/>
-                                        </FormGroup>
-                                    </Col>
-                                    <Col xs="6">
-                                        <FormGroup>
-                                            <Label htmlFor="name">시간</Label>
-                                            <Input type="text" id="date" placeholder="Enter your time" required/>
+                                            <Input type="text" name="seat" onChange={this.handleChange}
+                                                   id="seat" placeholder="Enter your seat" required/>
                                         </FormGroup>
                                     </Col>
 
@@ -109,26 +114,30 @@ class SearchRoutenSeat extends Component {
                                 <Col xs="12">
                                     <FormGroup>
                                         <Label htmlFor="name">출발지</Label>
-                                        <Input type="text" id="departure" placeholder="Enter your departure" required/>
+                                        <Input type="text" name="departure" onChange={this.handleChange}
+                                               id="departure" placeholder={this.state.departure} required/>
                                     </FormGroup>
                                 </Col>
                                 <Col xs="12">
                                     <FormGroup>
                                         <Label htmlFor="name">도착지</Label>
-                                        <Input type="text" id="destination" placeholder="Enter your destination" required/>
+                                        <Input type="text" name="destination" onChange={this.handleChange}
+                                               id="destination" placeholder={this.state.destination} required/>
                                     </FormGroup>
                                 </Col>
                                 <Row>
                                     <Col xs="6">
                                         <FormGroup>
                                             <Label htmlFor="name">날짜</Label>
-                                            <Input type="text" id="date" placeholder="Enter your date" required/>
+                                            <Input type="date" name="date" onChange={this.handleChange}
+                                                   id="date" placeholder={this.state.date} required/>
                                         </FormGroup>
                                     </Col>
                                     <Col xs="6">
                                         <FormGroup>
                                             <Label htmlFor="name">시간</Label>
-                                            <Input type="text" id="date" placeholder="Enter your time" required/>
+                                            <Input type="text" name="time" onChange={this.handleChange}
+                                                   id="time" placeholder={this.state.time} required/>
                                         </FormGroup>
                                     </Col>
 

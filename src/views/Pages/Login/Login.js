@@ -33,7 +33,9 @@ class Login extends Component {
                       </InputGroup>
                       <Row>
                         <Col xs="6">
+                          <Link to="/confirmLogin" className="nav-link">
                           <Button color="primary" className="px-4">Login</Button>
+                          </Link>
                         </Col>
                         <Col xs="6" className="text-right">
                           <Button color="link" className="px-0">Forgot password?</Button>
