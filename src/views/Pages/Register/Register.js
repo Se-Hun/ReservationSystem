@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { Link } from 'react-router-dom';
 import {
     Button,
     Card,
@@ -121,7 +122,9 @@ class Register extends Component {
                                                 </FormGroup>
                                             </Col>
                                         </Row>
-                                        <Button color="success" block>Create Account</Button>
+                                        <Link to="/dashboard" className="nav-link">
+                                            <Button color="success" block>Create Account</Button>
+                                        </Link>
                                     </Form>
                                 </CardBody>
                             </Card>

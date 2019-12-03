@@ -1,0 +1,6 @@
+{
+  "name": "ConfirmLogin",
+  "version": "0.0.0",
+  "private": true,
+  "main": "ConfirmLogin.js"
+}
