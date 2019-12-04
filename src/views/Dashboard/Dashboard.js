@@ -154,6 +154,7 @@ class Dashboard extends Component {
                         </Col>
                         <Col></Col>
                     </Row>
+                    <Row></Row>
                 </form>
             </div>
         );

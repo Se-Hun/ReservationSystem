@@ -23,8 +23,6 @@ import {
 import {CustomTooltips} from '@coreui/coreui-plugin-chartjs-custom-tooltips';
 import {getStyle, hexToRgba} from '@coreui/coreui/dist/js/coreui-utilities'
 
-//const Widget03 = lazy(() => import('../../../../../views/Widgets/Widget03'));
-
 const brandPrimary = getStyle('--primary')
 const brandSuccess = getStyle('--success')
 const brandInfo = getStyle('--info')
@@ -42,7 +40,15 @@ class Bookmark extends Component {
     this.state = {
       dropdownOpen: false,
       radioSelected: 2,
+      /*userID: this.props.location.state.userID,*/
+      accountname: '',
     };
+  }
+  //북맠은 어케 불러올까
+  componentDidMount() {
+    fetch('/api/getUsername')
+        .then(res => res.json())
+        .then(user => this.setState({ this.state.accountname: user.accountname }));
   }
 
   toggle() {
@@ -69,7 +75,7 @@ class Bookmark extends Component {
           <Col sm="6" lg="6">
             <Card className="text-white bg-info">
               <CardBody className="pb-0">
-                조회 테이블
+                {this.state.accountname}님의 즐겨찾기 목록입니다.
               </CardBody>
             </Card>
           </Col>
