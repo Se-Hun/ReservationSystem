@@ -20,6 +20,7 @@ const UserSchema = new Schema(
 // To login
 UserSchema.statics.login = function(account) {
     return this.findOne({account});
+    // Return값 바꿀것 : login_result
 }
 
 // To register User Information
@@ -27,6 +28,7 @@ UserSchema.statics.register = function(account, accountname, phonenum, password,
     var NewUser = new this(account, accountname, phonenum, password, cardcompany, cardnum)
 
     return NewUser.save(); // DAO 클래스의 요구사항을 맞추기 위해 이 부분에 if문 걸어서 register_result를 반환해주면 될듯!!
+    // Return값 바꿀것 : register_result
 }
 
 // To modify User Information
@@ -36,9 +38,10 @@ UserSchema.statics.modify = function(account, accountname, phonenum, password, c
 
     // { new: true } : return the modified document rather than the original. Default is false.
     return this.findOneAndUpdate({account}, accountname, phonenum, password, cardcompany, cardnum, {new: true});
+    // Return값 바꿀것 : modify_result
 }
 
-//
+// To return User's bookmarks
 UserSchema.statics.returnBookmarks = function(account) {
     // Find User by ID
     // Return Account's Bookmarks
@@ -46,6 +49,7 @@ UserSchema.statics.returnBookmarks = function(account) {
     var User = new mongoose.model('User', UserSchema);
     var findedUser = User.login(account);
     // 이걸로 bookmark만 뽑아오자.
+    // Return값 바꿀것 : bookmarks
 }
 
 module.exports = mongoose.model('User', UserSchema);
