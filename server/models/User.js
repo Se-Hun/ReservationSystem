@@ -20,7 +20,9 @@ const UserSchema = new Schema(
 // To login
 UserSchema.statics.login = function(account) {
     return this.findOne({account});
-    // Return값 바꿀것 : login_result
+    // Return값 바꿀것 : login_result -> 이게 안 되겠네.. User Object 전체를 Return 해줘야겠는데..
+    // 그냥 login_result를 바꾸자. => 아이디가 있음을 알려주는 걸로 하자.
+    // 그럼 password 비교는 어떻게 하지?
 }
 
 // To register User Information
