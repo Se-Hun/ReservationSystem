@@ -22,6 +22,7 @@ router.post('/login', (req, res) => {
     }
     if(!req.body.password) {
         // Code 1: Front-End에서 정확한 Format으로 보내지 않았을 때 : Password를 보내지 않음
+        return res.status(404).send({code: '404', error: 1})
     }
 
     User.login(req.body.account)
@@ -51,6 +52,7 @@ router.post('/login', (req, res) => {
 
 router.post('/register', (req, res) => {
 
+// account, accountname, phonenum, password, cardcompany, cardnum
 })
 
 router.post('/modify', (req, res) => {
