@@ -1,11 +1,10 @@
 const mongoose = require('mongoose');
 const {Schema} = mongoose;
 
-const QnASchema = new Schema(
+const qnaSchema = new Schema(
     {
-        id : {type: Number, required: true, unique: true},
-        title : {type: String, required: true},
-        content: {type: String, required: true}
+        title: {type: String, required: true, unique: true},
+        content: {type: String, required: true},
     },
     {
         collection: 'QnA',
@@ -13,24 +12,23 @@ const QnASchema = new Schema(
     }
 );
 
-// To get QnA Board List
-QnASchema.statics.get_title_list = function() {
-    // const searched_list = this.find({})
-
-    // console.log(searched_list)
-
-    // let title_list = []
-    // for(var i = 0; i < searched_list.length; i++) {
-        // console.log(title_list)
-        // console.log(searched_list[i])
-        // title_list = title_list.push({
-        //     id : searched_list[i].id,
-        //     title : searched_list[i].title
-        // })
-    // }
-    // console.log(title_list)
-    // return title_list
-    // return searched_list
+// 모두 가져오기
+qnaSchema.statics.getQnA = function() {
+    return this.find({});
 }
 
-module.exports = mongoose.model('QnA', QnASchema);
+// 그냥 다 가져옴
+qnaSchema.statics.getTitleList = function() {
+    return this.find({},{"content":false});
+}
+
+qnaSchema.statics.getContents = function(id) {
+    return this.findOne({ _id: id});
+}
+
+qnaSchema.statics.newContent = function(data) {
+    var newContent = new this(data)
+    return newContent.save();
+}
+
+module.exports = mongoose.model('QnA', qnaSchema);

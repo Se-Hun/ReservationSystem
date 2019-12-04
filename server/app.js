@@ -10,7 +10,11 @@ const API_PORT = 5000;
 const app = express();
 const api = require('./routes/index');
 const userAPI = require('./routes/UserAPI');
-const qnaAPI = require('./routes/qnaAPI');
+const qna = require('./routes/qna');
+const notice = require('./routes/notice');
+const trainInfo = require('./routes/trainInfo');
+const reservation = require('./routes/reservation');
+const trainRoute = require('./routes/trainRoute');
 
 // Connection with MongoDB
 const dbRoute = 'mongodb://106.10.38.76:5570/ReservSystem';
@@ -27,7 +31,11 @@ app.use(logger('dev')); // logging
 // Server App Routing
 app.use('/api', api);
 app.use('/api/user', userAPI);
-app.use('/api/qna', qnaAPI);
+app.use('/api/qna', qna);
+app.use('/api/notice', notice);
+app.use('/api/trainInfo', trainInfo);
+app.use('/api/reservation', reservation);
+app.use('/api/trainRoute', trainRoute);
 
 
 // Server App method
