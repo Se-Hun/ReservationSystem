@@ -12,12 +12,12 @@ const noticeSchema = new Schema(
     }
 );
 
-noticeSchema.statics.getQnAAll = function() {
+noticeSchema.statics.getNotice = function() {
     return this.find({});
 }
 
-noticeSchema.statics.getContents = function(t) {
-    return this.findOne({ title: t});
+noticeSchema.statics.getContents = function(id) {
+    return this.findOne({ _id: id});
 }
 
 noticeSchema.statics.newContent = function(data) {

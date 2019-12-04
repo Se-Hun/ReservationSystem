@@ -20,8 +20,8 @@ router.get('/getNotice', (req, res) => {
 */
 // output : 해당 공지사항 게시물의 내용
 router.get('/getContent', (req, res) => {
-    Notice.getContents(req.body.title)
-    .then(notice => res.send(notice[0].content))
+    Notice.getContents(req.body.id)
+    .then(notice => res.send(notice.content))
     .catch(err => res.status(500).send(err));
 })
 
