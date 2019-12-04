@@ -13,7 +13,8 @@ const UserSchema = new Schema(
         bookmarks: {type: Array} // 즐겨찾기 목록이 없을 수도 있음.
     },
     {
-        collection: 'User'
+        collection: 'User',
+        versionKey: false
     }
 );
 

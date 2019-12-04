@@ -10,9 +10,10 @@ const API_PORT = 5000;
 const app = express();
 const api = require('./routes/index');
 const userAPI = require('./routes/UserAPI');
+const qnaAPI = require('./routes/qnaAPI');
 
 // Connection with MongoDB
-const dbRoute = 'mongodb://106.10.38.76:22:5570/ReservSystem';
+const dbRoute = 'mongodb://106.10.38.76:5570/ReservSystem';
 mongoose.connect(dbRoute, {useNewUrlParser: true});
 let db = mongoose.connection;
 db.once('open', () => console.log('connected to the database'));
@@ -26,6 +27,7 @@ app.use(logger('dev')); // logging
 // Server App Routing
 app.use('/api', api);
 app.use('/api/user', userAPI);
+app.use('/api/qna', qnaAPI);
 
 
 // Server App method
