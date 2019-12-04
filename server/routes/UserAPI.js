@@ -94,6 +94,9 @@ router.post('/register', (req, res) => {
     User.register(account, accountname, phonenum, password, cardcompany, cardnum)
         .then((register_result) => {
             // 구현하기
+            // 우선, 똑같은 Id 있는지 DB에서 확인
+            // 있으면 튕기기
+            // 없으면 DB에 저장
         })
         .catch(err => res.status(500).send({code: '500', error: 3})) // Code 3 : BackEnd 나 DB 문제인 경우
 })
