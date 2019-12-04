@@ -42,7 +42,13 @@ class ConfirmLogin extends Component {
         this.state = {
             dropdownOpen: false,
             radioSelected: 2,
+            accountname: '',
         };
+    }
+    componentDidMount() {
+        fetch('/api/getUsername')
+            .then(res => res.json())
+            .then(user => this.setState({ this.state.accountname: user.accountname }));
     }
 
     toggle() {
@@ -60,20 +66,17 @@ class ConfirmLogin extends Component {
     loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>
 
     render() {
-
         return (
             <div className="animated fadeIn">
                 <Row>
                     <Col></Col>
-
                     <Col sm="6" lg="6">
                         <cardBody>
-                            환영합니다.
+                            {this.state.username}님, 환영합니다.
                         </cardBody>
                     </Col>
                     <Col></Col>
                 </Row>
-
             </div>
         );
     }
