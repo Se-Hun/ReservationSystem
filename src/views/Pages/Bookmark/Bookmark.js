@@ -45,11 +45,11 @@ class Bookmark extends Component {
     };
   }
   //북맠은 어케 불러올까
-  componentDidMount() {
-    fetch('/api/getUsername')
-        .then(res => res.json())
-        .then(user => this.setState({ this.state.accountname: user.accountname }));
-  }
+  // componentDidMount() {
+  //   fetch('/api/getUsername')
+  //       .then(res => res.json())
+  //       .then(user => this.setState({ this.state.accountname: user.accountname }));
+  // }
 
   toggle() {
     this.setState({
@@ -75,7 +75,7 @@ class Bookmark extends Component {
           <Col sm="6" lg="6">
             <Card className="text-white bg-info">
               <CardBody className="pb-0">
-                {this.state.accountname}님의 즐겨찾기 목록입니다.
+                {/*{this.state.accountname}님의 즐겨찾기 목록입니다.*/}
               </CardBody>
             </Card>
           </Col>

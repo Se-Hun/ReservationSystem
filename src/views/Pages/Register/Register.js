@@ -21,13 +21,13 @@ class Register extends Component {
     constructor(props) {
         super(props);
         console.log(this.props.location);
-        this.toggle = this.toggle.bind(this);
+       // this.toggle = this.toggle.bind(this);
         this.state = {
             dropdownOpen: false,
             account: '',
             password: '',
             accountname: '',
-            email: '',
+            phonenum: '',
             cardcompany: '',
             cardnum: '',
             Redirect: false,
@@ -40,25 +40,48 @@ class Register extends Component {
     }
     handleSubmit = (e) => {
         e.preventDefault();
-        this.setState({
-            Redirect: true,
-        })
+        let url=""
+        let formData= new FormData()
+        let id = this.state.account
+        let password = this.state.password
+        let name = this.state.accountname
+        let phonenum = this.state.phonenum
+        let cardcompany = this.state.cardcompany
+        let cardnum = this.state.cardnum
+
+        formData.append("id", id)
+        formData.append("password", password)
+        formData.append("name", name)
+        formData.append("phonenum", phonenum)
+        formdata.append("cardcompany", cardcompany)
+        formData.append("cardnum", cardnum)
+
+        fetch(url, {
+            method: "POST",
+            body: formData
+        }).then(res => res.json())
+            .then(data => {
+                window.location.replace("/")
+            })
+        // this.setState({
+        //     Redirect: true,
+        // })
     }
     render() {
-        if (this.state.Redirect) {
-            console.log(this.state)
-            return <Redirect to={{
-                pathname: '/',
-                state: {
-                    account: this.state.account,
-                    password: this.state.password,
-                    accountname: this.state.accountname,
-                    email: this.state.email,
-                    cardcompany: this.state.cardcompany,
-                    cardnum: this.state.cardnum,
-                }
-            }}></Redirect>
-        }
+        // if (this.state.Redirect) {
+        //     console.log(this.state)
+        //     return <Redirect to={{
+        //         pathname: '/',
+        //         state: {
+        //             account: this.state.account,
+        //             password: this.state.password,
+        //             accountname: this.state.accountname,
+        //             phonenum: this.state.phonenum,
+        //             cardcompany: this.state.cardcompany,
+        //             cardnum: this.state.cardnum,
+        //         }
+        //     }}></Redirect>
+        // }
         return (
             <div className="app flex-row align-items-center">
                 <Container>
@@ -67,7 +90,7 @@ class Register extends Component {
                             <Card className="mx-4">
                                 <CardBody className="p-4">
                                     <Form onSubmit={this.handleSubmit}>
-                                        <h1></h1>
+                                        <h1>Register</h1>
                                         <p className="text-muted">Register Account Information</p>
                                         <InputGroup className="mb-3">
                                             <InputGroupAddon addonType="prepend">
@@ -85,14 +108,6 @@ class Register extends Component {
                                             </InputGroupAddon>
                                             <Input type="password" name="password" placeholder="Password" autoComplete="new-password"/>
                                         </InputGroup>
-                                        {/*<InputGroup className="mb-4">*/}
-                                        {/*  <InputGroupAddon addonType="prepend">*/}
-                                        {/*    <InputGroupText>*/}
-                                        {/*      <i className="icon-lock"></i>*/}
-                                        {/*    </InputGroupText>*/}
-                                        {/*  </InputGroupAddon>*/}
-                                        {/*  <Input type="password" placeholder="Repeat password" autoComplete="new-password"/>*/}
-                                        {/*</InputGroup>*/}
                                         <InputGroup className="mb-3">
                                             <InputGroupAddon addonType="prepend">
                                                 <InputGroupText>
@@ -102,20 +117,8 @@ class Register extends Component {
                                             <Input type="text" name="accountname" placeholder="Username" autoComplete="accountname"/>
                                         </InputGroup>
                                         <InputGroup className="mb-3">
-                                            <InputGroupAddon addonType="prepend">
-                                                <InputGroupText>@</InputGroupText>
-                                            </InputGroupAddon>
-                                            <Input type="text" name="email" placeholder="Email" autoComplete="email"/>
+                                            <Input type="text" name="phonenum" placeholder="000 0000 0000" autoComplete="phonenum"/>
                                         </InputGroup>
-
-                                        {/*<Row>
-                      <Col xs="12">
-                        <FormGroup>
-                          <Label htmlFor="name">Name</Label>
-                          <Input type="text" id="name" placeholder="Enter your name" required/>
-                        </FormGroup>
-                      </Col>
-                    </Row>*/}
                                         <Row>
                                             <Col xs="4">
                                                 <FormGroup>
@@ -128,29 +131,6 @@ class Register extends Component {
                                                     </Input>
                                                 </FormGroup>
                                             </Col>
-                                            {/*<Col xs="4">
-                        <FormGroup>
-                          <Label htmlFor="ccyear">Year</Label>
-                          <Input type="select" name="ccyear" id="ccyear">
-                            <option>2019</option>
-                            <option>2020</option>
-                            <option>2021</option>
-                            <option>2022</option>
-                            <option>2023</option>
-                            <option>2024</option>
-                            <option>2025</option>
-                            <option>2026</option>
-                            <option>2027</option>
-                            <option>2028</option>
-                          </Input>
-                        </FormGroup>
-                      </Col>
-                      <Col xs="4">
-                        <FormGroup>
-                          <Label htmlFor="cvv">CVV/CVC</Label>
-                          <Input type="text" name="cvv" placeholder="123" required/>
-                        </FormGroup>
-                      </Col>*/}
                                         </Row>
                                         <Row>
                                             <Col xs="12">
@@ -160,9 +140,7 @@ class Register extends Component {
                                                 </FormGroup>
                                             </Col>
                                         </Row>
-                                        {/*<Link to="/dashboard" className="nav-link">*/}
                                         <Button type="submit" color="success" block>Register</Button>
-                                        {/*</Link>*/}
                                     </Form>
                                 </CardBody>
                             </Card>

@@ -23,11 +23,15 @@ import {
 import {CustomTooltips} from '@coreui/coreui-plugin-chartjs-custom-tooltips';
 import {getStyle, hexToRgba} from '@coreui/coreui/dist/js/coreui-utilities'
 
+
+//const Widget03 = lazy(() => import('../../../../../views/Widgets/Widget03'));
+
 const brandPrimary = getStyle('--primary')
 const brandSuccess = getStyle('--success')
 const brandInfo = getStyle('--info')
 const brandWarning = getStyle('--warning')
 const brandDanger = getStyle('--danger')
+
 
 const data = [
     {
@@ -40,55 +44,62 @@ const data = [
     },
 ]
 
-class Notice extends Component {
-
+class QnA extends Component {
     constructor(props) {
         super(props);
+        this.toggle = this.toggle.bind(this);
         this.onRadioBtnClick = this.onRadioBtnClick.bind(this);
-
         this.state = {
             dropdownOpen: false,
             radioSelected: 2,
-            NoticeList: null
+            QnAList : null
         };
     }
 
     componentDidMount() {
-        this._getNoticeList()
+        this._getQnAList()
     }
 
-    _getNoticeList = async () => {
-        const NoticeList = await this._callApi();
+    _getQnAList = async () => {
+        const QnAList = await this._callApi()
 
         this.setState({
-            NoticeList: data
+            QnAList: data
         })
         console.log(this.state)
     }
 
     _callApi = () => {
-        let url = "http://localhost:5000/get/api/"
+        let url = "http://localhost:5000/get/api/~~~~"
 
         return fetch(url, {
             method: "GET",
             // body : {}
         }).then(res => res.json())
-            .then(data => {
-                console.log(data)
-                return data
-            })
-            .catch(err => console.log(err))
+        .then(data => {
+            console.log(data)
+            return data
+        })
+        .catch(err => console.log(err))
     }
 
-    _renderNoticeTable = () => {
-        const render = this.state.NoticeList.map((Notice, id) => {
-            return (
+
+    _renderQnATable = () => {
+        // console.log(this.state.QnAList)
+        const render = this.state.QnAList.map((QnA, id) => {
+            return(
                 <tr key={id}>
-                    <td>{Notice.title}</td>
+                    <td>{QnA.title}</td>
                 </tr>
             )
         })
         return render
+    }
+
+    toggle() {
+        this.setState({
+            dropdownOpen: !this.state.dropdownOpen,
+        });
     }
 
     onRadioBtnClick(radioSelected) {
@@ -97,6 +108,7 @@ class Notice extends Component {
         });
     }
 
+    loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>
 
     render() {
 
@@ -104,12 +116,12 @@ class Notice extends Component {
             <div>
                 <Table>
                     <thead>
-                    <tr>
-                        <th>글 제목</th>
-                    </tr>
+                        <tr>
+                            <th>글 제목</th>
+                        </tr>
                     </thead>
                     <tbody>
-                    {this.state.NoticeList ? this._renderNoticeTable() : ("Loading...")}
+                        {this.state.QnAList ? this._renderQnATable() : ("Loading...")}
                     </tbody>
                 </Table>
             </div>
@@ -117,4 +129,4 @@ class Notice extends Component {
     }
 }
 
-export default Notice;
+    export default QnA;

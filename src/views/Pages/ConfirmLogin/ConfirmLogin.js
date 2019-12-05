@@ -45,11 +45,11 @@ class ConfirmLogin extends Component {
             accountname: '',
         };
     }
-    componentDidMount() {
-        fetch('/api/getUsername')
-            .then(res => res.json())
-            .then(user => this.setState({ this.state.accountname: user.accountname }));
-    }
+    // componentDidMount() {
+    //     fetch('/api/getUsername')
+    //         .then(res => res.json())
+    //         .then(user => this.setState({ this.state.accountname: user.accountname }));
+    // }
 
     toggle() {
         this.setState({

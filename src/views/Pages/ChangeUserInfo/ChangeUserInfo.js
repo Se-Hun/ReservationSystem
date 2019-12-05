@@ -26,7 +26,7 @@ class ChangeUserInfo extends Component {
       account: '',
       password: '',
       accountname: '',
-      email: '',
+      phonenum: '',
       cardcompany: '',
       cardnum: '',
       Redirect: false,
@@ -43,6 +43,12 @@ class ChangeUserInfo extends Component {
       Redirect: true,
     })
   }
+  componentDidMount() {
+    fetch('/api/getUsername')
+        .then(res => res.json())
+        .then(user => this.setState({ username: user.username }));
+  }
+
   render() {
     if (this.state.Redirect) {
       console.log(this.state)
@@ -52,7 +58,7 @@ class ChangeUserInfo extends Component {
           account: this.state.account,
           password: this.state.password,
           accountname: this.state.accountname,
-          email: this.state.email,
+          phonenum: this.state.phonenum,
           cardcompany: this.state.cardcompany,
           cardnum: this.state.cardnum,
         }
@@ -101,10 +107,7 @@ class ChangeUserInfo extends Component {
                       <Input type="text" name="accountname" placeholder="Username" autoComplete="accountname"/>
                     </InputGroup>
                     <InputGroup className="mb-3">
-                      <InputGroupAddon addonType="prepend">
-                        <InputGroupText>@</InputGroupText>
-                      </InputGroupAddon>
-                      <Input type="text" name="email" placeholder="Email" autoComplete="email"/>
+                      <Input type="text" name="phonenum" placeholder="000 0000 0000" autoComplete="phonenum"/>
                     </InputGroup>
 
                     {/*<Row>

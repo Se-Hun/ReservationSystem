@@ -92,4 +92,4 @@ class NoticeContent extends Component {
     }
 }
 
-export default NoticeContent;
+export default QnAContent;
