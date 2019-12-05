@@ -8,13 +8,14 @@ const ChangeUserInfo = React.lazy(() => import('./views/Pages/ChangeUserInfo'));
 const Reserve = React.lazy(() => import('./views/Pages/Reserve'));
 const ConfirmCancelReservation = React.lazy(() => import('./views/Pages/ConfirmCancelReservation'));
 const EditReservation = React.lazy(() => import('./views/Pages/EditReservation'));
-/*const Announcement = React.lazy(() => import('./views/Pages/Notice'));
-const QnA = React.lazy(() => import('./views/Pages/QnA'));*/
+/*const Announcement = React.lazy(() => import('./views/Pages/Notice'));*/
 const SearchRoutenSeat = React.lazy(() => import('./views/Pages/SearchRoutenSeat'));
 const SearchSeat = React.lazy(() => import('./views/Pages/SearchSeat'));
 const ConfirmReservation = React.lazy(() => import('./views/Pages/ConfirmReservation'));
 const CheckEditReserve = React.lazy(() => import('./views/Pages/CheckEditReserve'));
 const ConfirmLogin = React.lazy(() => import('./views/Pages/ConfirmLogin'));
+const Announcements = React.lazy(() => import('./views/Pages/Notice'));
+const QnA = React.lazy(() => import('./views/Pages/QnA'));
 // const Breadcrumbs = React.lazy(() => import('./views/Base/Breadcrumbs'));
 // const Cards = React.lazy(() => import('./views/Base/Cards'));
 // const Carousels = React.lazy(() => import('./views/Base/Carousels'));
@@ -47,12 +48,11 @@ const ConfirmLogin = React.lazy(() => import('./views/Pages/ConfirmLogin'));
 // const Colors = React.lazy(() => import('./views/Theme/Colors'));
 // const Typography = React.lazy(() => import('./views/Theme/Typography'));
 // const Widgets = React.lazy(() => import('./views/Widgets/Widgets'));
-const Announcements = React.lazy(() => import('./views/Announcements/Announcements'));
-const AnnContents = React.lazy(() => import('./views/Announcements/AnnContents'));
-const QnA = React.lazy(() => import('./views/QnA/QnA'));
-const QnAContents = React.lazy(() => import('./views/QnA/QnAContents'));
-const Users = React.lazy(() => import('./views/Users/Users'));
-const User = React.lazy(() => import('./views/Users/User'));
+// const Announcements = React.lazy(() => import('./views/Announcements/Announcements'));
+// const AnnContents = React.lazy(() => import('./views/Pages/NoticeContent'));
+// const QnAContents = React.lazy(() => import('./views/pages/QnAContents'));
+// const Users = React.lazy(() => import('./views/Users/Users'));
+// const User = React.lazy(() => import('./views/Users/User'));
 // const Register = React.lazy(() => import('./views/Pages/Register/Register'));
 
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
@@ -108,12 +108,12 @@ const routes = [
   // { path: '/notifications/modals', name: 'Modals', component: Modals },
   // { path: '/widgets', name: 'Widgets', component: Widgets },
   // { path: '/charts', name: 'Charts', component: Charts },
-  { path: '/users', exact: true,  name: 'Users', component: Users },
-  { path: '/users/:id', exact: true, name: 'User Details', component: User },
+  // { path: '/users', exact: true,  name: 'Users', component: Users },
+  // { path: '/users/:id', exact: true, name: 'User Details', component: User },
   { path: '/QnA', exact: true,  name: 'QnA', component: QnA },
-  { path: '/QnA/:id', exact: true, name: 'QnAContents', component: QnAContents },
-  { path: '/Announcements', exact: true,  name: 'Announcements', component: Announcements },
-  { path: '/Announcements/:id', exact: true, name: 'AnnContents', component: AnnContents },
+  // { path: '/QnA/:id', exact: true, name: 'QnAContents', component: QnAContents },
+  { path: '/Notice', exact: true,  name: 'Announcements', component: Announcements },
+  // { path: '/Announcements/:id', exact: true, name: 'AnnContents', component: AnnContents },
   // { path: '/register', exact: true,  name: 'Register', component: Register },
 ];
 
