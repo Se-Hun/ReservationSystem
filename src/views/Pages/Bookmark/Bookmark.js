@@ -42,15 +42,48 @@ class Bookmark extends Component {
       radioSelected: 2,
       /*userID: this.props.location.state.userID,*/
       accountname: '',
+      bookmarkList: null,
     };
   }
   //북맠은 어케 불러올까
-  // componentDidMount() {
+   componentDidMount() {
+    this._getBookmarkList
   //   fetch('/api/getUsername')
   //       .then(res => res.json())
   //       .then(user => this.setState({ this.state.accountname: user.accountname }));
-  // }
+   }
 
+   _getBookmarkList = async () => {
+    const bookmarkList = await this.callApi
+     this.setState({
+       bookmarkList: data
+     })
+     console.log(this.state)
+   }
+
+   _callApi = () =>   {
+     let url = "http://localhost:5000/get/api/"
+
+     return fetch(url, {
+       method: "GET",
+     }).then(res => res.json())
+         .then(data => {
+           console.log(data)
+           return data
+         })
+         .catch(err => console.log(err))
+   }
+
+   _renderBookmarkTable = () => {
+     const render = this.state.bookmarkList.map((bookmark), id) => {
+       return(
+           <tr key={id}>
+             <td>{bookmark.title}</td>
+           </tr>
+       )
+     })
+     return render
+   }
   toggle() {
     this.setState({
       dropdownOpen: !this.state.dropdownOpen,
@@ -81,7 +114,16 @@ class Bookmark extends Component {
           </Col>
           <Col></Col>
         </Row>
-
+        <Table>
+          <thead>
+          <tr>
+            <th>글 제목</th>
+          </tr>
+          </thead>
+          <tbody>
+          {this.state.bookmarkList ? this._renderBookmarkTable() : ("Loading...")}
+          </tbody>
+        </Table>
       </div>
     );
   }
