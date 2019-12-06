@@ -15,7 +15,9 @@ const ConfirmReservation = React.lazy(() => import('./views/Pages/ConfirmReserva
 const CheckEditReserve = React.lazy(() => import('./views/Pages/CheckEditReserve'));
 const ConfirmLogin = React.lazy(() => import('./views/Pages/ConfirmLogin'));
 const Announcements = React.lazy(() => import('./views/Pages/Notice'));
+const AnnouncementsContent = React.lazy(() => import('./views/Pages/NoticeContent'));
 const QnA = React.lazy(() => import('./views/Pages/QnA'));
+const QnAContent = React.lazy(() => import('./views/Pages/QnAContent'));
 // const Breadcrumbs = React.lazy(() => import('./views/Base/Breadcrumbs'));
 // const Cards = React.lazy(() => import('./views/Base/Cards'));
 // const Carousels = React.lazy(() => import('./views/Base/Carousels'));
@@ -70,7 +72,7 @@ const routes = [
   { path: '/editReservation', name: 'edit reserve', component: EditReservation },
   { path: '/searchRoutenSeat', name: 'search route and seat', component: SearchRoutenSeat },
   { path: '/searchSeat', name: 'search seat', component: SearchSeat },
-  { path: '/confirmLogin', name: 'confirm log in', component: ConfirmLogin },
+  { path: '/confirmLogin', name: 'confirm login', component: ConfirmLogin },
   // { path: '/theme', exact: true, name: 'Theme', component: Colors },
   // { path: '/theme/colors', name: 'Colors', component: Colors },
   // { path: '/theme/typography', name: 'Typography', component: Typography },
@@ -111,8 +113,10 @@ const routes = [
   // { path: '/users', exact: true,  name: 'Users', component: Users },
   // { path: '/users/:id', exact: true, name: 'User Details', component: User },
   { path: '/QnA', exact: true,  name: 'QnA', component: QnA },
+  { path: '/QnA/:id', exact: true,  name: 'QnAContent', component: QnAContent },
   // { path: '/QnA/:id', exact: true, name: 'QnAContents', component: QnAContents },
-  { path: '/Notice', exact: true,  name: 'Announcements', component: Announcements },
+  { path: '/notice', exact: true,  name: 'Announcements', component: Announcements },
+  { path: '/notice/:id', exact: true,  name:'NoticeContent', component: AnnouncementsContent },
   // { path: '/Announcements/:id', exact: true, name: 'AnnContents', component: AnnContents },
   // { path: '/register', exact: true,  name: 'Register', component: Register },
 ];

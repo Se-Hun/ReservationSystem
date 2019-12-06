@@ -53,6 +53,7 @@ class SearchRoutenSeat extends Component {
             destination: this.props.location.state.destination,
             date: this.props.location.state.date,
             time: this.props.location.state.time,
+            redirect: false,
         };
     }
 
@@ -66,11 +67,32 @@ class SearchRoutenSeat extends Component {
             [e.target.name]: e.target.value
         })
     }
+
+    handleSubmit = (e) => {
+        this.setState({
+            redirect: true,
+        })
+    }
     loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>
     render() {
         console.log(this.state.departure);
+        if(this.state.redirect){
+            return <Redirect to={{
+                pathname: '/searchSeat',
+                state: {
+                    peoplenum: this.state.peoplenum
+                    disdegree: this.state.disdegree
+                    seat: this.state.seat
+                    departure: this.state.departure
+                    destination: this.state.destination
+                    date: this.state.date
+                    time: this.state.time
+                }
+            }}></Redirect>
+        }
         return (
             <div className="animated fadeIn">
+                <Form onSubmit={this.handleSubmit}>
                 <Row>
                     <Col sm="6" lg="6">
                         <Card className="text-white bg-info">
@@ -78,15 +100,22 @@ class SearchRoutenSeat extends Component {
                                 <Col xs="12">
                                     <FormGroup>
                                         <Label htmlFor="name">인원수</Label>
-                                        <Input type="text" name="peoplenum" onChange={this.handleChange}
-                                               id="peoplenum" placeholder="Enter your the number of peole" required/>
+                                        <Input type="select" name="peoplenum" onChange={this.handleChange}>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                        </Input>
                                     </FormGroup>
                                 </Col>
                                 <Col xs="12">
                                     <FormGroup>
-                                        <Label htmlFor="name">장애 정도</Label>
-                                        <Input type="text" name="disdegree" onChange={this.handleChange}
-                                               id="disdegree" placeholder="Enter your disdegree" required/>
+                                        <Label htmlFor="disdegree">장애 정도</Label>
+                                        <Input type="select" name="disdegree" onChange={this.handleChange}>
+                                            <option value="1급">1급</option>
+                                            <option value="2급">2급</option>
+                                            <option value="3급">3급</option>
+                                        </Input>
                                     </FormGroup>
                                 </Col>
                                 <Row>
@@ -145,13 +174,14 @@ class SearchRoutenSeat extends Component {
                                 <Row>
                                     <Col></Col>
                                 <Col col="6" sm="2" md="2" xl className="mb-3 mb-xl-0">
-                                    <Button block color="primary">조회</Button>
+                                    <Button type="submit" block color="primary">조회</Button>
                                 </Col>
                                 </Row>
                             </CardBody>
                         </Card>
                     </Col>
                 </Row>
+                </Form>
                 <Col>
                     <Card className="text-white bg-info">
                         <CardBody className="pb-0">

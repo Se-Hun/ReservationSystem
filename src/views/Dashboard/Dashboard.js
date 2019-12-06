@@ -35,14 +35,6 @@ const brandSuccess = getStyle('--success')
 const brandInfo = getStyle('--info')
 const brandWarning = getStyle('--warning')
 const brandDanger = getStyle('--danger')
-/*const departureR = document.getElementById('departure')
-const destinationR = document.getElementById('destination')
-const dateR = document.getElementById('date')
-const timeR = document.getElementById('time')*/
-/*const departure = departureR.target.value
-const destination = destinationR.target.value
-const date = dateR.target.value
-const time = timeR.target.value*/
 var elements = 27;
 var data1 = [];
 var data2 = [];
@@ -143,11 +135,9 @@ class Dashboard extends Component {
                                         </Col>
                                     </Row>
                                     <Col col="6" sm="2" md="2" xl className="mb-3 mb-xl-0">
-                                        {/*<Link to="/searchRoutenSeat" className="nav-link">*/}
                                             <Button type="submit" block color="primary" render as="button">
                                                 조회
                                             </Button>
-                                        {/*</Link>*/}
                                     </Col>
                                 </CardBody>
                             </Card>

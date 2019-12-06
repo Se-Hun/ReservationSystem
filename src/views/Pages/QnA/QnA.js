@@ -52,7 +52,7 @@ class QnA extends Component {
         this.state = {
             dropdownOpen: false,
             radioSelected: 2,
-            QnAList : null
+            QnAList: null
         };
     }
 
@@ -64,7 +64,7 @@ class QnA extends Component {
         const QnAList = await this._callApi()
 
         this.setState({
-            QnAList: data
+            QnAList: data,
         })
         console.log(this.state)
     }
@@ -76,19 +76,23 @@ class QnA extends Component {
             method: "GET",
             // body : {}
         }).then(res => res.json())
-        .then(data => {
-            console.log(data)
-            return data
-        })
-        .catch(err => console.log(err))
+            .then(data => {
+                console.log(data)
+                return data
+            })
+            .catch(err => console.log(err))
     }
 
+    fetchContent = (id) => {
+        let id = id
+        // window.location.replace("/QnA/:id")
+    }
 
     _renderQnATable = () => {
         // console.log(this.state.QnAList)
         const render = this.state.QnAList.map((QnA, id) => {
-            return(
-                <tr key={id}>
+            return (
+                <tr key={id} onClick={() => this.fetchContent(QnA.id)}>
                     <td>{QnA.title}</td>
                 </tr>
             )
@@ -111,17 +115,16 @@ class QnA extends Component {
     loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>
 
     render() {
-
         return (
             <div>
                 <Table>
                     <thead>
-                        <tr>
-                            <th>글 제목</th>
-                        </tr>
+                    <tr>
+                        <th>글 제목</th>
+                    </tr>
                     </thead>
                     <tbody>
-                        {this.state.QnAList ? this._renderQnATable() : ("Loading...")}
+                    {this.state.QnAList ? this._renderQnATable() : ("Loading...")}
                     </tbody>
                 </Table>
             </div>
@@ -129,4 +132,4 @@ class QnA extends Component {
     }
 }
 
-    export default QnA;
+export default QnA;

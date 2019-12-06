@@ -79,11 +79,14 @@ class Notice extends Component {
             })
             .catch(err => console.log(err))
     }
-
+    fetchContent = (id) => {
+        const id = id;
+        // window.location.replace("/notice/:id")
+    }
     _renderNoticeTable = () => {
         const render = this.state.NoticeList.map((Notice, id) => {
             return (
-                <tr key={id}>
+                <tr key={id} onClick={() => this.fetchContent(QnA.id)}>
                     <td>{Notice.title}</td>
                 </tr>
             )
