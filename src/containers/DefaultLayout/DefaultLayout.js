@@ -20,6 +20,8 @@ import navigation from '../../_nav';
 // routes config
 import routes from '../../routes';
 
+import {isLoggedIn} from "../../utils/auth";
+
 const DefaultAside = React.lazy(() => import('./DefaultAside'));
 const DefaultFooter = React.lazy(() => import('./DefaultFooter'));
 const DefaultHeader = React.lazy(() => import('./DefaultHeader'));
@@ -68,7 +70,8 @@ class DefaultLayout extends Component {
                         )} />
                     ) : (null);
                   })}
-                  <Redirect from="/" to="/dashboard" />
+                  <Redirect from="/" to="/home" />
+                  {/*{isLoggedIn() ? (<Redirect from="/" to="/confirmLogin"/>) : (<Redirect from="/" to="/home" />)}*/}
                 </Switch>
               </Suspense>
             </Container>

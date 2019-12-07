@@ -66,7 +66,7 @@ class Login extends Component {
             window.location.reload()
           }
           else {
-            window.location.replace("/confirmLogin")
+            window.location.replace("/")
           }
         }).catch(err => console.log(err))
   }

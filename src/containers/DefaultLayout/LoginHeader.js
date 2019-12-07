@@ -24,28 +24,29 @@ class LoginHeader extends Component {
             <React.Fragment>
                 {/*<AppSidebarToggler className="d-md-down-none" display="lg"></AppSidebarToggler>*/}
                 <Nav className="d-md-down-none" navbar>
-                    <NavItem/>
-                    <NavItem/>
-                    <NavItem/>
-                    <NavItem className="px-3">
+                    <NavItem className="px-3"/>
+                    <NavItem className="px-4">
                         <NavLink to="/dashboard" className="nav-link" >공지사항</NavLink>
                     </NavItem>
-                    <NavItem className="px-3">
+                    <NavItem className="px-4">
                         <Link to="/QnA" className="nav-link">Q&A</Link>
                     </NavItem>
                 {/*</Nav>*/}
                 {/*<Nav className="ml-auto" navbar>*/}
-                    <NavItem className="px-3">
+                    <NavItem className="px-4">
                         <NavLink to="/bookmark" className="nav-link">노선 즐겨찾기</NavLink>
                     </NavItem>
-                    <NavItem className="px-3">
+                    <NavItem className="px-4">
                         <NavLink to="/changeuserinfo" className="nav-link">회원정보변경</NavLink>
                     </NavItem>
-                    <Button variant="contained"
-                            size="large"
-                            color="default"
-                            style={{marginBottom: "10px", width: "100%"}}>
-                    </Button>
+                    <NavItem className="px-4">
+                        <Button variant="outlined"
+                                size="medium"
+                                color="primary"
+                                style={{marginTop: "5px", marginBottom: "10px", width: "100%"}}>
+                            로그아웃
+                        </Button>
+                    </NavItem>
             {/*        <UncontrolledDropdown nav direction="down">*/}
             {/*            /!*<DropdownToggle nav>*/}
             {/*   <img src={'../../assets/img/avatars/6.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com" />*/}

@@ -9,23 +9,24 @@ const loading = () => <div className="animated fadeIn pt-3 text-center">Loading.
 const DefaultLayout = React.lazy(() => import('./containers/DefaultLayout'));
 
 // Pages
-const Login = React.lazy(() => import('./views/Pages/Login'));
-const Register = React.lazy(() => import('./views/Pages/Register'));
-const Page404 = React.lazy(() => import('./views/Pages/Page404'));
-const Page500 = React.lazy(() => import('./views/Pages/Page500'));
-const Bookmark = React.lazy(() => import('./views/Pages/Bookmark'));
-const ChangeUserInfo = React.lazy(() => import('./views/Pages/ChangeUserInfo'));
+// const Login = React.lazy(() => import('./views/Pages/Login'));
+// const Register = React.lazy(() => import('./views/Pages/Register'));
+// const Page404 = React.lazy(() => import('./views/Pages/Page404'));
+// const Page500 = React.lazy(() => import('./views/Pages/Page500'));
+// const Bookmark = React.lazy(() => import('./views/Pages/Bookmark'));
+// const ChangeUserInfo = React.lazy(() => import('./views/Pages/ChangeUserInfo'));
+
 class App extends Component {
   render() {
-    return (
-      <HashRouter>
-          <React.Suspense fallback={loading()}>
-            <Switch>
-              <Route path="/" name="Home" render={props => <DefaultLayout {...props}/>} />
-            </Switch>
-          </React.Suspense>
-      </HashRouter>
-    );
+        return (
+            <HashRouter>
+                <React.Suspense fallback={loading()}>
+                    <Switch>
+                        <Route path="/" name="Home" render={props => <DefaultLayout {...props}/>} />
+                    </Switch>
+                </React.Suspense>
+            </HashRouter>
+        );
   }
 }
 
