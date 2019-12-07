@@ -16,6 +16,10 @@ router.post('/login', (req, res) => {
     // 2 : 아이디가 없거나 비밀번호가 틀렸을때
     // 3 : 500 에러 => Back-End나 DB 문제
 
+    console.log(req)
+    // console.log(req.body.account)
+    // console.log(req.body.account)
+
     const account = req.body.account
     const password = req.body.password
 

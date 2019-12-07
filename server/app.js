@@ -26,8 +26,8 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 // Server App Configure
 app.use(cors());
-app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(logger('dev')); // logging
 
 // Server App Routing

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+// import { Link, Redirect } from 'react-router-dom';
 import { Button, Card, CardBody, CardGroup, Col, Container, Form, Input, InputGroup, InputGroupAddon, InputGroupText, Row } from 'reactstrap';
 
 import { isLoggedIn, login } from '../../../utils/auth';
@@ -30,29 +30,52 @@ class Login extends Component {
 
     let url = "http://localhost:5000/api/user/login"
 
-    let formData = new FormData()
     let account = this.state.account
     let password = this.state.password
 
-    formData.append("account", account)
-    formData.append("password", password)
-
     fetch(url, {
-      method: "POST",
-      body: formData
+      method: 'POST',
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({account: account, password: password})
     }).then(res => res.json())
         .then(data => {
-          // console.log(data)
+          if (data.error) {
+            const errorCode = data.error
 
-          //예외처리 할것!!
-          login(data.account, data.access_token)
+            if(errorCode == 1) {
+              alert(data.shouldAttribute + "을(를) 입력해주세요.")
+              window.location.reload()
+              return
+            }
+            if(errorCode == 2) {
+              alert("아이디 또는 비밀번호가 틀렸습니다.")
+              window.location.reload()
+              return
+            }
+            else {
+              alert("잘못된 접근입니다.")
+              window.location.reload()
+              return
+            }
+          }
+          else {
+            login(data.account, data.token, data.accountname, data.phonenum, data.cardcompany, data.cardnum)
+          }
 
-          console.log(sessionStorage.getItem("account"))
+          // console.log(sessionStorage.getItem("account"))
+          // console.log(sessionStorage.getItem("token"))
+          // console.log(sessionStorage.getItem("accountname"))
+          // console.log(sessionStorage.getItem("phonenum"))
+          // console.log(sessionStorage.getItem("cardcompany"))
+          // console.log(sessionStorage.getItem("cardnum"))
 
           if(!isLoggedIn()) {
+            window.location.reload()
+          }
+          else {
             window.location.replace("/confirmLogin")
           }
-        })
+        }).catch(err => console.log(err))
   }
 
   render() {
@@ -85,7 +108,7 @@ class Login extends Component {
                       </InputGroup>
                       <Row>
                         <Col xs="6">
-                          <Button type="submit" color="primary" className="px-4" onClick={this.handleSubmit}>Login</Button>
+                          <Button type="submit" color="primary" className="px-4">Login</Button>
                         </Col>
                       </Row>
                     </Form>

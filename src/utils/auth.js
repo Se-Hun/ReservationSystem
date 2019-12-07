@@ -1,10 +1,10 @@
 export function isLoggedIn() {
-    return sessionStorage.getItem("access_token") !== null && sessionStorage.getItem("access_token") !== "undefined";
+    return sessionStorage.getItem("token") !== null && sessionStorage.getItem("token") !== "undefined";
 }
 
 export function deleteTokens() {
     sessionStorage.removeItem("account")
-    sessionStorage.removeItem("access_token")
+    sessionStorage.removeItem("token")
     sessionStorage.removeItem("accountname")
     sessionStorage.removeItem("phonenum")
     sessionStorage.removeItem("cardcompany")
@@ -13,7 +13,7 @@ export function deleteTokens() {
 
 export function login(account, token, accountname, phonenum, cardcompany, cardnum) {
     sessionStorage.setItem("account", account)
-    sessionStorage.setItem("access_token", token)
+    sessionStorage.setItem("token", token)
     sessionStorage.setItem("accountname", accountname)
     sessionStorage.setItem("phonenum", phonenum)
     sessionStorage.setItem("cardcompany", cardcompany)
