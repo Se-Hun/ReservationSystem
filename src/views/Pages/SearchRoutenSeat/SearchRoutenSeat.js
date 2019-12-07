@@ -1,4 +1,5 @@
 import React, {Component, lazy, Suspense} from 'react';
+import {Redirect} from 'react-router-dom';
 import {Bar, Line} from 'react-chartjs-2';
 import Dashboard from '../../Dashboard';
 import {
@@ -20,6 +21,7 @@ import {
     Progress,
     Row,
     Table,
+    Form
 } from 'reactstrap';
 import {CustomTooltips} from '@coreui/coreui-plugin-chartjs-custom-tooltips';
 import {getStyle, hexToRgba} from '@coreui/coreui/dist/js/coreui-utilities'
@@ -80,12 +82,12 @@ class SearchRoutenSeat extends Component {
             return <Redirect to={{
                 pathname: '/searchSeat',
                 state: {
-                    peoplenum: this.state.peoplenum
-                    disdegree: this.state.disdegree
-                    seat: this.state.seat
-                    departure: this.state.departure
-                    destination: this.state.destination
-                    date: this.state.date
+                    peoplenum: this.state.peoplenum,
+                    disdegree: this.state.disdegree,
+                    seat: this.state.seat,
+                    departure: this.state.departure,
+                    destination: this.state.destination,
+                    date: this.state.date,
                     time: this.state.time
                 }
             }}></Redirect>

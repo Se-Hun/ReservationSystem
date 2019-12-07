@@ -32,7 +32,7 @@ const brandWarning = getStyle('--warning')
 const brandDanger = getStyle('--danger')
 
 
-class NoticeContent extends Component {
+class QnAContent extends Component {
     constructor(props) {
         super(props);
 

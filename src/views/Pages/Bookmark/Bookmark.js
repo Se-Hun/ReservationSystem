@@ -29,6 +29,7 @@ const brandInfo = getStyle('--info')
 const brandWarning = getStyle('--warning')
 const brandDanger = getStyle('--danger')
 
+const data = []
 
 class Bookmark extends Component {
   constructor(props) {
@@ -47,7 +48,7 @@ class Bookmark extends Component {
   }
   //북맠은 어케 불러올까
    componentDidMount() {
-    this._getBookmarkList
+    this._getBookmarkList()
   //   fetch('/api/getUsername')
   //       .then(res => res.json())
   //       .then(user => this.setState({ this.state.accountname: user.accountname }));
@@ -75,13 +76,14 @@ class Bookmark extends Component {
    }
 
    _renderBookmarkTable = () => {
-     const render = this.state.bookmarkList.map((bookmark), id) => {
-       return(
-           <tr key={id}>
-             <td>{bookmark.title}</td>
-           </tr>
-       )
-     })
+     const render = this.state.bookmarkList.map((bookmark, id) => {
+           return(
+               <tr key={id}>
+                 <td>{bookmark.title}</td>
+               </tr>
+           )
+        }
+     )
      return render
    }
   toggle() {

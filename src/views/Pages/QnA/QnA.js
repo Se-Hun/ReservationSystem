@@ -84,7 +84,7 @@ class QnA extends Component {
     }
 
     fetchContent = (id) => {
-        let id = id
+        // let id = id
         // window.location.replace("/QnA/:id")
     }
 

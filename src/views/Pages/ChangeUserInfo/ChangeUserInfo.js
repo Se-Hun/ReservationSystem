@@ -16,6 +16,8 @@ import {
     Row
 } from 'reactstrap';
 
+import {isLoggedIn} from '../../../utils/auth'
+
 class ChangeUserInfo extends Component {
     constructor(props) {
         super(props);

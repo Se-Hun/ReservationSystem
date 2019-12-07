@@ -23,6 +23,8 @@ import {
 import {CustomTooltips} from '@coreui/coreui-plugin-chartjs-custom-tooltips';
 import {getStyle, hexToRgba} from '@coreui/coreui/dist/js/coreui-utilities'
 
+import QnA from "../QnA";
+
 const brandPrimary = getStyle('--primary')
 const brandSuccess = getStyle('--success')
 const brandInfo = getStyle('--info')
@@ -80,7 +82,7 @@ class Notice extends Component {
             .catch(err => console.log(err))
     }
     fetchContent = (id) => {
-        const id = id;
+        // const id = id;
         // window.location.replace("/notice/:id")
     }
     _renderNoticeTable = () => {

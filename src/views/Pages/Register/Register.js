@@ -53,7 +53,7 @@ class Register extends Component {
         formData.append("password", password)
         formData.append("name", name)
         formData.append("phonenum", phonenum)
-        formdata.append("cardcompany", cardcompany)
+        formData.append("cardcompany", cardcompany)
         formData.append("cardnum", cardnum)
 
         fetch(url, {

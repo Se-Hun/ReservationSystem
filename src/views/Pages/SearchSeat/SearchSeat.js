@@ -33,6 +33,9 @@ const brandDanger = getStyle('--danger')
 var train = {}
 var seat = {}
 
+const data = []
+const seatList = []
+
 class SearchSeat extends Component {
     constructor(props) {
         super(props);
@@ -69,7 +72,7 @@ class SearchSeat extends Component {
     }
 
     componentDidMount() {
-        this._getSeatList
+        this._getSeatList()
     }
 
     _getSeatList = async () => {
@@ -102,7 +105,7 @@ class SearchSeat extends Component {
             alert("정원 초과!")
         }else{
             this.setState(prevState =>{
-                presentnum: prevState.presentnum+1
+                // presentnum: prevState.presentnum+1
                 seatList.add([e.target.name])
             })
         }
@@ -121,13 +124,13 @@ class SearchSeat extends Component {
             return <Redirect to={{
                 pathname: '/reserve',
                 state: {
-                    peoplenum: this.state.peoplenum
-                    disdegree: this.state.disdegree
-                    seat: this.state.seat
-                    departure: this.state.departure
-                    destination: this.state.destination
-                    date: this.state.date
-                    time: this.state.time
+                    peoplenum: this.state.peoplenum,
+                    disdegree: this.state.disdegree,
+                    seat: this.state.seat,
+                    departure: this.state.departure,
+                    destination: this.state.destination,
+                    date: this.state.date,
+                    time: this.state.time,
                     seatList: this.state.seatList
                 }
             }}></Redirect>
