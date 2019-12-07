@@ -26,6 +26,16 @@ var data2 = [];
 var data3 = [];
 
 
+const converter = {
+    인천 : "Inchoen",
+    서울 : "Seoul",
+    대전 : "Daejeon",
+    광주 : "Gwangju",
+    대구 : "Daegu",
+    부산 : "Busan",
+    울산 : "Ulsan"
+}
+
 class Dashboard extends Component {
     constructor(props) {
         super(props);
@@ -33,16 +43,25 @@ class Dashboard extends Component {
         this.onRadioBtnClick = this.onRadioBtnClick.bind(this);
         // console.log(this.props.location.state)
         // console.log(props.location.state.departure)
-        console.log(props.location)
+
+        let departure = ''
+        let destination = ''
+        if(props.location.state) {
+            departure = props.location.state.departure
+            destination = props.location.state.destination
+        }
+        // console.log(props.location.state)
 
         this.state = {
             Redirect: false,
             dropdownOpen: false,
             radioSelected: 2,
+            departure: departure,
+            destination: destination,
             // departure: this.props.match.params.departure,
             // destination: this.props.match.params.destination,
-            departure: props.location.state ? props.location.state.departure : '',
-            destination: props.location.state ? props.location.state.destination : '',
+            // departure: props.location.state ? props.location.state.departure : '',
+            // destination: props.location.state ? props.location.state.destination : '',
             date: '',
             time: '',
         };
@@ -73,8 +92,37 @@ class Dashboard extends Component {
 
     }
 
-    _debug = () => {
-        console.log(this.state)
+    // _debug = () => {
+    //     console.log(this.state)
+    // }
+
+    _renderOptionForBookmarks = (spot) => {
+        const locations = Object.keys(converter);
+
+        let render = locations.map((location, id) => {
+            if(location === this.state[spot]) {
+                return
+            }
+            return(
+                <option value={converter[location]} key={id}>{location}</option>
+            )
+        })
+
+        render.unshift(<option value={converter[spot]} key={-1}>{this.state[spot]}</option>)
+
+        return render
+    }
+
+    _renderOptionForDefault = () => {
+        const locations = Object.keys(converter);
+
+        const render = locations.map((location, id) => {
+            return(
+                <option value={converter[location]} key={id}>{location}</option>
+            )
+        })
+
+        return render
     }
 
     loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>
@@ -95,7 +143,7 @@ class Dashboard extends Component {
         return (
             <div className="animated fadeIn">
 
-                <Button onClick={this._debug}>DEBUG</Button>
+                {/*<Button onClick={this._debug}>DEBUG</Button>*/}
 
                 <form onSubmit={this.handleSubmit}>
                     <Row>
@@ -108,13 +156,15 @@ class Dashboard extends Component {
                                             <Label htmlFor="name">출발지</Label>
                                             <Input type="select" name="departure" onChange={this.handleChange}
                                                    id="departure" value={this.state.departure} required>
-                                                <option value="Inchoen">인천</option>
-                                                <option value="Seoul">서울</option>
-                                                <option value="Daejeon">대전</option>
-                                                <option value="Gwangju">광주</option>
-                                                <option value="Daegu">대구</option>
-                                                <option value="Busan">부산</option>
-                                                <option value="Ulsan">울산</option>
+                                                {this.state.departure ? (this._renderOptionForBookmarks('departure')) : (this._renderOptionForDefault())}
+                                                {/*{this.state.departure ? (<option value={converter[this.state.departure]}>{this.state.departure}</option>) : (null)}*/}
+                                                {/*<option value="Inchoen">인천</option>*/}
+                                                {/*<option value="Seoul">서울</option>*/}
+                                                {/*<option value="Daejeon">대전</option>*/}
+                                                {/*<option value="Gwangju">광주</option>*/}
+                                                {/*<option value="Daegu">대구</option>*/}
+                                                {/*<option value="Busan">부산</option>*/}
+                                                {/*<option value="Ulsan">울산</option>*/}
                                             </Input>
                                         </FormGroup>
                                     </Col>
@@ -123,13 +173,14 @@ class Dashboard extends Component {
                                             <Label htmlFor="name">도착지</Label>
                                             <Input type="select" name="destination" onChange={this.handleChange}
                                                    id="destination" value={this.state.destination} required>
-                                                <option value="Inchoen">인천</option>
-                                                <option value="Seoul">서울</option>
-                                                <option value="Daejeon">대전</option>
-                                                <option value="Gwangju">광주</option>
-                                                <option value="Daegu">대구</option>
-                                                <option value="Busan">부산</option>
-                                                <option value="Ulsan">울산</option>
+                                                {this.state.destination ? (this._renderOptionForBookmarks('destination')) : (this._renderOptionForDefault())}
+                                                {/*<option value="Inchoen">인천</option>*/}
+                                                {/*<option value="Seoul">서울</option>*/}
+                                                {/*<option value="Daejeon">대전</option>*/}
+                                                {/*<option value="Gwangju">광주</option>*/}
+                                                {/*<option value="Daegu">대구</option>*/}
+                                                {/*<option value="Busan">부산</option>*/}
+                                                {/*<option value="Ulsan">울산</option>*/}
                                             </Input>
                                         </FormGroup>
                                     </Col>
