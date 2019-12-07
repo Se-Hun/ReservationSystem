@@ -13,7 +13,7 @@ const router = express.Router();
 }
 */
 // output : 해당하는 기차의 노선 정보
-router.get('/search_path', (req, res) => {
+router.post('/search_path', (req, res) => {
     const departure=req.body.departure;
     const arrival=req.body.arrival;
     const date=req.body.date;
