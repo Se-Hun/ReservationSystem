@@ -21,7 +21,7 @@ router.post('/search_path', (req, res) => {
     if(!departure)
         return res.status(404).send({code: '404', error: 1, shouldAttribute: "departure"});
     if(!arrival)
-        return res.status(404).send({code: '404', error: 1, shouldAttribute: "arrival"});     
+        return res.status(404).send({code: '404', error: 1, shouldAttribute: "arrival"});
     if(!date)
         return res.status(404).send({code: '404', error: 1, shouldAttribute: "date"});
     if(!time)
@@ -50,7 +50,7 @@ router.post('/search_path', (req, res) => {
     "date" : "2019-12-10",
     "time" : "09:00",
     "laststop" : "Busan",
-    "stopstation" : "Gwangmyeong",
+    "stopstation" : ["Gwangmyeong","Cheonan"],
     "deptime" : "09:00",
     "arrtime" : "12:00"
 }
