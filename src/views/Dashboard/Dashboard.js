@@ -10,15 +10,16 @@ import {
     Label,
     Input
 } from 'reactstrap';
+import Notice from '../Pages/Notice'
 
 const converter = {
-    인천 : "Inchoen",
-    서울 : "Seoul",
-    대전 : "Daejeon",
-    광주 : "Gwangju",
-    대구 : "Daegu",
-    부산 : "Busan",
-    울산 : "Ulsan"
+    인천: "Inchoen",
+    서울: "Seoul",
+    대전: "Daejeon",
+    광주: "Gwangju",
+    대구: "Daegu",
+    부산: "Busan",
+    울산: "Ulsan"
 }
 
 class Dashboard extends Component {
@@ -29,7 +30,7 @@ class Dashboard extends Component {
 
         let departure = ''
         let destination = ''
-        if(props.location.state) {
+        if (props.location.state) {
             departure = props.location.state.departure
             destination = props.location.state.destination
         }
@@ -74,10 +75,10 @@ class Dashboard extends Component {
         const locations = Object.keys(converter);
 
         let render = locations.map((location, id) => {
-            if(location === this.state[spot]) {
+            if (location === this.state[spot]) {
                 return
             }
-            return(
+            return (
                 <option value={converter[location]} key={id}>{location}</option>
             )
         })
@@ -91,7 +92,7 @@ class Dashboard extends Component {
         const locations = Object.keys(converter);
 
         const render = locations.map((location, id) => {
-            return(
+            return (
                 <option value={converter[location]} key={id}>{location}</option>
             )
         })
@@ -156,9 +157,9 @@ class Dashboard extends Component {
                                         </Col>
                                     </Row>
                                     <Col col="6" sm="2" md="2" xl className="mb-3 mb-xl-0">
-                                            <Button type="submit" block color="primary" render as="button">
-                                                조회
-                                            </Button>
+                                        <Button type="submit" block color="primary" render as="button">
+                                            조회
+                                        </Button>
                                     </Col>
                                 </CardBody>
                             </Card>
@@ -167,6 +168,15 @@ class Dashboard extends Component {
                     </Row>
                     <Row></Row>
                 </form>
+                <Row>
+                    <Col xs="3"></Col>
+                    <Col>
+                        <Card xs="6">
+                            <Notice/>
+                        </Card>
+                    </Col>
+                    <Col xs="3"></Col>
+                </Row>
             </div>
         );
     }
