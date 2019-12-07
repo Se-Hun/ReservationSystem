@@ -85,7 +85,7 @@ class ConfirmReservation extends Component {
         const render = this.state.ReserveList.map((reserved, _id) => {
             let old = new Date(reserved.time);
             let gap = now.getTime()-old.getTime;
-            if(gap/1000<0){
+            if(gap<0){
                 this.setState({
                     isEdit: true,
                     isCancel: true,
