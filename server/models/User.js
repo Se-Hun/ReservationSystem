@@ -3,7 +3,7 @@ const {Schema} = mongoose;
 
 const UserSchema = new Schema(
     {
-        account: {type: String, required: true, unique: true},
+        account: {type: String, required: true },  // Mongoose에서 에러를 바로 만들어서 이거는 안 하는게 좋을듯 , unique: true},
         accountname: {type: String, required: true},
         phonenum: {type: String, required: true},
         password: {type: String, required: true},
@@ -20,13 +20,20 @@ const UserSchema = new Schema(
 
 // To login
 UserSchema.statics.login = function(account) {
-    return this.findOne({account});
+    const login_result = this.findOne({account})
+    return login_result
+    // return this.findOne({account});
     // Return값 바꿀것 : login_result -> User Object랑 success여부를 dictionary에 넣어서 반환하도록 할것
 }
 
 // To register User Information
 UserSchema.statics.register = function(account, accountname, phonenum, password, cardcompany, cardnum) {
-    var NewUser = new this(account, accountname, phonenum, password, cardcompany, cardnum)
+    var NewUser = new this({account, accountname, phonenum, password, cardcompany, cardnum})
+
+    // NewUser.save().then(function (err, content) {
+    //     console.log(err)
+    //     console.log(content)
+    // })
 
     return NewUser.save(); // DAO 클래스의 요구사항을 맞추기 위해 이 부분에 if문 걸어서 register_result를 반환해주면 될듯!!
     // Return값 바꿀것 : register_result

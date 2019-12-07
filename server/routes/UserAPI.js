@@ -28,6 +28,13 @@ router.post('/login', (req, res) => {
         return res.status(404).send({code: '404', error: 1, shouldAttribute: "password"})
     }
 
+    // console.log(User.login(account))
+    // User.find({account}).exec(function(err, content) {
+    //     console.log(err)
+    //     console.log(content)
+    // })
+
+
     User.login(account)
         .then((user) => {
             if(!user) {
@@ -49,15 +56,20 @@ router.post('/login', (req, res) => {
                 // console.log(user)
             }
         })
-        .catch(err => res.status(500).send({code: '500', error: 3})) // Code 3 : BackEnd 나 DB 문제인 경우
+        .catch((err) => {
+            console.log(err)
+            res.status(500).send({code: '500', error: 3})
+        }) // Code 3 : BackEnd 나 DB 문제인 경우
         // 500 에러인 경우, FrontEnd에서는 무조건 서버 문제라고 띄어주면 됨.
 })
 
 router.post('/register', (req, res) => {
     // Error Code
     // 1 : front-end에서 account를 보내지 않았을때
-    // 2 :
+    // 2 : 이미 중복되는 아이디가 있는 경우
     // 3 : 500 에러 => Back-End나 DB 문제
+
+    // console.log(req.body.account)
 
     const account = req.body.account
     const accountname = req.body.accountname
@@ -91,14 +103,37 @@ router.post('/register', (req, res) => {
         return res.status(404).send({code: '404', error: 1, shouldAttribute: "cardnum"})
     }
 
-    User.register(account, accountname, phonenum, password, cardcompany, cardnum)
-        .then((register_result) => {
-            // 구현하기
-            // 우선, 똑같은 Id 있는지 DB에서 확인
-            // 있으면 튕기기
-            // 없으면 DB에 저장
+    // 우선 기존에 중복되는 아이디가 있는지 확인
+    User.login(account)
+        .then((user) => {
+            if(user) {
+                return res.status(404).send({code: '404', error: 2})
+            }
+            else {
+                // 중복되는 아이디가 없으면 회원가입 해준다.
+                User.register(account, accountname, phonenum, password, cardcompany, cardnum)
+                    .then((register_result) => {
+                        if(register_result) {
+                            return res.send({
+                                state: "success"
+                            }) // 일단은 이렇게 성공했다고 보내는데 어찌할지는 front-end랑 맞춰봐야함.
+                        }
+                        else {
+                            // Code 3 : BackEnd 나 DB 문제인 경우
+                            return res.status(500).send({code: '500', error: 3})
+                        }
+                        // console.log(register_result)
+                    })
+                    .catch(err => {
+                        console.log(err)
+                        return res.status(500).send({code: '500', error: 3})
+                    }) // Code 3 : BackEnd 나 DB 문제인 경우
+            }
         })
-        .catch(err => res.status(500).send({code: '500', error: 3})) // Code 3 : BackEnd 나 DB 문제인 경우
+        .catch(err => {
+            console.log(err)
+            return res.status(500).send({code: '500', error: 3})
+        }) // Code 3 : BackEnd 나 DB 문제인 경우
 })
 
 router.post('/modify', (req, res) => {
@@ -143,7 +178,10 @@ router.post('/modify', (req, res) => {
         .then((register_result) => {
             // 구현하기
         })
-        .catch(err => res.status(500).send({code: '500', error: 3})) // Code 3 : BackEnd 나 DB 문제인 경우
+        .catch(err => {
+            console.log(err)
+            res.status(500).send({code: '500', error: 3})
+        }) // Code 3 : BackEnd 나 DB 문제인 경우
 })
 
 router.post('/bookmarks', (req, res) => {
@@ -163,7 +201,10 @@ router.post('/bookmarks', (req, res) => {
         .then((register_result) => {
             // 구현하기
         })
-        .catch(err => res.status(500).send({code: '500', error: 3})) // Code 3 : BackEnd 나 DB 문제인 경우
+        .catch(err => {
+            console.log(err)
+            res.status(500).send({code: '500', error: 3})
+        }) // Code 3 : BackEnd 나 DB 문제인 경우
 })
 
 module.exports = router
