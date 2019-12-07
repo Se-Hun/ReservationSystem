@@ -7,11 +7,11 @@ const router = express.Router();
 router.get('/', (req, res) => res.json({data:'this is User API.'}));
 
 // input : X
-// output : 공지사항의 제목과 해당 id
+// output : qna의 제목과 해당 id
 router.get('/get_title_list', (req, res) => {
     QnA.getTitleList()
     .then(qna => res.send(qna))
-    .catch(err => res.status(500).send(err));
+    .catch(err => res.status(500).send({code: '500', error: 3}));
 })
 
 // input : qna게시물의 id
@@ -46,7 +46,7 @@ router.get('/get_content', (req, res) => {
 router.get('/getQnA', (req, res) => {
     QnA.getQnA()
     .then(qna => res.send(qna))
-    .catch(err => res.status(500).send(err));
+    .catch(err => res.status(500).send({code: '500', error: 3}));
 })
 
 // input : 추가할 qna 데이터
@@ -61,7 +61,7 @@ router.get('/getQnA', (req, res) => {
 router.post('/newContent', (req, res) => {
     QnA.newContent(req.body)
     .then(qna => res.send(qna))
-    .catch(err => res.status(500).send(err));
+    .catch(err => res.status(500).send({code: '500', error: 3}));
 })
 
 module.exports = router

@@ -4,11 +4,11 @@ const Notice = require('../models/notice');
 const router = express.Router();
 
 // input : X
-// output : 모든 공지사항 데이터
-router.get('/getNotice', (req, res) => {
-    Notice.getNotice()
+// output : 공지사항의 제목과 해당 id
+router.get('/get_title_list', (req, res) => {
+    Notice.getTitleList()
     .then(notice => res.send(notice))
-    .catch(err => res.status(500).send(err));
+    .catch(err => res.status(500).send({code: '500', error: 3}));
 })
 
 // input : 공지사항 게시물의 id
@@ -19,10 +19,23 @@ router.get('/getNotice', (req, res) => {
 }
 */
 // output : 해당 공지사항 게시물의 내용
-router.get('/getContent', (req, res) => {
-    Notice.getContents(req.body.id)
-    .then(notice => res.send(notice.content))
-    .catch(err => res.status(500).send(err));
+router.get('/get_content', (req, res) => {
+    const id = req.body.id;
+    if(!id)
+        return res.status(404).send({code: '404', error: 1, shouldAttribute: "id"});
+    Notice.getContents(id)
+    .then((qna) => {
+        if(!qna) {
+            // 없을 경우
+            return res.status(404).send({code: '404', error: 2})
+        }
+        else {
+            res.send(notice.content);
+        }
+    })
+    .catch((err) => {
+        res.status(500).send({code: '500', error: 3})
+    })
 })
 
 // input : 추가할 공지사항 데이터
@@ -37,7 +50,16 @@ router.get('/getContent', (req, res) => {
 router.post('/newContent', (req, res) => {
     Notice.newContent(req.body)
     .then(notice => res.send(notice))
-    .catch(err => res.status(500).send(err));
+    .catch(err => res.status(500).send({code: '500', error: 3}));
 })
+
+// input : X
+// output : 모든 공지사항 데이터
+router.get('/getNotice', (req, res) => {
+    Notice.getNotice()
+    .then(notice => res.send(notice))
+    .catch(err => res.status(500).send({code: '500', error: 3}));
+})
+
 
 module.exports = router
