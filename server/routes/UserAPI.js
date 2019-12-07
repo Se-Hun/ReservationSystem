@@ -113,7 +113,7 @@ router.post('/register', (req, res) => {
                     .then((register_result) => {
                         if(register_result) {
                             return res.send({
-                                state: "success"
+                                state: true
                             }) // 일단은 이렇게 성공했다고 보내는데 어찌할지는 front-end랑 맞춰봐야함.
                         }
                         else {
@@ -184,7 +184,7 @@ router.post('/modify', (req, res) => {
                         console.log(register_result)
                         if(register_result) {
                             return res.send({
-                                state: "success"
+                                state: true
                             })
                         }
                         else {
@@ -207,7 +207,7 @@ router.post('/modify', (req, res) => {
 router.post('/bookmarks', (req, res) => {
     // Error Code
     // 1 : front-end에서 account를 보내지 않았을때
-    // 2 :
+    // 2 : 해당하는 회원이 없을 경우
     // 3 : 500 에러 => Back-End나 DB 문제
 
     const account = req.body.account
@@ -218,8 +218,47 @@ router.post('/bookmarks', (req, res) => {
     }
 
     User.returnBookmarks(account)
-        .then((register_result) => {
-            // 구현하기
+        .then((result) => {
+            if(result.error) {
+                const error = result.error
+                if(error == "2") {
+                    // Code 2 : 해당하는 회원이 없을 경우
+                    return res.status(404).send({code: '404', error: error})
+                }
+                else {
+                    // Code 3 : BackEnd 나 DB 문제인 경우
+                    return res.status(500).send({code: '500', error: error})
+                }
+            }
+            else {
+                // Success!
+                return res.send({
+                    bookmarks: result.bookmarks
+                })
+            }
+        })
+        .catch(err => {
+            console.log(err)
+            res.status(500).send({code: '500', error: 3})
+        }) // Code 3 : BackEnd 나 DB 문제인 경우
+})
+
+router.post('/list/reservation', (req, res) => {
+    // Error Code
+    // 1 : front-end에서 account를 보내지 않았을때
+    // 2 :
+    // 3 : 500 에러 => Back-End나 DB 문제
+
+    const account = req.body.account
+
+    if(!account) {
+        // Code 1: Front-End에서 정확한 Format으로 보내지 않았을 때 : Id를 보내지 않음
+        return res.status(404).send({code: '404', error: 1, shouldAttribute: "account"})
+    }
+
+    User.login(account)
+        .then(user => {
+
         })
         .catch(err => {
             console.log(err)

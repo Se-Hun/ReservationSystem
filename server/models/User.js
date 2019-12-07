@@ -32,7 +32,6 @@ UserSchema.statics.register = function(account, accountname, phonenum, password,
     const register_result = NewUser.save()
 
     return register_result;
-    // Return값 바꿀것 : register_result
 }
 
 // To modify User Information
@@ -41,7 +40,6 @@ UserSchema.statics.modify = function(account, accountname, phonenum, password, c
 
     // { new: true } : return the modified document rather than the original. Default is false.
     return modify_result
-    // Return값 바꿀것 : modify_result
 }
 
 // To return User's bookmarks
@@ -50,9 +48,20 @@ UserSchema.statics.returnBookmarks = function(account) {
     // Return Account's Bookmarks
 
     var User = new mongoose.model('User', UserSchema);
-    var findedUser = User.login(account);
-    // 이걸로 bookmark만 뽑아오자.
-    // Return값 바꿀것 : bookmarks
+    const bookmarks = User.login(account)
+        .then((user) => {
+            if(user) {
+                return {bookmarks: user['bookmarks']}
+            }
+            else {
+                return {error: 2}
+            }
+        })
+        .catch(err => {
+            console.log(err)
+            return {error: 3}
+        })
+    return bookmarks
 }
 
 module.exports = mongoose.model('User', UserSchema);
