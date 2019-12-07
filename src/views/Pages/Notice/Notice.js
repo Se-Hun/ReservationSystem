@@ -23,31 +23,16 @@ import {
 import {CustomTooltips} from '@coreui/coreui-plugin-chartjs-custom-tooltips';
 import {getStyle, hexToRgba} from '@coreui/coreui/dist/js/coreui-utilities'
 
-import QnA from "../QnA";
-
 const brandPrimary = getStyle('--primary')
 const brandSuccess = getStyle('--success')
 const brandInfo = getStyle('--info')
 const brandWarning = getStyle('--warning')
 const brandDanger = getStyle('--danger')
 
-const data = [
-    {
-        "_id": 1,
-        "title": "aaa",
-    },
-    {
-        "_id": 2,
-        "title": "bbb",
-    },
-]
-
 class Notice extends Component {
-
     constructor(props) {
         super(props);
         this.onRadioBtnClick = this.onRadioBtnClick.bind(this);
-
         this.state = {
             dropdownOpen: false,
             radioSelected: 2,
@@ -71,7 +56,6 @@ class Notice extends Component {
 
         return fetch(url, {
             method: "GET",
-            // body : {}
         }).then(res => res.json())
             .then(data => {
                 console.log(data)
@@ -79,12 +63,12 @@ class Notice extends Component {
             })
             .catch(err => console.log(err))
     }
+
     fetchContent = (id) => {
         // const id = id;
         // window.location.replace("/notice/:id")
     }
     _renderNoticeTable = () => {
-        console.log(this.state.NoticeList);
         const render = this.state.NoticeList.map((Notice, _id) => {
             return (
                 <tr key={_id} onClick={() => this.fetchContent(Notice._id)}>
@@ -93,6 +77,12 @@ class Notice extends Component {
             )
         })
         return render
+    }
+
+    toggle() {
+        this.setState({
+            dropdownOpen: !this.state.dropdownOpen,
+        });
     }
 
     onRadioBtnClick(radioSelected) {

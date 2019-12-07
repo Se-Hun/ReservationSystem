@@ -23,26 +23,11 @@ import {
 import {CustomTooltips} from '@coreui/coreui-plugin-chartjs-custom-tooltips';
 import {getStyle, hexToRgba} from '@coreui/coreui/dist/js/coreui-utilities'
 
-
-//const Widget03 = lazy(() => import('../../../../../views/Widgets/Widget03'));
-
 const brandPrimary = getStyle('--primary')
 const brandSuccess = getStyle('--success')
 const brandInfo = getStyle('--info')
 const brandWarning = getStyle('--warning')
 const brandDanger = getStyle('--danger')
-
-
-const data = [
-    {
-        "id": 1,
-        "title": "aaa",
-    },
-    {
-        "id": 2,
-        "title": "bbb",
-    },
-]
 
 class QnA extends Component {
     constructor(props) {
@@ -62,22 +47,18 @@ class QnA extends Component {
 
     _getQnAList = async () => {
         const QnAList = await this._callApi()
-
         this.setState({
-            QnAList: data,
+            QnAList: QnAList,
         })
-        console.log(this.state)
     }
 
     _callApi = () => {
-        let url = "http://localhost:5000/get/api/~~~~"
+        let url = "http://localhost:5000/api/qna/get_title_list"
 
         return fetch(url, {
             method: "GET",
-            // body : {}
         }).then(res => res.json())
             .then(data => {
-                console.log(data)
                 return data
             })
             .catch(err => console.log(err))
@@ -89,10 +70,9 @@ class QnA extends Component {
     }
 
     _renderQnATable = () => {
-        // console.log(this.state.QnAList)
-        const render = this.state.QnAList.map((QnA, id) => {
+        const render = this.state.QnAList.map((QnA, _id) => {
             return (
-                <tr key={id} onClick={() => this.fetchContent(QnA.id)}>
+                <tr key={_id} onClick={() => this.fetchContent(QnA._id)}>
                     <td>{QnA.title}</td>
                 </tr>
             )
@@ -111,8 +91,6 @@ class QnA extends Component {
             radioSelected: radioSelected,
         });
     }
-
-    loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>
 
     render() {
         return (
