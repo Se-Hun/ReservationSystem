@@ -21,15 +21,13 @@ import {isLoggedIn} from '../../../utils/auth'
 class ChangeUserInfo extends Component {
     constructor(props) {
         super(props);
-        console.log(this.props.location);
-        this.toggle = this.toggle.bind(this);
         this.state = {
             dropdownOpen: false,
             account: '',
             password: '',
             accountname: '',
             phonenum: '',
-            cardcompany: '',
+            cardcompany: '신한',
             cardnum: '',
             Redirect: false,
         };
@@ -40,25 +38,28 @@ class ChangeUserInfo extends Component {
             [e.target.name]: e.target.value
         })
     }
+
     handleSubmit = (e) => {
         e.preventDefault();
-        let url = ""
-        let formData = new FormData()
-        let id = this.state.account
+        let url = "http://localhost:5000/api/user/modify"
+        let account = this.state.account
         let password = this.state.password
-        let name = this.state.accountname
+        let accountname = this.state.accountname
         let phonenum = this.state.phonenum
         let cardcompany = this.state.cardcompany
         let cardnum = this.state.cardnum
-        formData.append("id", id)
-        formData.append("password", password)
-        formData.append("name", name)
-        formData.append("phonenum", phonenum)
-        formData.append("cardcompany", cardcompany)
-        formData.append("cardnum", cardnum)
+
+        let body="{"
+        body+='"account":"'+account+'", ';
+        body+='"password":"'+password+'", ';
+        body+='"accountname":"'+accountname+'", ';
+        body+='"phonenum":"'+phonenum+'", ';
+        body+='"cardcompany":"'+cardcompany+'", ';
+        body+='"cardnum":"'+cardnum+'"}';
         fetch(url, {
             method: "POST",
-            body: formData
+            headers: {'Content-Type': 'application/json'},
+            body: body
         }).then(res => res.json())
             .then(data => {
                 if (!isLoggedIn()) {
@@ -71,20 +72,6 @@ class ChangeUserInfo extends Component {
 
 
     render() {
-        // if (this.state.Redirect) {
-        //   console.log(this.state)
-        //   return <Redirect to={{
-        //     pathname: '/',
-        //     state: {
-        //       account: this.state.account,
-        //       password: this.state.password,
-        //       accountname: this.state.accountname,
-        //       phonenum: this.state.phonenum,
-        //       cardcompany: this.state.cardcompany,
-        //       cardnum: this.state.cardnum,
-        //     }
-        //   }}></Redirect>
-        // }
         return (
             <div className="app flex-row align-items-center">
                 <Container>
@@ -101,7 +88,7 @@ class ChangeUserInfo extends Component {
                                                     <i className="icon-user"></i>
                                                 </InputGroupText>
                                             </InputGroupAddon>
-                                            <Input type="text" name="account" onChange={this.handleChange} placeholder="ID" autoComplete="account"/>
+                                            <Input type="text" name="account" onChange={this.handleChange} placeholder="현재 계정 입력" autoComplete="account"/>
                                         </InputGroup>
                                         <InputGroup className="mb-3">
                                             <InputGroupAddon addonType="prepend">
@@ -109,44 +96,27 @@ class ChangeUserInfo extends Component {
                                                     <i className="icon-lock"></i>
                                                 </InputGroupText>
                                             </InputGroupAddon>
-                                            <Input type="password" name="password" onChange={this.handleChange} placeholder="Password"
+                                            <Input type="password" name="password" onChange={this.handleChange} placeholder="현재 비밀번호 입력"
                                                    autoComplete="new-password"/>
                                         </InputGroup>
-                                        {/*<InputGroup className="mb-4">*/}
-                                        {/*  <InputGroupAddon addonType="prepend">*/}
-                                        {/*    <InputGroupText>*/}
-                                        {/*      <i className="icon-lock"></i>*/}
-                                        {/*    </InputGroupText>*/}
-                                        {/*  </InputGroupAddon>*/}
-                                        {/*  <Input type="password" placeholder="Repeat password" autoComplete="new-password"/>*/}
-                                        {/*</InputGroup>*/}
                                         <InputGroup className="mb-3">
                                             <InputGroupAddon addonType="prepend">
                                                 <InputGroupText>
                                                     <i className="icon-user"></i>
                                                 </InputGroupText>
                                             </InputGroupAddon>
-                                            <Input type="text" name="accountname" onChange={this.handleChange} placeholder="Username"
+                                            <Input type="text" name="accountname" onChange={this.handleChange} placeholder="변경하실 이름 입력"
                                                    autoComplete="accountname"/>
                                         </InputGroup>
                                         <InputGroup className="mb-3">
-                                            <Input type="text" name="phonenum" onChange={this.handleChange} placeholder="000 0000 0000"
+                                            <Input type="text" name="phonenum" onChange={this.handleChange} placeholder="변경하실 핸드폰 정보 입력 (000-0000-0000)"
                                                    autoComplete="phonenum"/>
                                         </InputGroup>
-
-                                        {/*<Row>
-                      <Col xs="12">
-                        <FormGroup>
-                          <Label htmlFor="name">Name</Label>
-                          <Input type="text" id="name" placeholder="Enter your name" required/>
-                        </FormGroup>
-                      </Col>
-                    </Row>*/}
                                         <Row>
                                             <Col xs="4">
                                                 <FormGroup>
                                                     <Label htmlFor="card">card company</Label>
-                                                    <Input type="select" name="cardcompany" onChange={this.handleChange} id="cardcompany">
+                                                    <Input type="select" name="cardcompany" onChange={this.handleChange} id="cardcompany" placeholder="신한">
                                                         <option value="신한">신한</option>
                                                         <option value="하나">하나</option>
                                                         <option value="국민">국민</option>
@@ -154,42 +124,18 @@ class ChangeUserInfo extends Component {
                                                     </Input>
                                                 </FormGroup>
                                             </Col>
-                                            {/*<Col xs="4">
-                        <FormGroup>
-                          <Label htmlFor="ccyear">Year</Label>
-                          <Input type="select" name="ccyear" id="ccyear">
-                            <option>2019</option>
-                            <option>2020</option>
-                            <option>2021</option>
-                            <option>2022</option>
-                            <option>2023</option>
-                            <option>2024</option>
-                            <option>2025</option>
-                            <option>2026</option>
-                            <option>2027</option>
-                            <option>2028</option>
-                          </Input>
-                        </FormGroup>
-                      </Col>
-                      <Col xs="4">
-                        <FormGroup>
-                          <Label htmlFor="cvv">CVV/CVC</Label>
-                          <Input type="text" name="cvv" placeholder="123" required/>
-                        </FormGroup>
-                      </Col>*/}
+                                        
                                         </Row>
                                         <Row>
                                             <Col xs="12">
                                                 <FormGroup>
                                                     <Label htmlFor="cardnum">Credit Card Number</Label>
                                                     <Input type="text" name="cardnum" id="cardnum" onChange={this.handleChange}
-                                                           placeholder="0000 0000 0000 0000" required/>
+                                                           placeholder="변경하실 카드 번호 입력" required/>
                                                 </FormGroup>
                                             </Col>
                                         </Row>
-                                        {/*<Link to="/dashboard" className="nav-link">*/}
                                         <Button type="submit" color="success" block>Change Account Information</Button>
-                                        {/*</Link>*/}
                                     </Form>
                                 </CardBody>
                             </Card>
