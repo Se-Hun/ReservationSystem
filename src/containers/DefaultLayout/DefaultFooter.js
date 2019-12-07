@@ -15,8 +15,8 @@ class DefaultFooter extends Component {
 
     return (
       <React.Fragment>
-        <span><a href="https://github.com/Se-Hun/ReservationSystem">Train Reservation Sdystem</a></span>
-        <span className="ml-auto">Sehun Heo, Jongun Kim, Jisㅇu Jung</span>
+        <span><a href="https://github.com/Se-Hun/ReservationSystem">Train Reservation System</a></span>
+        <span className="ml-auto">Sehun Heo, Jongun Kim, Jisu Jung</span>
       </React.Fragment>
     );
   }
