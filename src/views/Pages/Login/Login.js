@@ -57,13 +57,6 @@ class Login extends Component {
             login(data.account, data.token, data.accountname, data.phonenum, data.cardcompany, data.cardnum)
           }
 
-          // console.log(sessionStorage.getItem("account"))
-          // console.log(sessionStorage.getItem("token"))
-          // console.log(sessionStorage.getItem("accountname"))
-          // console.log(sessionStorage.getItem("phonenum"))
-          // console.log(sessionStorage.getItem("cardcompany"))
-          // console.log(sessionStorage.getItem("cardnum"))
-
           if(!isLoggedIn()) {
             window.location.reload()
           }
