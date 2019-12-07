@@ -4,10 +4,10 @@ import { Button, Card, CardBody, CardGroup, Col, Container, Form, Input, InputGr
 
 import { isLoggedIn, login } from '../../../utils/auth';
 
-const data = {
-  "account" : "tpgns5248",
-  "access_token" : "Login-OK"
-}
+// const data = {
+//   "account" : "tpgns5248",
+//   "access_token" : "Login-OK"
+// }
 
 
 class Login extends Component {
@@ -18,20 +18,23 @@ class Login extends Component {
       password: '',
     }
   }
+
   handleChange = (e) => {
     this.setState({
       [e.target.name]: e.target.value
     })
   }
+
   handleSubmit = (e) => {
     e.preventDefault();
 
-    let url = ""
+    let url = "http://localhost:5000/api/user/login"
+
     let formData = new FormData()
-    let id = this.state.account
+    let account = this.state.account
     let password = this.state.password
 
-    formData.append("id", id)
+    formData.append("account", account)
     formData.append("password", password)
 
     fetch(url, {
@@ -43,6 +46,8 @@ class Login extends Component {
 
           //예외처리 할것!!
           login(data.account, data.access_token)
+
+          console.log(sessionStorage.getItem("account"))
 
           if(!isLoggedIn()) {
             window.location.replace("/confirmLogin")
@@ -80,7 +85,7 @@ class Login extends Component {
                       </InputGroup>
                       <Row>
                         <Col xs="6">
-                          <Button type="submit" color="primary" className="px-4">Login</Button>
+                          <Button type="submit" color="primary" className="px-4" onClick={this.handleSubmit}>Login</Button>
                         </Col>
                       </Row>
                     </Form>

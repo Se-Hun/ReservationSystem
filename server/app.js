@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser')
 const logger = require('morgan')
 const mongoose = require('mongoose');
+const cors = require('cors');
 
 // For distribution Port
 const API_PORT = 5000;
@@ -24,6 +25,7 @@ db.once('open', () => console.log('connected to the database'));
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 // Server App Configure
+app.use(cors());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.use(logger('dev')); // logging
