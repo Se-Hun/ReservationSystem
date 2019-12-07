@@ -8,14 +8,13 @@ const ChangeUserInfo = React.lazy(() => import('./views/Pages/ChangeUserInfo'));
 const Reserve = React.lazy(() => import('./views/Pages/Reserve'));
 const ConfirmCancelReservation = React.lazy(() => import('./views/Pages/ConfirmCancelReservation'));
 const EditReservation = React.lazy(() => import('./views/Pages/EditReservation'));
-/*const Announcement = React.lazy(() => import('./views/Pages/Notice'));*/
 const SearchRoutenSeat = React.lazy(() => import('./views/Pages/SearchRoutenSeat'));
 const SearchSeat = React.lazy(() => import('./views/Pages/SearchSeat'));
 const ConfirmReservation = React.lazy(() => import('./views/Pages/ConfirmReservation'));
 const CheckEditReserve = React.lazy(() => import('./views/Pages/CheckEditReserve'));
 const ConfirmLogin = React.lazy(() => import('./views/Pages/ConfirmLogin'));
-const Announcements = React.lazy(() => import('./views/Pages/Notice'));
-const AnnouncementsContent = React.lazy(() => import('./views/Pages/NoticeContent'));
+const Notice = React.lazy(() => import('./views/Pages/Notice'));
+const NoticeContent = React.lazy(() => import('./views/Pages/NoticeContent'));
 const QnA = React.lazy(() => import('./views/Pages/QnA'));
 const QnAContent = React.lazy(() => import('./views/Pages/QnAContent'));
 // const Breadcrumbs = React.lazy(() => import('./views/Base/Breadcrumbs'));
@@ -50,8 +49,6 @@ const QnAContent = React.lazy(() => import('./views/Pages/QnAContent'));
 // const Colors = React.lazy(() => import('./views/Theme/Colors'));
 // const Typography = React.lazy(() => import('./views/Theme/Typography'));
 // const Widgets = React.lazy(() => import('./views/Widgets/Widgets'));
-// const Announcements = React.lazy(() => import('./views/Announcements/Announcements'));
-// const AnnContents = React.lazy(() => import('./views/Pages/NoticeContent'));
 // const QnAContents = React.lazy(() => import('./views/pages/QnAContents'));
 // const Users = React.lazy(() => import('./views/Users/Users'));
 // const User = React.lazy(() => import('./views/Users/User'));
@@ -115,9 +112,8 @@ const routes = [
   { path: '/QnA', exact: true,  name: 'QnA', component: QnA },
   { path: '/QnA/:id', exact: true,  name: 'QnAContent', component: QnAContent },
   // { path: '/QnA/:id', exact: true, name: 'QnAContents', component: QnAContents },
-  { path: '/notice', exact: true,  name: 'Announcements', component: Announcements },
-  { path: '/notice/:id', exact: true,  name:'NoticeContent', component: AnnouncementsContent },
-  // { path: '/Announcements/:id', exact: true, name: 'AnnContents', component: AnnContents },
+  { path: '/notice', exact: true,  name: 'Notice', component: Notice },
+  { path: '/notice/:id', exact: true,  name:'NoticeContent', component: NoticeContent },
   // { path: '/register', exact: true,  name: 'Register', component: Register },
 ];
 
