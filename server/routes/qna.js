@@ -7,15 +7,8 @@ const router = express.Router();
 router.get('/', (req, res) => res.json({data:'this is User API.'}));
 
 // input : X
-// output : 모든 QnA 데이터
-router.get('/getQnA', (req, res) => {
-    QnA.getQnA()
-    .then(qna => res.send(qna))
-    .catch(err => res.status(500).send(err));
-})
-
-// 모두 다 가져오는 에러
-router.get('/getTitleList', (req, res) => {
+// output : 공지사항의 제목과 해당 id
+router.get('/get_title_list', (req, res) => {
     QnA.getTitleList()
     .then(qna => res.send(qna))
     .catch(err => res.status(500).send(err));
@@ -29,9 +22,30 @@ router.get('/getTitleList', (req, res) => {
 }
 */
 // output : 해당 qna게시물의 내용
-router.get('/getContent', (req, res) => {
-    QnA.getContents(req.body.id)
-    .then(qna => res.send(qna.content))
+router.get('/get_content', (req, res) => {
+    const id = req.body.id;
+    if(!id)
+        return res.status(404).send({code: '404', error: 1, shouldAttribute: "id"});
+    QnA.getContents(id)
+    .then((qna) => {
+        if(!qna) {
+            // 없을 경우
+            return res.status(404).send({code: '404', error: 2})
+        }
+        else {
+            res.send(qna.content);
+        }
+    })
+    .catch((err) => {
+        res.status(500).send({code: '500', error: 3})
+    })
+})
+
+// input : X
+// output : 모든 QnA 데이터
+router.get('/getQnA', (req, res) => {
+    QnA.getQnA()
+    .then(qna => res.send(qna))
     .catch(err => res.status(500).send(err));
 })
 
