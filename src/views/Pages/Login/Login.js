@@ -1,14 +1,7 @@
 import React, { Component } from 'react';
-// import { Link, Redirect } from 'react-router-dom';
 import { Button, Card, CardBody, CardGroup, Col, Container, Form, Input, InputGroup, InputGroupAddon, InputGroupText, Row } from 'reactstrap';
 
 import { isLoggedIn, login } from '../../../utils/auth';
-
-// const data = {
-//   "account" : "tpgns5248",
-//   "access_token" : "Login-OK"
-// }
-
 
 class Login extends Component {
   constructor(props){
