@@ -35,7 +35,15 @@ var seat = {}
 
 const data = []
 const seatList = []
-
+const defaultProps = {
+    peoplenum: 1,
+    disdegree: 1,
+    seat: 1,
+    departure: "",
+    destination: "",
+    date: "",
+    time: "",
+}
 class SearchSeat extends Component {
     constructor(props) {
         super(props);
@@ -48,7 +56,7 @@ class SearchSeat extends Component {
             radioSelected: 2,
             seatList: null,
             redirect: false,
-            peoplenum: this.props.location.state.peoplenum,
+            peoplenum: this.props.location.state ? this.props.location.state.peoplenum : defaultProps.peoplenum,
             disdegree: this.props.location.state.disdegree,
             seat: this.props.location.state.seat,
             departure: this.props.location.state.departure,

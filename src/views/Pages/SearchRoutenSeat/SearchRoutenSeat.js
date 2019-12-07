@@ -33,9 +33,6 @@ const brandWarning = getStyle('--warning')
 const brandDanger = getStyle('--danger')
 
 const defaultProps={
-    peoplenum: 0,
-    disdegree: 'Enter your disdegree',
-    seat: 'Enter your seat',
     departure: 'Enter your departure',
     destination: 'Enter your destination',
     date: 'Enter your date',
@@ -59,7 +56,7 @@ class SearchRoutenSeat extends Component {
             date: this.props.location.state ? this.props.location.state.date : defaultProps.date,
             time: this.props.location.state ? this.props.location.state.time : defaultProps.time,
             redirect: false,
-            routeList: null
+            routeList: null,
         };
     }
     // componentDidMount() {
@@ -73,12 +70,12 @@ class SearchRoutenSeat extends Component {
         })
     }
     _callApi = () => {
-        let url = "http://localhost:5000/routes/trainRoute/search_path"
+        let url = "http://localhost:5000/api/trainRoute/search_path"
         let departure= this.state.departure
         let arrival = this.state.destination
         let date = this.state.date
         let time = this.state.time
-
+        console.log(this.state)
         return fetch(url, {
             method: "POST",
             headers: {"Content-Type": "application/json"},
@@ -87,7 +84,7 @@ class SearchRoutenSeat extends Component {
             .then(data => {
                 return data
             })
-            .catch(err => console.log(err))
+            .catch(err => {console.log(err)})
     }
 
     fetchContent = (id) => {
@@ -107,13 +104,12 @@ class SearchRoutenSeat extends Component {
     }
 
     _renderRouteTable = () => {
-        console.log(this.state)
-        this._getRouteList()
         console.log(this.state.routeList)
         const render = this.state.routeList.map((route, _id) => {
             return (
-                <tr key={_id} onClick={() => this.fetchContent(route._id)}>
-                    <td>{route}</td>
+                <tr key={_id}>
+                    <td>{route.trainInfo}</td>
+                    <button onClick={() => this.fetchContent(route._id)}>확인</button>
                 </tr>
             )
         })
@@ -131,8 +127,9 @@ class SearchRoutenSeat extends Component {
     }
 
     hanleSearchClick = (e) =>{
-        this._renderRouteTable()
+        this._getRouteList()
     }
+
     loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>
     render() {
         console.log(this.state.departure);
@@ -203,7 +200,7 @@ class SearchRoutenSeat extends Component {
                                                id="departure" value={this.state.departure} required>
                                             <option value="Inchoen">인천</option>
                                             <option value="Seoul">서울</option>
-                                            <option value="Daejoen">대전</option>
+                                            <option value="Daejeon">대전</option>
                                             <option value="Gwangju">광주</option>
                                             <option value="Daegu">대구</option>
                                             <option value="Busan">부산</option>
@@ -218,7 +215,7 @@ class SearchRoutenSeat extends Component {
                                                id="destination" value={this.state.destination} required>
                                             <option value="Inchoen">인천</option>
                                             <option value="Seoul">서울</option>
-                                            <option value="Daejoen">대전</option>
+                                            <option value="Daejeon">대전</option>
                                             <option value="Gwangju">광주</option>
                                             <option value="Daegu">대구</option>
                                             <option value="Busan">부산</option>
@@ -254,13 +251,16 @@ class SearchRoutenSeat extends Component {
                     </Col>
                 </Row>
                 </Form>
-                <Col>
-                    <Card className="text-white bg-info">
-                        <CardBody className="pb-0">
-                            {this.state.routeList ? this._renderRouteTable() : ("해당하는 노선 목록이 없습니다.")}
-                        </CardBody>
-                    </Card>
-                </Col>
+                <Table>
+                    <thead>
+                    <tr>
+                        <th>노선 목록</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {this.state.routeList ? this._renderRouteTable() : ("해당하는 노선 목록이 없습니다.")}
+                    </tbody>
+                </Table>
             </div>
         );
     }
