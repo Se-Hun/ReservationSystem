@@ -96,7 +96,12 @@ class SearchRoutenSeat extends Component {
 
     _renderRouteTable = () => {
         console.log(this.state.routeList)
+        let now = (this.state.time).split(':')
         const render = this.state.routeList.map((route, _id) => {
+            let deptime = (route.deptime).split(':')
+            if((now[0]-deptime[0])>0) {
+                return null
+            }
             return (
                 <tr key={_id}>
                     <td>{route.trainInfo}</td>
