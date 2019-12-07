@@ -1,42 +1,13 @@
-import React, {Component, lazy, Suspense} from 'react';
+import React, {Component} from 'react';
 import { Link } from 'react-router-dom';
-import {Bar, Line} from 'react-chartjs-2';
 import {
-    Badge,
-    Button,
-    ButtonDropdown,
-    ButtonGroup,
-    ButtonToolbar,
-    Card,
-    CardBody,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-    Col,
-    Dropdown,
-    DropdownItem,
-    DropdownMenu,
-    DropdownToggle, FormGroup, Input, Label,
-    Progress,
-    Row,
     Table,
 } from 'reactstrap';
-import {CustomTooltips} from '@coreui/coreui-plugin-chartjs-custom-tooltips';
-import {getStyle, hexToRgba} from '@coreui/coreui/dist/js/coreui-utilities'
-
-const brandPrimary = getStyle('--primary')
-const brandSuccess = getStyle('--success')
-const brandInfo = getStyle('--info')
-const brandWarning = getStyle('--warning')
-const brandDanger = getStyle('--danger')
 
 class Notice extends Component {
     constructor(props) {
         super(props);
-        this.onRadioBtnClick = this.onRadioBtnClick.bind(this);
         this.state = {
-            dropdownOpen: false,
-            radioSelected: 2,
             NoticeList: null
         };
     }
@@ -63,16 +34,8 @@ class Notice extends Component {
             .catch(err => console.log(err))
     }
 
-    // fetchContent = (id) => {
-    //     // const id = id;
-    //     let link="/notice/"+id;
-    //     window.location.replace(link)
-    //     // return "location.href=http://localhost/"
-    //     console.log(id);
-    // }
     _renderNoticeTable = () => {
         const render = this.state.NoticeList.map((Notice, _id) => {
-            console.log(Notice._id);
             return (
                 <tr>
                     <Link to={"/notice/"+Notice._id}>
@@ -82,18 +45,6 @@ class Notice extends Component {
             )
         })
         return render
-    }
-
-    toggle() {
-        this.setState({
-            dropdownOpen: !this.state.dropdownOpen,
-        });
-    }
-
-    onRadioBtnClick(radioSelected) {
-        this.setState({
-            radioSelected: radioSelected,
-        });
     }
 
     render() {
