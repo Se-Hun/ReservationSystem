@@ -2,6 +2,7 @@ import React, {Component, lazy, Suspense} from 'react';
 import {Redirect} from 'react-router-dom';
 import {Bar, Line} from 'react-chartjs-2';
 import Dashboard from '../../Dashboard';
+import {isLoggedIn} from "../../../utils/auth";
 import {
     Badge,
     Button,
@@ -145,7 +146,7 @@ class SearchRoutenSeat extends Component {
                                 <Col xs="12">
                                     <FormGroup>
                                         <Label htmlFor="name">인원수</Label>
-                                        <Input type="select" name="peoplenum" value={this.state.peoplenum}  onChange={this.handleChange}>
+                                        <Input type="select" name="peoplenum" value={this.state.peoplenum} onChange={this.handleChange} required>
                                             <option value="1">1</option>
                                             <option value="2">2</option>
                                             <option value="3">3</option>
@@ -156,7 +157,7 @@ class SearchRoutenSeat extends Component {
                                 <Col xs="12">
                                     <FormGroup>
                                         <Label htmlFor="disdegree">장애 정도</Label>
-                                        <Input type="select" name="disdegree" value={this.state.disdegree} onChange={this.handleChange}>
+                                        <Input type="select" name="disdegree" value={this.state.disdegree} onChange={this.handleChange} required>
                                             <option value="1">일반</option>
                                             <option value="2">1급</option>
                                             <option value="3">2급</option>
@@ -168,7 +169,7 @@ class SearchRoutenSeat extends Component {
                                         <FormGroup>
                                             <Label htmlFor="name">좌석 종류</Label>
                                             <Input type="select" name="seat" onChange={this.handleChange} value={this.state.seat}
-                                                   id="seat" placeholder="Enter your seat" required>
+                                                   id="seat" required>
                                             <option value="1">일반</option>
                                             <option value="2">우등</option>
                                             </Input>
@@ -178,7 +179,7 @@ class SearchRoutenSeat extends Component {
                                         <FormGroup>
                                             <Label htmlFor="name">기차 종류</Label>
                                             <Input type="select" name="train" onChange={this.handleChange} value={this.state.train}
-                                                   id="train" placeholder="Enter your seat" required>
+                                                   id="train" required>
                                                 <option value="1">KTX</option>
                                                 <option value="2">무궁화호</option>
                                                 <option value="3">새마을호</option>
@@ -230,14 +231,14 @@ class SearchRoutenSeat extends Component {
                                         <FormGroup>
                                             <Label htmlFor="name">날짜</Label>
                                             <Input type="date" name="date" onChange={this.handleChange}
-                                                   id="date" placeholder={this.state.date} required/>
+                                                   id="date" value={this.state.date} required/>
                                         </FormGroup>
                                     </Col>
                                     <Col xs="6">
                                         <FormGroup>
                                             <Label htmlFor="name">시간</Label>
                                             <Input type="time" name="time" onChange={this.handleChange}
-                                                   id="time" placeholder={this.state.time} required/>
+                                                   id="time" value={this.state.time} required/>
                                         </FormGroup>
                                     </Col>
 

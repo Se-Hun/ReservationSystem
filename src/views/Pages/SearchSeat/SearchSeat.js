@@ -154,8 +154,6 @@ class SearchSeat extends Component {
                             color="success" block>D1</Button>
                     <Button onClick={this.handleClick} disable={false} name="E1"
                             color="success" block>E1</Button>
-                    <Button onClick={this.handleClick} disable={false} name="A2"
-                            color="success" block>A2</Button>
                 </Row>
                 <Row>
                     <Button onClick={this.handleClick} disable={false} name="A2"
