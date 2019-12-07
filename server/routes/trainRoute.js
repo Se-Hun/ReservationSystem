@@ -48,7 +48,7 @@ router.post('/search_path', (req, res) => {
     "departure" : "Daejeon",
     "arrival" : "Seoul",
     "date" : "2019-12-10",
-    "time" : "09:00",
+    "time" : "03:00",
     "laststop" : "Busan",
     "stopstation" : ["Gwangmyeong","Cheonan"],
     "deptime" : "09:00",
