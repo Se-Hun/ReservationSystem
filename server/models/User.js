@@ -37,11 +37,10 @@ UserSchema.statics.register = function(account, accountname, phonenum, password,
 
 // To modify User Information
 UserSchema.statics.modify = function(account, accountname, phonenum, password, cardcompany, cardnum) {
-    // 꼭 매개변수에 위의 모든 파라미터들이 다 들어가야할까....?
-    // 사실 필요는 없지만 설계를 그렇게 해서...
+    const modify_result = this.findOneAndUpdate({account}, {accountname, phonenum, password, cardcompany, cardnum}, {new: true});
 
     // { new: true } : return the modified document rather than the original. Default is false.
-    return this.findOneAndUpdate({account}, {accountname, phonenum, password, cardcompany, cardnum}, {new: true});
+    return modify_result
     // Return값 바꿀것 : modify_result
 }
 
