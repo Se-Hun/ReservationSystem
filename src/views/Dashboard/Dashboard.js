@@ -1,31 +1,18 @@
 import React, {Component, lazy, Suspense} from 'react';
-import {Bar, Line} from 'react-chartjs-2';
+// import {Bar, Line} from 'react-chartjs-2';
 import {Link, Redirect} from 'react-router-dom';
-import TrainInfo from '../Pages/SearchRoutenSeat';
+// import TrainInfo from '../Pages/SearchRoutenSeat';
 import {
-    Badge,
     Button,
-    ButtonDropdown,
-    ButtonGroup,
-    ButtonToolbar,
     Card,
     CardBody,
-    CardFooter,
-    CardHeader,
-    CardTitle,
     Col,
-    Dropdown,
-    DropdownItem,
-    DropdownMenu,
-    DropdownToggle,
-    Progress,
     Row,
-    Table,
     FormGroup,
     Label,
     Input
 } from 'reactstrap';
-import {CustomTooltips} from '@coreui/coreui-plugin-chartjs-custom-tooltips';
+// import {CustomTooltips} from '@coreui/coreui-plugin-chartjs-custom-tooltips';
 import {getStyle, hexToRgba} from '@coreui/coreui/dist/js/coreui-utilities'
 
 const brandPrimary = getStyle('--primary')
@@ -44,12 +31,16 @@ class Dashboard extends Component {
         super(props);
         this.toggle = this.toggle.bind(this);
         this.onRadioBtnClick = this.onRadioBtnClick.bind(this);
+        // console.log(this.props.location.state)
+
         this.state = {
             Redirect: false,
             dropdownOpen: false,
             radioSelected: 2,
-            departure: '',
-            destination: '',
+            // departure: props.match.params.departure,
+            // destination: props.match.params.destination,
+            departure: this.props.location.state ? this.props.location.state.departure : '',
+            destination: this.props.location.state ? this.props.location.state.destination : '',
             date: '',
             time: '',
         };
