@@ -112,9 +112,10 @@ class SearchSeat extends Component {
         if(this.state.presentnum>this.state.peoplenum) {
             alert("정원 초과!")
         }else{
+            var seatList = this.state.seatList
             this.setState(prevState =>{
                 // presentnum: prevState.presentnum+1
-                seatList.add([e.target.name])
+                seatList: seatList.concat(e.target.value)
             })
         }
     }
