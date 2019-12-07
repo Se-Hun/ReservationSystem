@@ -122,7 +122,6 @@ class SearchRoutenSeat extends Component {
                                 route: this.state.route,
                             }}}>
                             <Button onClick={(e) => this.fetchContent(e, route)}>확인</Button>
-                            {/*onClick={(e) => this.fetchContent(e, route)}*/}
                         </Link>
                     </td>
                 </tr>
