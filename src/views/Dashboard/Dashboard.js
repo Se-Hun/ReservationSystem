@@ -28,8 +28,6 @@ import {
 import {CustomTooltips} from '@coreui/coreui-plugin-chartjs-custom-tooltips';
 import {getStyle, hexToRgba} from '@coreui/coreui/dist/js/coreui-utilities'
 
-const Widget03 = lazy(() => import('../../views/Widgets/Widget03'));
-
 const brandPrimary = getStyle('--primary')
 const brandSuccess = getStyle('--success')
 const brandInfo = getStyle('--info')
@@ -107,15 +105,31 @@ class Dashboard extends Component {
                                     <Col xs="12">
                                         <FormGroup>
                                             <Label htmlFor="name">출발지</Label>
-                                            <Input type="text" name="departure" onChange={this.handleChange}
-                                                   id="departure" placeholder="Enter your departure" required/>
+                                            <Input type="select" name="departure" onChange={this.handleChange}
+                                                   id="departure" value={this.state.departure} required>
+                                                <option value="Inchoen">인천</option>
+                                                <option value="Seoul">서울</option>
+                                                <option value="Daejoen">대전</option>
+                                                <option value="Gwangju">광주</option>
+                                                <option value="Daegu">대구</option>
+                                                <option value="Busan">부산</option>
+                                                <option value="Ulsan">울산</option>
+                                            </Input>
                                         </FormGroup>
                                     </Col>
                                     <Col xs="12">
                                         <FormGroup>
                                             <Label htmlFor="name">도착지</Label>
-                                            <Input type="text" name="destination" onChange={this.handleChange}
-                                                   id="destination" placeholder="Enter your destination" required/>
+                                            <Input type="select" name="destination" onChange={this.handleChange}
+                                                   id="destination" value={this.state.destination} required>
+                                                <option value="Inchoen">인천</option>
+                                                <option value="Seoul">서울</option>
+                                                <option value="Daejoen">대전</option>
+                                                <option value="Gwangju">광주</option>
+                                                <option value="Daegu">대구</option>
+                                                <option value="Busan">부산</option>
+                                                <option value="Ulsan">울산</option>
+                                            </Input>
                                         </FormGroup>
                                     </Col>
                                     <Row>
@@ -129,7 +143,7 @@ class Dashboard extends Component {
                                         <Col xs="6">
                                             <FormGroup>
                                                 <Label htmlFor="name">시간</Label>
-                                                <Input type="text" name="time" onChange={this.handleChange}
+                                                <Input type="time" name="time" onChange={this.handleChange}
                                                        id="time" placeholder="Enter your time" required/>
                                             </FormGroup>
                                         </Col>
