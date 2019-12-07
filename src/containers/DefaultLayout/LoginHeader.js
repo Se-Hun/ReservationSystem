@@ -45,7 +45,7 @@ class LoginHeader extends Component {
                         <NavLink to="/bookmark" className="nav-link">노선 즐겨찾기</NavLink>
                     </NavItem>
                     <NavItem className="px-4">
-                        <NavLink to="/bookmark" className="nav-link">나의 예매목록</NavLink>
+                        <NavLink to="/" className="nav-link">나의 예매목록</NavLink>
                     </NavItem>
                     <NavItem className="px-4">
                         <NavLink to="/changeuserinfo" className="nav-link">회원정보변경</NavLink>
