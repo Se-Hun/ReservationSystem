@@ -33,11 +33,11 @@ const brandDanger = getStyle('--danger')
 
 const data = [
     {
-        "id": 1,
+        "_id": 1,
         "title": "aaa",
     },
     {
-        "id": 2,
+        "_id": 2,
         "title": "bbb",
     },
 ]
@@ -61,11 +61,9 @@ class Notice extends Component {
 
     _getNoticeList = async () => {
         const NoticeList = await this._callApi();
-
         this.setState({
-            NoticeList: data
+            NoticeList: NoticeList
         })
-        console.log(this.state)
     }
 
     _callApi = () => {
@@ -86,9 +84,10 @@ class Notice extends Component {
         // window.location.replace("/notice/:id")
     }
     _renderNoticeTable = () => {
-        const render = this.state.NoticeList.map((Notice, id) => {
+        console.log(this.state.NoticeList);
+        const render = this.state.NoticeList.map((Notice, _id) => {
             return (
-                <tr key={id} onClick={() => this.fetchContent(QnA.id)}>
+                <tr key={_id} onClick={() => this.fetchContent(Notice._id)}>
                     <td>{Notice.title}</td>
                 </tr>
             )
@@ -101,7 +100,6 @@ class Notice extends Component {
             radioSelected: radioSelected,
         });
     }
-
 
     render() {
         return (
