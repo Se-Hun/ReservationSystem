@@ -34,7 +34,7 @@ class LoginHeader extends Component {
                 <Nav className="d-md-down-none" navbar>
                     <NavItem className="px-3"/>
                     <NavItem className="px-4">
-                        <NavLink to="/dashboard" className="nav-link" >공지사항</NavLink>
+                        <NavLink to="/notice" className="nav-link" >공지사항</NavLink>
                     </NavItem>
                     <NavItem className="px-4">
                         <Link to="/QnA" className="nav-link">Q&A</Link>

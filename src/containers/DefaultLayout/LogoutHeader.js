@@ -24,7 +24,7 @@ class LogoutHeader extends Component {
             <React.Fragment>
                 <Nav className="d-md-down-none" navbar>
                     <NavItem className="px-3">
-                        <NavLink to="/dashboard" className="nav-link">공지사항</NavLink>
+                        <NavLink to="/notice" className="nav-link">공지사항</NavLink>
                     </NavItem>
                     <NavItem className="px-3">
                         <Link to="/QnA" className="nav-link">Q&A</Link>
@@ -32,7 +32,7 @@ class LogoutHeader extends Component {
                 {/*</Nav>*/}
                 {/*<Nav className="ml-auto" navbar>*/}
                     <NavItem className="px-3">
-                        <NavLink to="/Register" className="nav-link">회원가입</NavLink>
+                        <NavLink to="/register" className="nav-link">회원가입</NavLink>
                     </NavItem>
                     <NavItem className="px-3">
                         <Link to="/login" style={{textDecoration: "none"}}>
