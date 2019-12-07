@@ -66,7 +66,7 @@ router.post('/register', (req, res) => {
     // 2 : 이미 중복되는 아이디가 있는 경우
     // 3 : 500 에러 => Back-End나 DB 문제
 
-    // console.log(req.body.account)
+    console.log(req.body)
 
     const account = req.body.account
     const accountname = req.body.accountname
@@ -113,7 +113,12 @@ router.post('/register', (req, res) => {
                     .then((register_result) => {
                         if(register_result) {
                             return res.send({
-                                state: true
+                                account: account,
+                                accountname: accountname,
+                                phonenum: phonenum,
+                                cardcompany: cardcompany,
+                                cardnum: cardnum,
+                                token: 'Login-OK'
                             }) // 일단은 이렇게 성공했다고 보내는데 어찌할지는 front-end랑 맞춰봐야함.
                         }
                         else {
