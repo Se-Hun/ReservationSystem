@@ -70,7 +70,6 @@ class Reserve extends Component {
     handleSumbit = (e) => {
         e.preventDefault()
         let url = ""
-        let formData = new FormData
         let peoplenum = this.state.peoplenum
         let disdegree = this.state.disdegree
         let departure = this.state.departure
@@ -80,32 +79,21 @@ class Reserve extends Component {
         let seat = this.state.seat
         let date = this.state.date
         let time = this.state.time
-        formData.append("peoplenum", peoplenum)
-        formData.append("disdegree", disdegree)
-        formData.append("departure", departure)
-        formData.append("destination", destination)
-        formData.append("seat", seat)
-        formData.append("date", date)
-        formData.append("time", time)
-        formData.append("cardcompany", cardcompany)
-        formData.append("cardnum", cardnum)
         fetch(url, {
             method: "POST",
-            body: formData
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({peoplenum:peoplenum, disdegree:disdegree, departure:departure, arrival:destination,
+                cardcompany: cardcompany, cardnum: cardnum, date: date, time: time, seat: seat})
         }).then(res => res.json())
             .then(data => {
-                if (!isLoggedIn()) {
-                    window.location.replace("/")
-                } else {
-                    window.location.replace("/confirmReservation")
-                }
+                window.location.replace("/confirmReservation")
             })
     }
 
     loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>
 
     render() {
-        if(!isLoggedIn) {
+        if (!isLoggedIn) {
             alert("로그인을 먼저 해주십시오")
             window.location.replace("/login")
         }
@@ -121,7 +109,7 @@ class Reserve extends Component {
                                         <Col>
                                             <FormGroup>
                                                 <Label htmlFor="peoplenum">인원수</Label>
-                                                <Input type="select" name="peoplenum" onChange={this.handleChange}>
+                                                <Input type="select" name="peoplenum" value={this.state.peoplenum} onChange={this.handleChange}>
                                                     <option value="1">1</option>
                                                     <option value="2">2</option>
                                                     <option value="3">3</option>
@@ -132,8 +120,16 @@ class Reserve extends Component {
                                         <Col>
                                             <FormGroup>
                                                 <Label htmlFor="departure">출발지</Label>
-                                                <Input type="text" name="departure" onChange={this.handleChange} placeholder="Enter your departure"
-                                                       required/>
+                                                <Input type="select" name="departure" onChange={this.handleChange}
+                                                       id="departure" value={this.state.departure} required>
+                                                    <option value="Inchoen">인천</option>
+                                                    <option value="Seoul">서울</option>
+                                                    <option value="Daejoen">대전</option>
+                                                    <option value="Gwangju">광주</option>
+                                                    <option value="Daegu">대구</option>
+                                                    <option value="Busan">부산</option>
+                                                    <option value="Ulsan">울산</option>
+                                                </Input>
                                             </FormGroup>
                                         </Col>
                                     </Row>
@@ -143,18 +139,26 @@ class Reserve extends Component {
                                         <Col>
                                             <FormGroup>
                                                 <Label htmlFor="disdegree">장애 정도</Label>
-                                                    <Input type="select" name="disdegree" onChange={this.handleChange}>
-                                                        <option value="1급">1급</option>
-                                                        <option value="2급">2급</option>
-                                                        <option value="3급">3급</option>
-                                                    </Input>
+                                                <Input type="select" name="disdegree" value={this.state.disdegree} onChange={this.handleChange}>
+                                                    <option value="1급">1급</option>
+                                                    <option value="2급">2급</option>
+                                                    <option value="3급">3급</option>
+                                                </Input>
                                             </FormGroup>
                                         </Col>
                                         <Col>
                                             <FormGroup>
                                                 <Label htmlFor="destination">도착지</Label>
-                                                <Input type="text" name="destination" onChange={this.handleChange} placeholder="Enter your destination"
-                                                       required/>
+                                                <Input type="select" name="destination" onChange={this.handleChange}
+                                                       id="destination" value={this.state.destination} required>
+                                                    <option value="Inchoen">인천</option>
+                                                    <option value="Seoul">서울</option>
+                                                    <option value="Daejoen">대전</option>
+                                                    <option value="Gwangju">광주</option>
+                                                    <option value="Daegu">대구</option>
+                                                    <option value="Busan">부산</option>
+                                                    <option value="Ulsan">울산</option>
+                                                </Input>
                                             </FormGroup>
                                         </Col>
                                     </Row>
@@ -163,20 +167,26 @@ class Reserve extends Component {
                                     <Col>
                                         <FormGroup>
                                             <Label htmlFor="seat">좌석 종류</Label>
-                                            <Input type="text" name="seat" onChange={this.handleChange} placeholder="Enter your kind of seat"
-                                                   required/>
+                                            <Input type="select" name="seat" onChange={this.handleChange}
+                                                   value={this.state.seat}
+                                                   id="seat" placeholder="Enter your seat" required>
+                                                <option value="1">일반</option>
+                                                <option value="2">우등</option>
+                                            </Input>
                                         </FormGroup>
                                     </Col>
                                     <Col xs="3">
                                         <FormGroup>
                                             <Label htmlFor="date">날짜</Label>
-                                            <Input type="date" name="date" onChange={this.handleChange} placeholder="Enter your date" required/>
+                                            <Input type="date" name="date" onChange={this.handleChange}
+                                                   value={this.state.date} required/>
                                         </FormGroup>
                                     </Col>
                                     <Col xs="3">
                                         <FormGroup>
                                             <Label htmlFor="time">시간</Label>
-                                            <Input type="text" name="time" onChange={this.handleChange} placeholder="Enter your time" required/>
+                                            <Input type="time" name="time" onChange={this.handleChange}
+                                                   value={this.state.time} required/>
                                         </FormGroup>
                                     </Col>
                                 </Row>
@@ -190,7 +200,8 @@ class Reserve extends Component {
                                                 <Col xs="12">
                                                     <FormGroup>
                                                         <Label htmlFor="card">card company</Label>
-                                                        <Input type="select" name="cardcompany" onChange={this.handleChange} id="cardcompany">
+                                                        <Input type="select" name="cardcompany" value={this.state.cardcompany}
+                                                               onChange={this.handleChange} id="cardcompany">
                                                             <option value="신한">신한</option>
                                                             <option value="하나">하나</option>
                                                             <option value="국민">국민</option>
@@ -214,9 +225,7 @@ class Reserve extends Component {
                                 <Row>
                                     <Col></Col>
                                     <Col col="6" sm="2" md="2" xl className="mb-3 mb-xl-0">
-                                        {/*<Link to="/confirmReservation" className="nav-link">*/}
-                                            <Button type="submit" block color="primary">예매</Button>
-                                        {/*</Link>*/}
+                                        <Button type="submit" block color="primary">예매</Button>
                                     </Col>
                                 </Row>
                             </CardBody>

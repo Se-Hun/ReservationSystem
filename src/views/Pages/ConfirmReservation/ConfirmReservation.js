@@ -1,6 +1,6 @@
 import React, {Component, lazy, Suspense} from 'react';
 import {Bar, Line} from 'react-chartjs-2';
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import {
     Badge,
     Button,
@@ -50,6 +50,7 @@ class ConfirmReservation extends Component {
             radioSelected: 2,
             isCancel: false,
             isEdit: false,
+            ReserveList: null,
         };
     }
 
@@ -66,6 +67,7 @@ class ConfirmReservation extends Component {
     }
 
     handleEditClick(radioSelected) {
+
         this.setState(prevState => ({
             isEdit: !prevState.isEdit,
         }));
@@ -78,47 +80,42 @@ class ConfirmReservation extends Component {
     }
 
     loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>
-
+    _renderReserveTable = () => {
+        let now = new Date();
+        const render = this.state.ReserveList.map((reserved, _id) => {
+            let old = new Date(reserved.time);
+            let gap = now.getTime()-old.getTime;
+            if(gap/1000<0){
+                this.setState({
+                    isEdit: true,
+                    isCancel: true,
+                })
+            }
+            return (
+                <tr key={_id}>
+                    <td>{reserved}</td>
+                    <button disabled={this.state.isEdit} onClick={()=>this.handleEditClick(reserved._id)}>수정</button>
+                    <button disabled={this.state.isCancel} onClick={()=>this.handleCancelClick(reserved._id)}>취소</button>
+                </tr>
+            )
+        })
+        return render
+    }
     render() {
 
         return (
             <div className="animated fadeIn">
-                <Row>
-                    <Col xs="10">
-                        <Card className="text-white bg-info">
-                            <CardBody>
-                                <Col>
-                                    <strong>내용내용내용</strong>
-                                </Col>
-                                <Row>
-                                    <Col></Col>
-                                    <Col col="6" sm="2" md="2" xl>
-                                                <Link to="/editReservation" className="nav-link">
-                                                    <Button block color="primary" render as= "button">
-                                                    예매 수정
-                                                    </Button>
-                                                </Link>
-                                    </Col>
-                                    <Col col="6" sm="2" md="2" xl className="mb-3 mb-xl-0">
-                                        <Link to="/confirmCancelReservation" className="nav-link">
-                                            <Button block color="primary" render as= "button">
-                                                예매 취소
-                                            </Button>
-                                        </Link>
-                                    </Col>
-                                </Row>
-                            </CardBody>
-                        </Card>
-                    </Col>
 
-                    <Col sm="6" lg="6">
-                        <cardBody>
-
-                        </cardBody>
-                    </Col>
-                    <Col></Col>
-                </Row>
-
+                <Table>
+                    <thead>
+                    <tr>
+                        <th>예매 목록</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {this.state.ReserveList ? this._renderReserveTable() : ("Loading...")}
+                    </tbody>
+                </Table>
             </div>
         );
     }
