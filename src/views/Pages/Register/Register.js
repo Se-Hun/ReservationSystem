@@ -68,20 +68,6 @@ class Register extends Component {
         // })
     }
     render() {
-        // if (this.state.Redirect) {
-        //     console.log(this.state)
-        //     return <Redirect to={{
-        //         pathname: '/',
-        //         state: {
-        //             account: this.state.account,
-        //             password: this.state.password,
-        //             accountname: this.state.accountname,
-        //             phonenum: this.state.phonenum,
-        //             cardcompany: this.state.cardcompany,
-        //             cardnum: this.state.cardnum,
-        //         }
-        //     }}></Redirect>
-        // }
         return (
             <div className="app flex-row align-items-center">
                 <Container>

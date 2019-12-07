@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { Badge, UncontrolledDropdown, DropdownItem, DropdownMenu, DropdownToggle, Nav, NavItem } from 'reactstrap';
 import PropTypes from 'prop-types';
+import Button from '@material-ui/core/Button';
 
 import { AppAsideToggler, AppNavbarBrand, AppSidebarToggler } from '@coreui/react';
 import logo from '../../assets/img/brand/logo.svg'
@@ -23,6 +24,9 @@ class LoginHeader extends Component {
             <React.Fragment>
                 {/*<AppSidebarToggler className="d-md-down-none" display="lg"></AppSidebarToggler>*/}
                 <Nav className="d-md-down-none" navbar>
+                    <NavItem/>
+                    <NavItem/>
+                    <NavItem/>
                     <NavItem className="px-3">
                         <NavLink to="/dashboard" className="nav-link" >공지사항</NavLink>
                     </NavItem>
@@ -37,6 +41,11 @@ class LoginHeader extends Component {
                     <NavItem className="px-3">
                         <NavLink to="/changeuserinfo" className="nav-link">회원정보변경</NavLink>
                     </NavItem>
+                    <Button variant="contained"
+                            size="large"
+                            color="default"
+                            style={{marginBottom: "10px", width: "100%"}}>
+                    </Button>
             {/*        <UncontrolledDropdown nav direction="down">*/}
             {/*            /!*<DropdownToggle nav>*/}
             {/*   <img src={'../../assets/img/avatars/6.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com" />*/}
