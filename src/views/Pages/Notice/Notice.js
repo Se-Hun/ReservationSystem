@@ -69,7 +69,7 @@ class Notice extends Component {
     }
 
     _callApi = () => {
-        let url = "http://localhost:5000/get/api/"
+        let url = "http://localhost:5000/api/notice/get_title_list"
 
         return fetch(url, {
             method: "GET",
@@ -104,7 +104,6 @@ class Notice extends Component {
 
 
     render() {
-
         return (
             <div>
                 <Table>
