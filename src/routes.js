@@ -15,8 +15,8 @@ const CheckEditReserve = React.lazy(() => import('./views/Pages/CheckEditReserve
 // const ConfirmLogin = React.lazy(() => import('./views/Pages/ConfirmLogin'));
 const Notice = React.lazy(() => import('./views/Pages/Notice/Notice'));
 const NoticeContent = React.lazy(() => import('./views/Pages/Notice/NoticeContent'));
-const QnA = React.lazy(() => import('./views/Pages/QnA'));
-const QnAContent = React.lazy(() => import('./views/Pages/QnAContent'));
+const QnA = React.lazy(() => import('./views/Pages/QnA/QnA'));
+const QnAContent = React.lazy(() => import('./views/Pages/QnA/QnAContent'));
 
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [

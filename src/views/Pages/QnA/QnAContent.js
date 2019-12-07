@@ -10,23 +10,23 @@ class NoticeContent extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            NoticeList: null
+            QnAList: null
         };
     }
 
     componentDidMount() {
-        this._getNoticeList()
+        this._getQnAList()
     }
 
-    _getNoticeList = async () => {
-        const NoticeList = await this._getNoticeContents();
+    _getQnAList = async () => {
+        const QnAList = await this._getQnAContents();
         this.setState({
-            NoticeList: NoticeList
+            QnAList: QnAList
         })
     }
 
-    _getNoticeContents = () => {
-        let url = "http://localhost:5000/api/notice/get_content";
+    _getQnAContents = () => {
+        let url = "http://localhost:5000/api/qna/get_content";
         var id=this.props.match.params.id;
         return fetch(url, {
             method: 'POST',
@@ -40,18 +40,18 @@ class NoticeContent extends Component {
             .catch(err => console.log(err))
     }
     
-    _renderNoticeTitle = () => {
+    _renderQnATitle = () => {
         return (
             <p>
-                {this.state.NoticeList.title}
+                {this.state.QnAList.title}
             </p>
         )
     }
 
-    _renderNoticeContent = () => {
+    _renderQnAContent = () => {
         return (
             <p>
-                {this.state.NoticeList.content}
+                {this.state.QnAList.content}
             </p>
         )
     }
@@ -64,7 +64,7 @@ class NoticeContent extends Component {
                     <Col>
                     <Card>
                         <CardBody>
-                            {this.state.NoticeList ? this._renderNoticeTitle() : ("Loading...")}
+                            {this.state.QnAList ? this._renderQnATitle() : ("Loading...")}
                         </CardBody>
                     </Card>
                     </Col>
@@ -75,7 +75,7 @@ class NoticeContent extends Component {
                     <Col >
                         <Card>
                         <cardBody>
-                            {this.state.NoticeList ? this._renderNoticeContent() : ("Loading...")}
+                            {this.state.QnAList ? this._renderQnAContent() : ("Loading...")}
                         </cardBody>
                         </Card>
                     </Col>
@@ -87,4 +87,3 @@ class NoticeContent extends Component {
 }
 
 export default NoticeContent;
-
