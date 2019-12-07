@@ -36,6 +36,13 @@ trainRouteSchema.statics.searchPath = function(departure, arrival, date, time) {
              "arrival": arrival,
              "date": date,
              "time": time
+        },
+        {
+            "_id":false,
+            "departure":false,
+            "arrival":false,
+            "date":false,
+            "time":false
         }
     );
 }

@@ -13,7 +13,7 @@ const router = express.Router();
     "age": "children",
     "way": "oneway",
     "card": "Kakao_bank",
-    "cardnum": "3333-33-3333"
+    "cardnum": "3333-33-3333",
     "state": "0"
 }
 */
@@ -149,7 +149,7 @@ router.post('/edit', (req, res) => {
         return res.status(404).send({code: '404', error: 1, shouldAttribute: "state"});
     Reservation.editReservation(req.body)
     .then(res.send({state: true}))
-    .catch(res.status(500).send({code: '500', error: 3, state: false}));
+    .catch(err => res.status(500).send({code: '500', error: 3, state: false}));
 })
 
 module.exports = router
