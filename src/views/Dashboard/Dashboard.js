@@ -1,7 +1,5 @@
-import React, {Component, lazy, Suspense} from 'react';
-// import {Bar, Line} from 'react-chartjs-2';
-import {Link, Redirect} from 'react-router-dom';
-// import TrainInfo from '../Pages/SearchRoutenSeat';
+import React, {Component} from 'react';
+import {Redirect} from 'react-router-dom';
 import {
     Button,
     Card,
@@ -12,19 +10,6 @@ import {
     Label,
     Input
 } from 'reactstrap';
-// import {CustomTooltips} from '@coreui/coreui-plugin-chartjs-custom-tooltips';
-import {getStyle, hexToRgba} from '@coreui/coreui/dist/js/coreui-utilities'
-
-const brandPrimary = getStyle('--primary')
-const brandSuccess = getStyle('--success')
-const brandInfo = getStyle('--info')
-const brandWarning = getStyle('--warning')
-const brandDanger = getStyle('--danger')
-var elements = 27;
-var data1 = [];
-var data2 = [];
-var data3 = [];
-
 
 const converter = {
     인천 : "Inchoen",
@@ -41,8 +26,6 @@ class Dashboard extends Component {
         super(props);
         this.toggle = this.toggle.bind(this);
         this.onRadioBtnClick = this.onRadioBtnClick.bind(this);
-        // console.log(this.props.location.state)
-        // console.log(props.location.state.departure)
 
         let departure = ''
         let destination = ''
@@ -50,7 +33,6 @@ class Dashboard extends Component {
             departure = props.location.state.departure
             destination = props.location.state.destination
         }
-        // console.log(props.location.state)
 
         this.state = {
             Redirect: false,
@@ -58,10 +40,6 @@ class Dashboard extends Component {
             radioSelected: 2,
             departure: departure,
             destination: destination,
-            // departure: this.props.match.params.departure,
-            // destination: this.props.match.params.destination,
-            // departure: props.location.state ? props.location.state.departure : '',
-            // destination: props.location.state ? props.location.state.destination : '',
             date: '',
             time: '',
         };
@@ -91,10 +69,6 @@ class Dashboard extends Component {
         })
 
     }
-
-    // _debug = () => {
-    //     console.log(this.state)
-    // }
 
     _renderOptionForBookmarks = (spot) => {
         const locations = Object.keys(converter);
@@ -129,7 +103,6 @@ class Dashboard extends Component {
 
     render() {
         if (this.state.Redirect) {
-            // console.log(this.state)
             return <Redirect to={{
                 pathname: '/searchRoutenSeat',
                 state: {
@@ -142,9 +115,6 @@ class Dashboard extends Component {
         }
         return (
             <div className="animated fadeIn">
-
-                {/*<Button onClick={this._debug}>DEBUG</Button>*/}
-
                 <form onSubmit={this.handleSubmit}>
                     <Row>
                         <Col></Col>
@@ -157,14 +127,6 @@ class Dashboard extends Component {
                                             <Input type="select" name="departure" onChange={this.handleChange}
                                                    id="departure" value={this.state.departure} required>
                                                 {this.state.departure ? (this._renderOptionForBookmarks('departure')) : (this._renderOptionForDefault())}
-                                                {/*{this.state.departure ? (<option value={converter[this.state.departure]}>{this.state.departure}</option>) : (null)}*/}
-                                                {/*<option value="Inchoen">인천</option>*/}
-                                                {/*<option value="Seoul">서울</option>*/}
-                                                {/*<option value="Daejeon">대전</option>*/}
-                                                {/*<option value="Gwangju">광주</option>*/}
-                                                {/*<option value="Daegu">대구</option>*/}
-                                                {/*<option value="Busan">부산</option>*/}
-                                                {/*<option value="Ulsan">울산</option>*/}
                                             </Input>
                                         </FormGroup>
                                     </Col>
@@ -174,13 +136,6 @@ class Dashboard extends Component {
                                             <Input type="select" name="destination" onChange={this.handleChange}
                                                    id="destination" value={this.state.destination} required>
                                                 {this.state.destination ? (this._renderOptionForBookmarks('destination')) : (this._renderOptionForDefault())}
-                                                {/*<option value="Inchoen">인천</option>*/}
-                                                {/*<option value="Seoul">서울</option>*/}
-                                                {/*<option value="Daejeon">대전</option>*/}
-                                                {/*<option value="Gwangju">광주</option>*/}
-                                                {/*<option value="Daegu">대구</option>*/}
-                                                {/*<option value="Busan">부산</option>*/}
-                                                {/*<option value="Ulsan">울산</option>*/}
                                             </Input>
                                         </FormGroup>
                                     </Col>
