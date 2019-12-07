@@ -246,7 +246,7 @@ router.post('/bookmarks', (req, res) => {
 router.post('/list/reservation', (req, res) => {
     // Error Code
     // 1 : front-end에서 account를 보내지 않았을때
-    // 2 :
+    // 2 : 해당하는 ID가 없을 경우
     // 3 : 500 에러 => Back-End나 DB 문제
 
     const account = req.body.account
@@ -258,7 +258,16 @@ router.post('/list/reservation', (req, res) => {
 
     User.login(account)
         .then(user => {
-
+            if(!user) {
+                // Code 2 : 해당하는 ID가 없을 경우
+                return res.status(404).send({code: '404', error: 2})
+            }
+            else {
+                // Success!
+                return res.send({
+                    reservation: user.reservation
+                })
+            }
         })
         .catch(err => {
             console.log(err)
