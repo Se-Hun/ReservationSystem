@@ -105,28 +105,64 @@ router.post('/addTrainInfo', (req, res) => {
 // input example : 
 /*
 {
-    trainName:"73",
-    trainIndex:"a_1"
+    "trainName":"73",
+	"trainIndex":"1_a"
+}
 */
 // output : 기차 정보
 router.post('/reservate', (req, res) => {
-    TrainInfo.reservate(req.body.trainName,req.body.trainIndex)
-    .then(trainInfo => res.send(trainInfo))
-    .catch(err => res.status(500).send(err));
+	const trainName = req.body.trainName;
+	const trainIndex = req.body.trainIndex;
+    if(!trainName)
+		return res.status(404).send({code: '404', error: 1, shouldAttribute: "trainName"});
+	if(!trainIndex)
+		return res.status(404).send({code: '404', error: 1, shouldAttribute: "trainIndex"});
+		
+	TrainInfo.reservate(trainName,trainIndex)
+	.then((trainInfo) => {
+        if(!trainInfo) {
+            // 없을 경우
+            return res.status(404).send({code: '404', error: 2, state:false})
+        }
+        else {
+            res.send({state:true});
+        }
+    })
+    .catch((err) => {
+        res.status(500).send({code: '500', error: 3, state:false})
+    })
 });
 
 // input : 기차 번호, 예약된 좌석 정보
 // input example : 
 /*
 {
-    trainName:"73",
-    trainIndex:"a_1"
+    "trainName":"73",
+	"trainIndex":"1_a"
+}
 */
 // output : 기차 정보
 router.post('/reservateCancel', (req, res) => {
-    TrainInfo.reservate(req.body.trainName,req.body.trainIndex)
-    .then(trainInfo => res.send(trainInfo))
-    .catch(err => res.status(500).send(err));
+	const trainName = req.body.trainName;
+	const trainIndex = req.body.trainIndex;
+    if(!trainName)
+		return res.status(404).send({code: '404', error: 1, shouldAttribute: "trainName"});
+	if(!trainIndex)
+		return res.status(404).send({code: '404', error: 1, shouldAttribute: "trainIndex"});
+		
+	TrainInfo.reservateCancel(trainName,trainIndex)
+	.then((trainInfo) => {
+        if(!trainInfo) {
+            // 없을 경우
+            return res.status(404).send({code: '404', error: 2, state:false})
+        }
+        else {
+            res.send({state:true});
+        }
+    })
+    .catch((err) => {
+        res.status(500).send({code: '500', error: 3, state:false})
+    })
 });
 
 module.exports = router;
