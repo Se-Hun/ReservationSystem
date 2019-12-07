@@ -28,13 +28,6 @@ router.post('/login', (req, res) => {
         return res.status(404).send({code: '404', error: 1, shouldAttribute: "password"})
     }
 
-    // console.log(User.login(account))
-    // User.find({account}).exec(function(err, content) {
-    //     console.log(err)
-    //     console.log(content)
-    // })
-
-
     User.login(account)
         .then((user) => {
             if(!user) {
@@ -50,6 +43,10 @@ router.post('/login', (req, res) => {
                     // Success!
                     return res.send({
                         account: user.account,
+                        accountname: user.accountname,
+                        phonenum: user.phonenum,
+                        cardcompany: user.cardcompany,
+                        cardnum: user.cardnum,
                         token: 'Login-OK'
                     })
                 }
@@ -107,6 +104,7 @@ router.post('/register', (req, res) => {
     User.login(account)
         .then((user) => {
             if(user) {
+                // Code 2 : 이미 중복되는 아이디가 있는 경우
                 return res.status(404).send({code: '404', error: 2})
             }
             else {
@@ -139,7 +137,7 @@ router.post('/register', (req, res) => {
 router.post('/modify', (req, res) => {
     // Error Code
     // 1 : front-end에서 account를 보내지 않았을때
-    // 2 :
+    // 2 : 해당하는 아이디가 없는 경우
     // 3 : 500 에러 => Back-End나 DB 문제
 
     const account = req.body.account
@@ -174,13 +172,35 @@ router.post('/modify', (req, res) => {
         return res.status(404).send({code: '404', error: 1, shouldAttribute: "cardnum"})
     }
 
-    User.modify(account, accountname, phonenum, password, cardcompany, cardnum)
-        .then((register_result) => {
-            // 구현하기
+    User.login(account)
+        .then((user) => {
+            if(!user) {
+                // Code 2 : 해당하는 아이디가 없는 경우
+                return res.status(404).send({code: '404', error: 2})
+            }
+            else {
+                User.modify(account, accountname, phonenum, password, cardcompany, cardnum)
+                    .then((register_result) => {
+                        console.log(register_result)
+                        if(register_result) {
+                            return res.send({
+                                state: "success"
+                            })
+                        }
+                        else {
+                            // Code 3 : BackEnd 나 DB 문제인 경우
+                            return res.status(500).send({code: '500', error: 3})
+                        }
+                    })
+                    .catch(err => {
+                        console.log(err)
+                        res.status(500).send({code: '500', error: 3})
+                    }) // Code 3 : BackEnd 나 DB 문제인 경우
+            }
         })
         .catch(err => {
             console.log(err)
-            res.status(500).send({code: '500', error: 3})
+            return res.status(500).send({code: '500', error: 3})
         }) // Code 3 : BackEnd 나 DB 문제인 경우
 })
 
