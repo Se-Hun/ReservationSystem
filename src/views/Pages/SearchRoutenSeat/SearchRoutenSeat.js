@@ -31,34 +31,93 @@ const brandInfo = getStyle('--info')
 const brandWarning = getStyle('--warning')
 const brandDanger = getStyle('--danger')
 
+const defaultProps={
+    peoplenum: 0,
+    disdegree: 'Enter your disdegree',
+    seat: 'Enter your seat',
+    departure: 'Enter your departure',
+    destination: 'Enter your destination',
+    date: 'Enter your date',
+    time: 'Enter your time',
+}
 
 class SearchRoutenSeat extends Component {
-    static defaultProps={
-        peoplenum: 0,
-        disdegree: 'Enter your disdegree',
-        seat: 'Enter your seat',
-        departure: 'Enter your departure',
-        destination: 'Enter your destination',
-        date: 'Enter your date',
-        time: 'Enter your time',
-    }
+
     constructor(props) {
         super(props);
         console.log(this.props.location);
         this.toggle = this.toggle.bind(this);
         this.state = {
             dropdownOpen: false,
-            peoplenum: 0,
-            disdegree: '',
-            seat: '',
-            departure: this.props.location.state.departure,
-            destination: this.props.location.state.destination,
-            date: this.props.location.state.date,
-            time: this.props.location.state.time,
+            peoplenum: 1,
+            disdegree: 1,
+            seat: 1,
+            train: 1,
+            departure: this.props.location.state ? this.props.location.state.departure : defaultProps.departure,
+            destination: this.props.location.state ? this.props.location.state.destination : defaultProps.destination,
+            date: this.props.location.state ? this.props.location.state.date : defaultProps.date,
+            time: this.props.location.state ? this.props.location.state.time : defaultProps.time,
             redirect: false,
+            routeList: null
         };
     }
+    // componentDidMount() {
+    //     this._getRouteList()
+    // }
 
+    _getRouteList = async () => {
+        const RouteList = await this._callApi()
+        this.setState({
+            routeList: RouteList,
+        })
+    }
+    _callApi = () => {
+        let url = "http://localhost:5000/routes/trainRoute/search_path"
+        let departure= this.state.departure
+        let arrival = this.state.destination
+        let date = this.state.date
+        let time = this.state.time
+
+        return fetch(url, {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({departure: departure, arrival:arrival, date: date, time: time})
+            }).then(res => res.json())
+            .then(data => {
+                return data
+            })
+            .catch(err => console.log(err))
+    }
+
+    fetchContent = (id) => {
+        return <Redirect to={{
+            pathname: '/searchSeat',
+            state: {
+                peoplenum: this.state.peoplenum,
+                disdegree: this.state.disdegree,
+                seat: this.state.seat,
+                departure: this.state.departure,
+                destination: this.state.destination,
+                date: this.state.date,
+                time: this.state.time,
+                train: this.state.train
+            }
+        }}></Redirect>
+    }
+
+    _renderRouteTable = () => {
+        console.log(this.state)
+        this._getRouteList()
+        console.log(this.state.routeList)
+        const render = this.state.routeList.map((route, _id) => {
+            return (
+                <tr key={_id} onClick={() => this.fetchContent(route._id)}>
+                    <td>{route}</td>
+                </tr>
+            )
+        })
+        return render
+    }
     toggle() {
         this.setState({
             dropdownOpen: !this.state.dropdownOpen,
@@ -70,31 +129,15 @@ class SearchRoutenSeat extends Component {
         })
     }
 
-    handleSubmit = (e) => {
-        this.setState({
-            redirect: true,
-        })
+    hanleSearchClick = (e) =>{
+        this._renderRouteTable()
     }
     loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>
     render() {
         console.log(this.state.departure);
-        if(this.state.redirect){
-            return <Redirect to={{
-                pathname: '/searchSeat',
-                state: {
-                    peoplenum: this.state.peoplenum,
-                    disdegree: this.state.disdegree,
-                    seat: this.state.seat,
-                    departure: this.state.departure,
-                    destination: this.state.destination,
-                    date: this.state.date,
-                    time: this.state.time
-                }
-            }}></Redirect>
-        }
         return (
             <div className="animated fadeIn">
-                <Form onSubmit={this.handleSubmit}>
+                <Form>
                 <Row>
                     <Col sm="6" lg="6">
                         <Card className="text-white bg-info">
@@ -102,7 +145,7 @@ class SearchRoutenSeat extends Component {
                                 <Col xs="12">
                                     <FormGroup>
                                         <Label htmlFor="name">인원수</Label>
-                                        <Input type="select" name="peoplenum" onChange={this.handleChange}>
+                                        <Input type="select" name="peoplenum" value={this.state.peoplenum}  onChange={this.handleChange}>
                                             <option value="1">1</option>
                                             <option value="2">2</option>
                                             <option value="3">3</option>
@@ -113,10 +156,10 @@ class SearchRoutenSeat extends Component {
                                 <Col xs="12">
                                     <FormGroup>
                                         <Label htmlFor="disdegree">장애 정도</Label>
-                                        <Input type="select" name="disdegree" onChange={this.handleChange}>
-                                            <option value="1급">1급</option>
-                                            <option value="2급">2급</option>
-                                            <option value="3급">3급</option>
+                                        <Input type="select" name="disdegree" value={this.state.disdegree} onChange={this.handleChange}>
+                                            <option value="1">일반</option>
+                                            <option value="2">1급</option>
+                                            <option value="3">2급</option>
                                         </Input>
                                     </FormGroup>
                                 </Col>
@@ -124,17 +167,27 @@ class SearchRoutenSeat extends Component {
                                     <Col xs="6">
                                         <FormGroup>
                                             <Label htmlFor="name">좌석 종류</Label>
-                                            <Input type="text" name="seat" onChange={this.handleChange}
-                                                   id="seat" placeholder="Enter your seat" required/>
+                                            <Input type="select" name="seat" onChange={this.handleChange} value={this.state.seat}
+                                                   id="seat" placeholder="Enter your seat" required>
+                                            <option value="1">일반</option>
+                                            <option value="2">우등</option>
+                                            </Input>
                                         </FormGroup>
                                     </Col>
-
+                                    <Col xs="6">
+                                        <FormGroup>
+                                            <Label htmlFor="name">기차 종류</Label>
+                                            <Input type="select" name="train" onChange={this.handleChange} value={this.state.train}
+                                                   id="train" placeholder="Enter your seat" required>
+                                                <option value="1">KTX</option>
+                                                <option value="2">무궁화호</option>
+                                                <option value="3">새마을호</option>
+                                            </Input>
+                                        </FormGroup>
+                                    </Col>
                                 </Row>
                                 <Row>
                                     <Col></Col>
-                                <Col col="6" sm="2" md="2" xl className="mb-3 mb-xl-0">
-                                    <Button block color="primary">조회</Button>
-                                </Col>
                                 </Row>
                             </CardBody>
                         </Card>
@@ -145,15 +198,31 @@ class SearchRoutenSeat extends Component {
                                 <Col xs="12">
                                     <FormGroup>
                                         <Label htmlFor="name">출발지</Label>
-                                        <Input type="text" name="departure" onChange={this.handleChange}
-                                               id="departure" placeholder={this.state.departure} required/>
+                                        <Input type="select" name="departure" onChange={this.handleChange}
+                                               id="departure" value={this.state.departure} required>
+                                            <option value="Inchoen">인천</option>
+                                            <option value="Seoul">서울</option>
+                                            <option value="Daejoen">대전</option>
+                                            <option value="Gwangju">광주</option>
+                                            <option value="Daegu">대구</option>
+                                            <option value="Busan">부산</option>
+                                            <option value="Ulsan">울산</option>
+                                        </Input>
                                     </FormGroup>
                                 </Col>
                                 <Col xs="12">
                                     <FormGroup>
                                         <Label htmlFor="name">도착지</Label>
-                                        <Input type="text" name="destination" onChange={this.handleChange}
-                                               id="destination" placeholder={this.state.destination} required/>
+                                        <Input type="select" name="destination" onChange={this.handleChange}
+                                               id="destination" value={this.state.destination} required>
+                                            <option value="Inchoen">인천</option>
+                                            <option value="Seoul">서울</option>
+                                            <option value="Daejoen">대전</option>
+                                            <option value="Gwangju">광주</option>
+                                            <option value="Daegu">대구</option>
+                                            <option value="Busan">부산</option>
+                                            <option value="Ulsan">울산</option>
+                                        </Input>
                                     </FormGroup>
                                 </Col>
                                 <Row>
@@ -167,7 +236,7 @@ class SearchRoutenSeat extends Component {
                                     <Col xs="6">
                                         <FormGroup>
                                             <Label htmlFor="name">시간</Label>
-                                            <Input type="text" name="time" onChange={this.handleChange}
+                                            <Input type="time" name="time" onChange={this.handleChange}
                                                    id="time" placeholder={this.state.time} required/>
                                         </FormGroup>
                                     </Col>
@@ -176,7 +245,7 @@ class SearchRoutenSeat extends Component {
                                 <Row>
                                     <Col></Col>
                                 <Col col="6" sm="2" md="2" xl className="mb-3 mb-xl-0">
-                                    <Button type="submit" block color="primary">조회</Button>
+                                    <Button block color="primary" onClick={this.hanleSearchClick}>조회</Button>
                                 </Col>
                                 </Row>
                             </CardBody>
@@ -187,7 +256,7 @@ class SearchRoutenSeat extends Component {
                 <Col>
                     <Card className="text-white bg-info">
                         <CardBody className="pb-0">
-                            조회테이블 위치
+                            {this.state.routeList ? this._renderRouteTable() : ("해당하는 노선 목록이 없습니다.")}
                         </CardBody>
                     </Card>
                 </Col>
