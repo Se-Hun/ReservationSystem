@@ -1,31 +1,21 @@
 import React, {Component, lazy, Suspense} from 'react';
 import {Redirect, Link} from 'react-router-dom';
-import {Bar, Line} from 'react-chartjs-2';
-import Dashboard from '../../Dashboard';
-import {isLoggedIn} from "../../../utils/auth";
+// import {Bar, Line} from 'react-chartjs-2';
+// import Dashboard from '../../Dashboard';
+// import {isLoggedIn} from "../../../utils/auth";
 import {
-    Badge,
-    Button,
-    ButtonDropdown,
-    ButtonGroup,
-    ButtonToolbar,
     Card,
     CardBody,
-    CardFooter,
-    CardHeader,
-    CardTitle,
     Col,
-    Dropdown,
-    DropdownItem,
-    DropdownMenu,
-    DropdownToggle, FormGroup, Input, Label,
-    Progress,
+    FormGroup,
+    Input,
+    Label,
     Row,
     Table,
     Form
 } from 'reactstrap';
-import {CustomTooltips} from '@coreui/coreui-plugin-chartjs-custom-tooltips';
 import {getStyle, hexToRgba} from '@coreui/coreui/dist/js/coreui-utilities'
+import Button from '@material-ui/core/Button';
 
 const brandPrimary = getStyle('--primary')
 const brandSuccess = getStyle('--success')
@@ -52,10 +42,14 @@ class SearchRoutenSeat extends Component {
             disdegree: 1,
             seat: 1,
             train: 1,
-            departure: this.props.location.state ? this.props.location.state.departure : defaultProps.departure,
-            destination: this.props.location.state ? this.props.location.state.destination : defaultProps.destination,
-            date: this.props.location.state ? this.props.location.state.date : defaultProps.date,
-            time: this.props.location.state ? this.props.location.state.time : defaultProps.time,
+            departure : "대전",
+            destination : "서울",
+            date: "2019-12-10",
+            time: "3:00",
+            // departure: this.props.location.state ? this.props.location.state.departure : defaultProps.departure,
+            // destination: this.props.location.state ? this.props.location.state.destination : defaultProps.destination,
+            // date: this.props.location.state ? this.props.location.state.date : defaultProps.date,
+            // time: this.props.location.state ? this.props.location.state.time : defaultProps.time,
             redirect: false,
             routeList: null,
             route: null,
@@ -120,8 +114,8 @@ class SearchRoutenSeat extends Component {
                                 time: this.state.time,
                                 train: this.state.train,
                                 route: this.state.route,
-                            }}}>
-                            <Button onClick={(e) => this.fetchContent(e, route)}>확인</Button>
+                            }}} style={{textDecoration: "none"}}>
+                            <Button variant="contained" size="small" onClick={(e) => this.fetchContent(e, route)}>확인</Button>
                         </Link>
                     </td>
                 </tr>
@@ -153,7 +147,7 @@ class SearchRoutenSeat extends Component {
         console.log(this.state.departure);
         return (
             <div className="animated fadeIn">
-                <Form>
+                <Form style={{marginTop: "20px"}}>
                     <Row>
                         <Col sm="6" lg="6">
                             <Card className="text-white bg-info">
@@ -265,7 +259,12 @@ class SearchRoutenSeat extends Component {
                                     <Row>
                                         <Col></Col>
                                         <Col col="6" sm="2" md="2" xl className="mb-3 mb-xl-0">
-                                            <Button block color="primary" onClick={this.hanleSearchClick}>조회</Button>
+                                            <Button variant="contained"
+                                                    size="large"
+                                                    color="primary"
+                                                    style={{marginBottom: "10px", width: "100%"}}
+                                                    onClick={this.hanleSearchClick}>조회
+                                            </Button>
                                         </Col>
                                     </Row>
                                 </CardBody>
@@ -273,22 +272,26 @@ class SearchRoutenSeat extends Component {
                         </Col>
                     </Row>
                 </Form>
-                <Table>
-                    <thead>
-                    <tr>
-                        <th>노선 목록</th>
-                    </tr>
-                    <tr>
-                        <td>기차 번호</td>
-                        <td>종점</td>
-                        <td>출발 시간</td>
-                        <td>도착 시간</td>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {this.state.routeList ? this._renderRouteTable() : ("해당하는 노선 목록이 없습니다.")}
-                    </tbody>
-                </Table>
+                <Card>
+                    <CardBody>
+                        <h2>노선 목록</h2>
+                        <hr style={{border: "2px #e0e0e0 solid"}}/>
+                        <Table striped>
+                            <thead>
+                                <tr>
+                                    <th>기차 번호</th>
+                                    <th>종점</th>
+                                    <th>출발 시간</th>
+                                    <th>도착 시간</th>
+                                    <th>조회</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {this.state.routeList ? this._renderRouteTable() : ("해당하는 노선 목록이 없습니다.")}
+                            </tbody>
+                        </Table>
+                    </CardBody>
+                </Card>
             </div>
         );
     }
