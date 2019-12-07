@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { Button, Card, CardBody, CardGroup, Col, Container, Form, Input, InputGroup, InputGroupAddon, InputGroupText, Row } from 'reactstrap';
+import {Link} from 'react-router-dom';
+import { Card, CardBody, CardGroup, Col, Container, Form, Input, InputGroup, InputGroupAddon, InputGroupText, Row } from 'reactstrap';
+import Button from "@material-ui/core/Button";
 
 import { isLoggedIn, login } from '../../../utils/auth';
 
@@ -35,12 +37,12 @@ class Login extends Component {
           if (data.error) {
             const errorCode = data.error
 
-            if(errorCode == 1) {
+            if(errorCode === 1) {
               alert(data.shouldAttribute + "을(를) 입력해주세요.")
               window.location.reload()
               return
             }
-            if(errorCode == 2) {
+            if(errorCode === 2) {
               alert("아이디 또는 비밀번호가 틀렸습니다.")
               window.location.reload()
               return
@@ -80,9 +82,8 @@ class Login extends Component {
               <CardGroup>
                 <Card className="p-4">
                   <CardBody>
-                    <Form onSubmit={this.handleSubmit}>
-                      <h1>Login</h1>
-                      <p className="text-muted">Login to your account</p>
+                    <Form>
+                      <h1 style={{marginBottom: "5%"}}>로그인</h1>
                       <InputGroup className="mb-3">
                         <InputGroupAddon addonType="prepend">
                           <InputGroupText>
@@ -100,8 +101,20 @@ class Login extends Component {
                         <Input type="password" name="password" onChange={this.handleChange} placeholder="Password" autoComplete="password" />
                       </InputGroup>
                       <Row>
-                        <Col xs="6">
-                          <Button type="submit" color="primary" className="px-4">Login</Button>
+                        <Col>
+                          <Button variant="contained"
+                                size="large"
+                                color="primary"
+                                style={{marginTop: "5px", marginBottom: "10px"}} onClick={this.handleSubmit}>
+                            Login
+                          </Button>
+                          <Link to="/register" style={{textDecoration: "none"}}>
+                            <Button variant="outlined"
+                                    size="large"
+                                    style={{marginLeft: "60%", marginTop: "5px", marginBottom: "10px", fontWeight: "bold"}}>
+                              회원가입
+                            </Button>
+                          </Link>
                         </Col>
                       </Row>
                     </Form>
