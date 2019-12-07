@@ -21,21 +21,17 @@ const UserSchema = new Schema(
 // To login
 UserSchema.statics.login = function(account) {
     const login_result = this.findOne({account})
+
     return login_result
-    // return this.findOne({account});
-    // Return값 바꿀것 : login_result -> User Object랑 success여부를 dictionary에 넣어서 반환하도록 할것
 }
 
 // To register User Information
 UserSchema.statics.register = function(account, accountname, phonenum, password, cardcompany, cardnum) {
     var NewUser = new this({account, accountname, phonenum, password, cardcompany, cardnum})
 
-    // NewUser.save().then(function (err, content) {
-    //     console.log(err)
-    //     console.log(content)
-    // })
+    const register_result = NewUser.save()
 
-    return NewUser.save(); // DAO 클래스의 요구사항을 맞추기 위해 이 부분에 if문 걸어서 register_result를 반환해주면 될듯!!
+    return register_result;
     // Return값 바꿀것 : register_result
 }
 
@@ -45,7 +41,7 @@ UserSchema.statics.modify = function(account, accountname, phonenum, password, c
     // 사실 필요는 없지만 설계를 그렇게 해서...
 
     // { new: true } : return the modified document rather than the original. Default is false.
-    return this.findOneAndUpdate({account}, accountname, phonenum, password, cardcompany, cardnum, {new: true});
+    return this.findOneAndUpdate({account}, {accountname, phonenum, password, cardcompany, cardnum}, {new: true});
     // Return값 바꿀것 : modify_result
 }
 

@@ -28,13 +28,6 @@ router.post('/login', (req, res) => {
         return res.status(404).send({code: '404', error: 1, shouldAttribute: "password"})
     }
 
-    // console.log(User.login(account))
-    // User.find({account}).exec(function(err, content) {
-    //     console.log(err)
-    //     console.log(content)
-    // })
-
-
     User.login(account)
         .then((user) => {
             if(!user) {
