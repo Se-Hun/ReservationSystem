@@ -79,7 +79,7 @@ class Bookmark extends Component {
                         <td>{bookmark.arrival}</td>
                         <td>
                             <Link to={{
-                                pathname: '/',
+                                pathname: '/home',
                                 state: {
                                     departure: bookmark.departure,
                                     destination: bookmark.arrival,

@@ -32,15 +32,17 @@ class Dashboard extends Component {
         this.toggle = this.toggle.bind(this);
         this.onRadioBtnClick = this.onRadioBtnClick.bind(this);
         // console.log(this.props.location.state)
+        // console.log(props.location.state.departure)
+        console.log(props.location)
 
         this.state = {
             Redirect: false,
             dropdownOpen: false,
             radioSelected: 2,
-            // departure: props.match.params.departure,
-            // destination: props.match.params.destination,
-            departure: this.props.location.state ? this.props.location.state.departure : '',
-            destination: this.props.location.state ? this.props.location.state.destination : '',
+            // departure: this.props.match.params.departure,
+            // destination: this.props.match.params.destination,
+            departure: props.location.state ? props.location.state.departure : '',
+            destination: props.location.state ? props.location.state.destination : '',
             date: '',
             time: '',
         };
@@ -70,11 +72,16 @@ class Dashboard extends Component {
         })
 
     }
+
+    _debug = () => {
+        console.log(this.state)
+    }
+
     loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>
 
     render() {
         if (this.state.Redirect) {
-            console.log(this.state)
+            // console.log(this.state)
             return <Redirect to={{
                 pathname: '/searchRoutenSeat',
                 state: {
@@ -87,6 +94,9 @@ class Dashboard extends Component {
         }
         return (
             <div className="animated fadeIn">
+
+                <Button onClick={this._debug}>DEBUG</Button>
+
                 <form onSubmit={this.handleSubmit}>
                     <Row>
                         <Col></Col>
