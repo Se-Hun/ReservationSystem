@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import { Badge, UncontrolledDropdown, DropdownItem, DropdownMenu, DropdownToggle, Nav, NavItem } from 'reactstrap';
+import { Nav, NavItem } from 'reactstrap';
 import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
 
-import { AppAsideToggler, AppNavbarBrand, AppSidebarToggler } from '@coreui/react';
-import logo from '../../assets/img/brand/logo.svg'
-import sygnet from '../../assets/img/brand/sygnet.svg'
+// import { AppAsideToggler, AppNavbarBrand, AppSidebarToggler } from '@coreui/react';
+// import logo from '../../assets/img/brand/logo.svg'
+// import sygnet from '../../assets/img/brand/sygnet.svg'
+
+import {deleteTokens} from '../../utils/auth';
 
 const propTypes = {
     children: PropTypes.node,
@@ -15,6 +17,12 @@ const propTypes = {
 const defaultProps = {};
 
 class LoginHeader extends Component {
+
+    _logout = () => {
+        deleteTokens()
+        window.location.reload()
+    }
+
     render() {
 
         // eslint-disable-next-line
@@ -43,7 +51,7 @@ class LoginHeader extends Component {
                         <Button variant="outlined"
                                 size="medium"
                                 color="primary"
-                                style={{marginTop: "5px", marginBottom: "10px", width: "100%"}}>
+                                style={{marginTop: "5px", marginBottom: "10px", width: "100%"}} onClick={this._logout}>
                             로그아웃
                         </Button>
                     </NavItem>

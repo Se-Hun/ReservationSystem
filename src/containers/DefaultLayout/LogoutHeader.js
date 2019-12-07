@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
 import {Link, NavLink} from 'react-router-dom';
-import {Badge, UncontrolledDropdown, DropdownItem, DropdownMenu, DropdownToggle, Nav, NavItem} from 'reactstrap';
+import {Nav, NavItem} from 'reactstrap';
 import PropTypes from 'prop-types';
 
-import {AppAsideToggler, AppNavbarBrand, AppSidebarToggler} from '@coreui/react';
-import logo from '../../assets/img/brand/logo.svg'
-import sygnet from '../../assets/img/brand/sygnet.svg'
+// import {AppAsideToggler, AppNavbarBrand, AppSidebarToggler} from '@coreui/react';
+// import logo from '../../assets/img/brand/logo.svg'
+// import sygnet from '../../assets/img/brand/sygnet.svg'
+import Button from "@material-ui/core/Button";
 
 const propTypes = {
     children: PropTypes.node,
@@ -34,7 +35,14 @@ class LogoutHeader extends Component {
                         <NavLink to="/Register" className="nav-link">회원가입</NavLink>
                     </NavItem>
                     <NavItem className="px-3">
-                        <NavLink to="/Login" className="nav-link">로그인</NavLink>
+                        <Link to="/login" style={{textDecoration: "none"}}>
+                            <Button variant="outlined"
+                                    size="medium"
+                                    color="primary"
+                                    style={{marginTop: "5px", marginBottom: "10px", width: "100%"}}>
+                                로그인
+                            </Button>
+                        </Link>
                     </NavItem>
                     {/*<UncontrolledDropdown nav direction="down">*/}
                         {/*<DropdownToggle nav>
