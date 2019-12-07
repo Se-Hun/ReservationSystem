@@ -100,7 +100,7 @@ class Dashboard extends Component {
                                                    id="departure" value={this.state.departure} required>
                                                 <option value="Inchoen">인천</option>
                                                 <option value="Seoul">서울</option>
-                                                <option value="Daejoen">대전</option>
+                                                <option value="Daejeon">대전</option>
                                                 <option value="Gwangju">광주</option>
                                                 <option value="Daegu">대구</option>
                                                 <option value="Busan">부산</option>
@@ -115,7 +115,7 @@ class Dashboard extends Component {
                                                    id="destination" value={this.state.destination} required>
                                                 <option value="Inchoen">인천</option>
                                                 <option value="Seoul">서울</option>
-                                                <option value="Daejoen">대전</option>
+                                                <option value="Daejeon">대전</option>
                                                 <option value="Gwangju">광주</option>
                                                 <option value="Daegu">대구</option>
                                                 <option value="Busan">부산</option>
