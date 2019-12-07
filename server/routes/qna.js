@@ -17,7 +17,7 @@ router.get('/get_title_list', (req, res) => {
     "id" : "5de77baf44120913a2a722af",
 }
 */
-// output : 해당 qna게시물의 내용
+// output : 해당 qna게시물의 제목, 내용
 router.post('/get_content', (req, res) => {
     const id = req.body.id;
     if(!id)
@@ -29,7 +29,7 @@ router.post('/get_content', (req, res) => {
             return res.status(404).send({code: '404', error: 2})
         }
         else {
-            res.send({content: qna.content});
+            res.send({title:qna.title, content: qna.content});
         }
     })
     .catch((err) => {

@@ -29,7 +29,7 @@ router.post('/get_content', (req, res) => {
             return res.status(404).send({code: '404', error: 2})
         }
         else {
-            res.send({content: notice.content});
+            res.send({title:notice.title, content: notice.content});
         }
     })
     .catch((err) => {

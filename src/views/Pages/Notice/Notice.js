@@ -72,7 +72,6 @@ class Notice extends Component {
     // }
     _renderNoticeTable = () => {
         const render = this.state.NoticeList.map((Notice, _id) => {
-            console.log(Notice._id);
             return (
                 <tr>
                     <Link to={"/notice/"+Notice._id}>

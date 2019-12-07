@@ -33,10 +33,7 @@ const brandDanger = getStyle('--danger')
 class NoticeContent extends Component {
     constructor(props) {
         super(props);
-        // this.onRadioBtnClick = this.onRadioBtnClick.bind(this);
         this.state = {
-            dropdownOpen: false,
-            radioSelected: 2,
             NoticeList: null
         };
     }
@@ -46,17 +43,15 @@ class NoticeContent extends Component {
     }
 
     _getNoticeList = async () => {
-        const NoticeList = await this._callApi();
-        console.log(NoticeList);
+        const NoticeList = await this._getNoticeContents();
         this.setState({
             NoticeList: NoticeList
         })
     }
 
-    _callApi = () => {
+    _getNoticeContents = () => {
         let url = "http://localhost:5000/api/notice/get_content";
         var id=this.props.match.params.id;
-        console.log(JSON.stringify({id: id}));
         return fetch(url, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
@@ -69,15 +64,31 @@ class NoticeContent extends Component {
             .catch(err => console.log(err))
     }
     
-    _renderNoticeContent = () => {
-        const render = this.state.NoticeList.map((Notice, _id) => {
+    _renderNoticeTitle = () => {
+        // const render = this.state.NoticeList.map((Notice, _id) => {
             return (
-                <tr>
-                    <td>{Notice.content}</td>
-                </tr>
+                <p>
+                    {this.state.NoticeList.title}
+                </p>
             )
-        })
-        return render
+        // })
+        // return render
+    }
+
+    _renderNoticeContent = () => {
+        // const render = this.state.NoticeList.map((Notice, _id) => {
+        //     return (
+        //         <tr>
+        //             <td>{Notice.content}</td>
+        //         </tr>
+        //     )
+        // })
+        // return render
+        return (
+            <p>
+                {this.state.NoticeList.content}
+            </p>
+        )
     }
 
     render() {
@@ -88,7 +99,7 @@ class NoticeContent extends Component {
                     <Col>
                     <Card>
                         <CardBody>
-                            제목
+                            {this.state.NoticeList ? this._renderNoticeTitle() : ("Loading...")}
                         </CardBody>
                     </Card>
                     </Col>
@@ -96,12 +107,10 @@ class NoticeContent extends Component {
                 </Row>
                 <Row>
                     <Col></Col>
-
                     <Col >
                         <Card>
                         <cardBody>
-                            내용
-                            {/* {this.state.NoticeList ? this._renderNoticeContent() : ("Loading...")} */}
+                            {this.state.NoticeList ? this._renderNoticeContent() : ("Loading...")}
                         </cardBody>
                         </Card>
                     </Col>
