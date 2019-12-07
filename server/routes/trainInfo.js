@@ -6,28 +6,54 @@ const router = express.Router();
 // input example : 
 /*
 {
-    trainName:"73"
+    "trainName":"73"
 }
 */
 // output : 해당 기차의 좌석 정보
-router.get('/getTrainSeat', (req, res) => {
-    TrainInfo.getTrainInfo(req.body.trainName)
-    .then(trainInfo => res.send(trainInfo.seats))
-    .catch(err => res.status(500).send(err));
+router.get('/get_seat', (req, res) => {
+	const trainName = req.body.trainName;
+    if(!trainName)
+        return res.status(404).send({code: '404', error: 1, shouldAttribute: "trainName"});
+	TrainInfo.getTrainInfo(trainName)
+	.then((trainInfo) => {
+        if(!trainInfo) {
+            // 없을 경우
+            return res.status(404).send({code: '404', error: 2})
+        }
+        else {
+            res.send(trainInfo.seats);
+        }
+    })
+    .catch((err) => {
+        res.status(500).send({code: '500', error: 3})
+    })
 });
 
 // input : 기차 번호
 // input example : 
 /*
 {
-    trainName:"73"
+    "trainName":"73"
 }
 */
-// output : 해당 기차의 좌석 정보
-router.get('/getTrainReserved', (req, res) => {
-    TrainInfo.getTrainInfo(req.body.trainName)
-    .then(trainInfo => res.send(trainInfo.reserved))
-    .catch(err => res.status(500).send(err));
+// output : 해당 기차의 예매된 좌석 정보
+router.get('/get_reserved', (req, res) => {
+	const trainName = req.body.trainName;
+    if(!trainName)
+        return res.status(404).send({code: '404', error: 1, shouldAttribute: "trainName"});
+	TrainInfo.getTrainInfo(trainName)
+	.then((trainInfo) => {
+        if(!trainInfo) {
+            // 없을 경우
+            return res.status(404).send({code: '404', error: 2})
+        }
+        else {
+            res.send(trainInfo.reserved);
+        }
+    })
+    .catch((err) => {
+        res.status(500).send({code: '500', error: 3})
+    })
 });
 
 // input : 기차 번호
