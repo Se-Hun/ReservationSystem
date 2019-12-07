@@ -13,7 +13,7 @@ const router = express.Router();
     "age": "children",
     "way": "oneway",
     "card": "Kakao_bank",
-    "cardnum": "3333-33-3333",
+    "cardnum": "3333-33-3333"
     "state": "0"
 }
 */
@@ -59,7 +59,7 @@ router.post('/reserve', (req, res) => {
 
 // input : 해당 예매 정보에 대한 id
 // output : state
-router.post('/deleteReservation', (req, res) => {
+router.post('/cancel', (req, res) => {
     const id = req.body.id;
     if(!id)
         return res.status(404).send({code: '404', error: 1, shouldAttribute: "id"});
@@ -115,7 +115,7 @@ router.post('/getReservation', (req, res) => {
 }
 */
 // output : state
-router.post('/editReservation', (req, res) => {
+router.post('/edit', (req, res) => {
     const departure = req.body.departure;
     const arrival = req.body.arrival;
     const date = req.body.date;
