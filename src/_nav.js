@@ -31,11 +31,6 @@ export default {
             icon: 'icon-star',
         },
         {
-            name: 'Change user information',
-            url: '/changeuserinfo',
-            icon: 'icon-star',
-        },
-        {
             name: 'reserve',
             url: '/reserve',
             icon: 'icon-star',
