@@ -21,7 +21,7 @@ router.get('/get_seat', (req, res) => {
             return res.status(404).send({code: '404', error: 2})
         }
         else {
-            res.send(trainInfo.seats);
+            res.send({seats:trainInfo.seats});
         }
     })
     .catch((err) => {
@@ -48,7 +48,7 @@ router.get('/get_reserved', (req, res) => {
             return res.status(404).send({code: '404', error: 2})
         }
         else {
-            res.send(trainInfo.reserved);
+            res.send({reserved:trainInfo.reserved});
         }
     })
     .catch((err) => {

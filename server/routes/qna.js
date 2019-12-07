@@ -1,10 +1,6 @@
 const express = require('express');
-
 const QnA = require('../models/qna');
-
 const router = express.Router();
-
-router.get('/', (req, res) => res.json({data:'this is User API.'}));
 
 // input : X
 // output : qna의 제목과 해당 id
@@ -22,7 +18,7 @@ router.get('/get_title_list', (req, res) => {
 }
 */
 // output : 해당 qna게시물의 내용
-router.get('/get_content', (req, res) => {
+router.post('/get_content', (req, res) => {
     const id = req.body.id;
     if(!id)
         return res.status(404).send({code: '404', error: 1, shouldAttribute: "id"});
@@ -33,7 +29,7 @@ router.get('/get_content', (req, res) => {
             return res.status(404).send({code: '404', error: 2})
         }
         else {
-            res.send(qna.content);
+            res.send({content: qna.content});
         }
     })
     .catch((err) => {

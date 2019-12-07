@@ -63,20 +63,19 @@ class Notice extends Component {
             .catch(err => console.log(err))
     }
 
-    fetchContent = (id) => {
-        // const id = id;
-        let link="/notice/"+id;
-        window.location.replace(link)
-        // return "location.href=http://localhost/"
-        console.log(id);
-    }
+    // fetchContent = (id) => {
+    //     // const id = id;
+    //     let link="/notice/"+id;
+    //     window.location.replace(link)
+    //     // return "location.href=http://localhost/"
+    //     console.log(id);
+    // }
     _renderNoticeTable = () => {
         const render = this.state.NoticeList.map((Notice, _id) => {
             console.log(Notice._id);
             return (
-                // <tr key={_id} onClick={() => this.fetchContent(Notice._id)}>
                 <tr>
-                    <Link to={"/notice/"+_id}>
+                    <Link to={"/notice/"+Notice._id}>
                     <td>{Notice.title}</td>
                     </Link>
                 </tr>

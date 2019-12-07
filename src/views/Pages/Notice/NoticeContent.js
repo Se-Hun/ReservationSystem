@@ -33,34 +33,56 @@ const brandDanger = getStyle('--danger')
 class NoticeContent extends Component {
     constructor(props) {
         super(props);
-
-        this.toggle = this.toggle.bind(this);
-        this.onRadioBtnClick = this.onRadioBtnClick.bind(this);
-
+        // this.onRadioBtnClick = this.onRadioBtnClick.bind(this);
         this.state = {
             dropdownOpen: false,
             radioSelected: 2,
+            NoticeList: null
         };
     }
 
-    toggle() {
-        this.setState({
-            dropdownOpen: !this.state.dropdownOpen,
-        });
+    componentDidMount() {
+        this._getNoticeList()
     }
 
-    onRadioBtnClick(radioSelected) {
+    _getNoticeList = async () => {
+        const NoticeList = await this._callApi();
+        console.log(NoticeList);
         this.setState({
-            radioSelected: radioSelected,
-        });
+            NoticeList: NoticeList
+        })
     }
 
-    loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>
+    _callApi = () => {
+        let url = "http://localhost:5000/api/notice/get_content";
+        var id=this.props.match.params.id;
+        console.log(JSON.stringify({id: id}));
+        return fetch(url, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({id: id})
+        })
+            .then(res => res.json())
+            .then(data => {
+                return data
+            })
+            .catch(err => console.log(err))
+    }
+    
+    _renderNoticeContent = () => {
+        const render = this.state.NoticeList.map((Notice, _id) => {
+            return (
+                <tr>
+                    <td>{Notice.content}</td>
+                </tr>
+            )
+        })
+        return render
+    }
 
     render() {
-
         return (
-            <div className="animated fadeIn">
+            <div>
                 <Row>
                     <Col></Col>
                     <Col>
@@ -79,15 +101,16 @@ class NoticeContent extends Component {
                         <Card>
                         <cardBody>
                             내용
+                            {/* {this.state.NoticeList ? this._renderNoticeContent() : ("Loading...")} */}
                         </cardBody>
                         </Card>
                     </Col>
                     <Col></Col>
                 </Row>
-
             </div>
         );
     }
 }
 
 export default NoticeContent;
+

@@ -1,5 +1,4 @@
 const express = require('express');
-
 const Notice = require('../models/notice');
 const router = express.Router();
 
@@ -19,18 +18,18 @@ router.get('/get_title_list', (req, res) => {
 }
 */
 // output : 해당 공지사항 게시물의 내용
-router.get('/get_content', (req, res) => {
+router.post('/get_content', (req, res) => {
     const id = req.body.id;
     if(!id)
         return res.status(404).send({code: '404', error: 1, shouldAttribute: "id"});
     Notice.getContents(id)
-    .then((qna) => {
-        if(!qna) {
+    .then((notice) => {
+        if(!notice) {
             // 없을 경우
             return res.status(404).send({code: '404', error: 2})
         }
         else {
-            res.send(notice.content);
+            res.send({content: notice.content});
         }
     })
     .catch((err) => {
