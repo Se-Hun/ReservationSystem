@@ -1,4 +1,5 @@
 import React, {Component, lazy, Suspense} from 'react';
+import { Link } from 'react-router-dom';
 import {Bar, Line} from 'react-chartjs-2';
 import {
     Badge,
@@ -52,13 +53,11 @@ class Notice extends Component {
     }
 
     _callApi = () => {
-        let url = "http://localhost:5000/api/notice/get_title_list"
-
+        let url = "http://localhost:5000/api/notice/get_title_list";
         return fetch(url, {
             method: "GET",
         }).then(res => res.json())
             .then(data => {
-                console.log(data)
                 return data
             })
             .catch(err => console.log(err))
@@ -66,13 +65,20 @@ class Notice extends Component {
 
     fetchContent = (id) => {
         // const id = id;
-        // window.location.replace("/notice/:id")
+        let link="/notice/"+id;
+        window.location.replace(link)
+        // return "location.href=http://localhost/"
+        console.log(id);
     }
     _renderNoticeTable = () => {
         const render = this.state.NoticeList.map((Notice, _id) => {
+            console.log(Notice._id);
             return (
-                <tr key={_id} onClick={() => this.fetchContent(Notice._id)}>
+                // <tr key={_id} onClick={() => this.fetchContent(Notice._id)}>
+                <tr>
+                    <Link to={"/notice/"+_id}>
                     <td>{Notice.title}</td>
+                    </Link>
                 </tr>
             )
         })
