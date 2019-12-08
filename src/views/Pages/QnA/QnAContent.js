@@ -6,7 +6,7 @@ import {
     Row,
 } from 'reactstrap';
 
-class NoticeContent extends Component {
+class QnAContent extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -86,4 +86,4 @@ class NoticeContent extends Component {
     }
 }
 
-export default NoticeContent;
+export default QnAContent;

@@ -15,16 +15,16 @@ export default {
             url: '/QnA',
             icon: 'icon-question',
         },
-        {
-            name: 'Error 404',
-            url: '/404',
-            icon: 'icon-star',
-        },
-        {
-            name: 'Error 500',
-            url: '/500',
-            icon: 'icon-star',
-        },
+        // {
+        //     name: 'Error 404',
+        //     url: '/404',
+        //     icon: 'icon-star',
+        // },
+        // {
+        //     name: 'Error 500',
+        //     url: '/500',
+        //     icon: 'icon-star',
+        // },
         {
             name: 'Bookmark',
             url: '/bookmark',
@@ -67,10 +67,10 @@ export default {
             url: '/confirmReservation',
             icon: 'icon-star',
         },
-        {
-            name: 'confirm Login',
-            url: '/confirmLogin',
-            icon: 'icon-star',
-        },
+        // {
+        //     name: 'confirm Login',
+        //     url: '/confirmLogin',
+        //     icon: 'icon-star',
+        // },
     ],
 };

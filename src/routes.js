@@ -17,6 +17,8 @@ const Notice = React.lazy(() => import('./views/Pages/Notice/Notice'));
 const NoticeContent = React.lazy(() => import('./views/Pages/Notice/NoticeContent'));
 const QnA = React.lazy(() => import('./views/Pages/QnA/QnA'));
 const QnAContent = React.lazy(() => import('./views/Pages/QnA/QnAContent'));
+const ResvList = React.lazy(() => import('./views/Pages/Reservation/ResvList'));
+const ResvContent = React.lazy(() => import('./views/Pages/Reservation/ResvContent'));
 
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
@@ -39,6 +41,8 @@ const routes = [
   // { path: '/QnA/:id', exact: true, name: 'QnAContents', component: QnAContents },
   { path: '/notice', exact: true,  name: 'Notice', component: Notice },
   { path: '/notice/:id', exact: true,  name:'NoticeContent', component: NoticeContent },
+  { path: '/reservation', exact: true,  name: 'Reservation', component: ResvList },
+  { path: '/reservation/:id', exact: true,  name:'ResvContent', component: ResvContent },
   // { path: '/register', exact: true,  name: 'Register', component: Register },
 ];
 
