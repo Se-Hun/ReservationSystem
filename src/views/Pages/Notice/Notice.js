@@ -57,7 +57,7 @@ class Notice extends Component {
                     </tr>
                     </thead>
                     <tbody>
-                    {this.state.NoticeList ? this._renderNoticeTable() : ("Loading...")}
+                    {this.state.NoticeList ? this._renderNoticeTable() : <tr><td>"Loading..."</td></tr>}
                     </tbody>
                 </Table>
             </div>

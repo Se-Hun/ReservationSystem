@@ -57,7 +57,7 @@ class QnA extends Component {
                     </tr>
                     </thead>
                     <tbody>
-                    {this.state.QnAList ? this._renderQnATable() : ("Loading...")}
+                    {this.state.QnAList ? this._renderQnATable() : <tr><td>"Loading..."</td></tr>}
                     </tbody>
                 </Table>
             </div>
