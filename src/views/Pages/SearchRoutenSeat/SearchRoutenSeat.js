@@ -11,21 +11,7 @@ import {
     Table,
     Form
 } from 'reactstrap';
-// import {getStyle, hexToRgba} from '@coreui/coreui/dist/js/coreui-utilities'
 import Button from '@material-ui/core/Button';
-
-// const brandPrimary = getStyle('--primary')
-// const brandSuccess = getStyle('--success')
-// const brandInfo = getStyle('--info')
-// const brandWarning = getStyle('--warning')
-// const brandDanger = getStyle('--danger')
-//
-// const defaultProps = {
-//     departure: 'Enter your departure',
-//     destination: 'Enter your destination',
-//     date: 'Enter your date',
-//     time: 'Enter your time',
-// }
 
 class SearchRoutenSeat extends Component {
 
@@ -149,14 +135,14 @@ class SearchRoutenSeat extends Component {
 
     loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>
 
-    _debug = () => {
-        console.log(this.state)
-    }
+    // _debug = () => {
+    //     console.log(this.state)
+    // }
 
     render() {
         return (
             <div className="animated fadeIn">
-                <Button onClick={this._debug}>DEBUG</Button>
+                {/*<Button onClick={this._debug}>DEBUG</Button>*/}
 
                 <Form style={{marginTop: "20px"}}>
                     <Row>
@@ -165,7 +151,7 @@ class SearchRoutenSeat extends Component {
                                 <CardBody className="pb-0">
                                     <Col xs="12">
                                         <FormGroup>
-                                            <Label htmlFor="name">인원수</Label>
+                                            <Label htmlFor="name" style={{color: "black"}}><strong>인원수</strong></Label>
                                             <Input type="select" name="peoplenum" value={this.state.peoplenum}
                                                    onChange={this.handleChange} required>
                                                 <option value="1">1</option>
@@ -177,7 +163,7 @@ class SearchRoutenSeat extends Component {
                                     </Col>
                                     <Col xs="12">
                                         <FormGroup>
-                                            <Label htmlFor="disdegree">장애 정도</Label>
+                                            <Label htmlFor="disdegree" style={{color: "black"}}><strong>장애 정도</strong></Label>
                                             <Input type="select" name="disdegree" value={this.state.disdegree}
                                                    onChange={this.handleChange} required>
                                                 <option value="1">일반</option>
@@ -189,7 +175,7 @@ class SearchRoutenSeat extends Component {
                                     <Row>
                                         <Col xs="6">
                                             <FormGroup>
-                                                <Label htmlFor="name">좌석 종류</Label>
+                                                <Label htmlFor="name" style={{color: "black"}}><strong>좌석 종류</strong></Label>
                                                 <Input type="select" name="seat" onChange={this.handleChange}
                                                        value={this.state.seat}
                                                        id="seat" required>
@@ -200,7 +186,7 @@ class SearchRoutenSeat extends Component {
                                         </Col>
                                         <Col xs="6">
                                             <FormGroup>
-                                                <Label htmlFor="name">기차 종류</Label>
+                                                <Label htmlFor="name" style={{color: "black"}}><strong>기차 종류</strong></Label>
                                                 <Input type="select" name="train" onChange={this.handleChange}
                                                        value={this.state.train}
                                                        id="train" required>
@@ -222,7 +208,7 @@ class SearchRoutenSeat extends Component {
                                 <CardBody className="pb-0">
                                     <Col xs="12">
                                         <FormGroup>
-                                            <Label htmlFor="name">출발지</Label>
+                                            <Label htmlFor="name" style={{color: "black"}}><strong>출발지</strong></Label>
                                             <Input type="select" name="departure" onChange={this.handleChange}
                                                    id="departure" value={this.state.departure} required>
                                                 <option value="Inchoen">인천</option>
@@ -237,7 +223,7 @@ class SearchRoutenSeat extends Component {
                                     </Col>
                                     <Col xs="12">
                                         <FormGroup>
-                                            <Label htmlFor="name">도착지</Label>
+                                            <Label htmlFor="name" style={{color: "black"}}><strong>도착지</strong></Label>
                                             <Input type="select" name="destination" onChange={this.handleChange}
                                                    id="destination" value={this.state.destination} required>
                                                 <option value="Inchoen">인천</option>
@@ -253,14 +239,14 @@ class SearchRoutenSeat extends Component {
                                     <Row>
                                         <Col xs="6">
                                             <FormGroup>
-                                                <Label htmlFor="name">날짜</Label>
+                                                <Label htmlFor="name" style={{color: "black"}}><strong>날짜</strong></Label>
                                                 <Input type="date" name="date" onChange={this.handleChange}
                                                        id="date" value={this.state.date} required/>
                                             </FormGroup>
                                         </Col>
                                         <Col xs="6">
                                             <FormGroup>
-                                                <Label htmlFor="name">시간</Label>
+                                                <Label htmlFor="name" style={{color: "black"}}><strong>시간</strong></Label>
                                                 <Input type="time" name="time" onChange={this.handleChange}
                                                        id="time" value={this.state.time} required/>
                                             </FormGroup>
@@ -285,7 +271,7 @@ class SearchRoutenSeat extends Component {
                 </Form>
                 <Card>
                     <CardBody>
-                        <h2>노선 목록</h2>
+                        <h2><strong>노선 목록</strong></h2>
                         <hr style={{border: "2px #e0e0e0 solid"}}/>
                         <Table striped>
                             <thead>
