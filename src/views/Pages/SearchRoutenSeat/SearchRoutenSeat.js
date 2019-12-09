@@ -1,8 +1,5 @@
 import React, {Component, lazy, Suspense} from 'react';
 import {Redirect, Link} from 'react-router-dom';
-// import {Bar, Line} from 'react-chartjs-2';
-// import Dashboard from '../../Dashboard';
-// import {isLoggedIn} from "../../../utils/auth";
 import {
     Card,
     CardBody,
@@ -46,19 +43,12 @@ class SearchRoutenSeat extends Component {
             destination : "서울",
             date: "2019-12-10",
             time: "3:00",
-            // departure: this.props.location.state ? this.props.location.state.departure : defaultProps.departure,
-            // destination: this.props.location.state ? this.props.location.state.destination : defaultProps.destination,
-            // date: this.props.location.state ? this.props.location.state.date : defaultProps.date,
-            // time: this.props.location.state ? this.props.location.state.time : defaultProps.time,
             redirect: false,
             routeList: null,
             route: null,
         };
     }
 
-    // componentDidMount() {
-    //     this._getRouteList()
-    // }
 
     _getRouteList = async () => {
         const RouteList = await this._callApi()
