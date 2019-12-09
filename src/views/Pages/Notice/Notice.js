@@ -40,9 +40,11 @@ class Notice extends Component {
         const render = this.state.NoticeList.map((Notice, _id) => {
             return (
                 <tr>
-                    <Link to={"/notice/"+Notice._id} style={{textDecoration: "none", color: "black"}}>
-                        <td colSpan={6}><strong>{Notice.title}</strong></td>
-                    </Link>
+                    <td>
+                        <Link to={"/notice/"+Notice._id} style={{textDecoration: "none", color: "black"}}>
+                            <strong>{Notice.title}</strong>
+                        </Link>
+                    </td>
                 </tr>
             )
         })
@@ -51,7 +53,7 @@ class Notice extends Component {
 
     render() {
         return (
-            <Card>
+            <Card style={{marginTop: "20px"}}>
                 <CardBody>
                     <h2><strong>공지 사항</strong></h2>
                     <hr style={{border: "2px #e0e0e0 solid"}}/>
