@@ -12,12 +12,10 @@ const qnaSchema = new Schema(
     }
 );
 
-// 모두 가져오기
 qnaSchema.statics.getQnA = function() {
     return this.find({});
 }
 
-// 그냥 다 가져옴
 qnaSchema.statics.getTitleList = function() {
     return this.find({},{"content":false});
 }

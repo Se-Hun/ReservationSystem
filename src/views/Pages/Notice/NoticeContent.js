@@ -74,9 +74,9 @@ class NoticeContent extends Component {
                     <Col></Col>
                     <Col >
                         <Card>
-                        <cardBody>
+                        <CardBody>
                             {this.state.NoticeList ? this._renderNoticeContent() : ("Loading...")}
-                        </cardBody>
+                        </CardBody>
                         </Card>
                     </Col>
                     <Col></Col>

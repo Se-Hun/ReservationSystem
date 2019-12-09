@@ -74,9 +74,9 @@ class QnAContent extends Component {
                     <Col></Col>
                     <Col >
                         <Card>
-                        <cardBody>
+                        <CardBody>
                             {this.state.QnAList ? this._renderQnAContent() : ("Loading...")}
-                        </cardBody>
+                        </CardBody>
                         </Card>
                     </Col>
                     <Col></Col>

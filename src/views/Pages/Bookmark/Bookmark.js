@@ -115,7 +115,7 @@ class Bookmark extends Component {
                                 </tr>
                             </thead>
                             <tbody>
-                                {this.state.bookmarks ? (this._renderBookmarks()) : ("...loading")}
+                                {this.state.bookmarks ? (this._renderBookmarks()) : <tr><td>"Loading..."</td></tr>}
                             </tbody>
                         </Table>
                     </CardBody>

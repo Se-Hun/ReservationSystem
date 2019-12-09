@@ -1,9 +1,9 @@
 export default {
     items: [
         {
-            name: 'Dashboard',
-            url: '/dashboard',
-            icon: 'icon-speedometer',
+            name: 'Home',
+            url: '/home',
+            icon: 'icon-home',
         },
         {
             name: '공지사항',
