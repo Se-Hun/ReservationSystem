@@ -116,7 +116,7 @@ class Dashboard extends Component {
         }
         return (
             <div className="animated fadeIn">
-                <form onSubmit={this.handleSubmit}>
+                <form onSubmit={this.handleSubmit} style={{marginTop: "20px"}}>
                     <Row>
                         <Col></Col>
                         <Col sm="6" lg="6">
@@ -157,7 +157,7 @@ class Dashboard extends Component {
                                         </Col>
                                     </Row>
                                     <Col col="6" sm="2" md="2" xl className="mb-3 mb-xl-0">
-                                        <Button type="submit" block color="primary" render as="button">
+                                        <Button type="submit" block color="primary" render as="button" style={{marginBottom: "10px"}}>
                                             조회
                                         </Button>
                                     </Col>
@@ -169,13 +169,11 @@ class Dashboard extends Component {
                     <Row></Row>
                 </form>
                 <Row>
-                    <Col xs="3"></Col>
                     <Col>
-                        <Card xs="6">
+                        <Card>
                             <Notice/>
                         </Card>
                     </Col>
-                    <Col xs="3"></Col>
                 </Row>
             </div>
         );

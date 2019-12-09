@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import { Link } from 'react-router-dom';
 import {
     Table,
+    Card,
+    CardBody
 } from 'reactstrap';
 
 class Notice extends Component {
@@ -38,8 +40,8 @@ class Notice extends Component {
         const render = this.state.NoticeList.map((Notice, _id) => {
             return (
                 <tr>
-                    <Link to={"/notice/"+Notice._id}>
-                    <td>{Notice.title}</td>
+                    <Link to={"/notice/"+Notice._id} style={{textDecoration: "none", color: "black"}}>
+                        <td colSpan={6}><strong>{Notice.title}</strong></td>
                     </Link>
                 </tr>
             )
@@ -49,18 +51,22 @@ class Notice extends Component {
 
     render() {
         return (
-            <div>
-                <Table>
-                    <thead>
-                    <tr>
-                        <th>글 제목</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {this.state.NoticeList ? this._renderNoticeTable() : ("Loading...")}
-                    </tbody>
-                </Table>
-            </div>
+            <Card>
+                <CardBody>
+                    <h2><strong>공지 사항</strong></h2>
+                    <hr style={{border: "2px #e0e0e0 solid"}}/>
+                    <Table striped>
+                        {/*<thead>*/}
+                        {/*<tr>*/}
+                        {/*    <th>글 제목</th>*/}
+                        {/*</tr>*/}
+                        {/*</thead>*/}
+                        <tbody>
+                            {this.state.NoticeList ? this._renderNoticeTable() : ("Loading...")}
+                        </tbody>
+                    </Table>
+                </CardBody>
+            </Card>
         );
     }
 }
