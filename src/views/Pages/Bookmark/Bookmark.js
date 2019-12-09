@@ -104,7 +104,7 @@ class Bookmark extends Component {
             <div style={{marginTop: "30px"}}>
                 <Card>
                     <CardBody>
-                        <h2><strong>즐겨찾기 목록</strong></h2>
+                        <h3><strong>즐겨찾기 목록</strong></h3>
                         <hr style={{border: "2px #e0e0e0 solid"}}/>
                         <Table striped>
                             <thead>

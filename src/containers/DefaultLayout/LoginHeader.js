@@ -17,7 +17,7 @@ class LoginHeader extends Component {
 
     _logout = () => {
         deleteTokens()
-        window.location.reload()
+        window.location.replace("/home")
     }
 
     render() {
