@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {
     Card,
     CardBody,
+    CardHeader,
     Col,
     Row,
 } from 'reactstrap';
@@ -43,7 +44,7 @@ class QnAContent extends Component {
     _renderQnATitle = () => {
         return (
             <p>
-                {this.state.QnAList.title}
+                <h3>{this.state.QnAList.title}</h3>
             </p>
         )
     }
@@ -51,36 +52,30 @@ class QnAContent extends Component {
     _renderQnAContent = () => {
         return (
             <p>
-                {this.state.QnAList.content}
+                <h3>{this.state.QnAList.content}</h3>
             </p>
         )
     }
 
     render() {
         return (
-            <div>
-                <Row>
-                    <Col></Col>
-                    <Col>
-                    <Card>
-                        <CardBody>
-                            {this.state.QnAList ? this._renderQnATitle() : ("Loading...")}
-                        </CardBody>
-                    </Card>
-                    </Col>
-                    <Col></Col>
-                </Row>
-                <Row>
-                    <Col></Col>
-                    <Col >
-                        <Card>
-                        <CardBody>
-                            {this.state.QnAList ? this._renderQnAContent() : ("Loading...")}
-                        </CardBody>
-                        </Card>
-                    </Col>
-                    <Col></Col>
-                </Row>
+            <div style={{marginTop: "20px"}}>
+                <Card>
+                    <CardHeader>
+                        <h2 style={{color:"#0067a3"}}><strong>Question</strong></h2>
+                    </CardHeader>
+                    <CardBody>
+                        {this.state.QnAList ? this._renderQnATitle() : ("Loading...")}
+                    </CardBody>
+                </Card>
+                <Card>
+                    <CardHeader>
+                        <h2 style={{color: "#dc143c"}}><strong>Answer</strong></h2>
+                    </CardHeader>
+                    <CardBody>
+                        {this.state.QnAList ? this._renderQnAContent() : ("Loading...")}
+                    </CardBody>
+                </Card>
             </div>
         );
     }
