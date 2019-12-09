@@ -12,6 +12,7 @@ import {
     Form
 } from 'reactstrap';
 import Button from '@material-ui/core/Button';
+import Modal from 'react-awesome-modal';
 
 class SearchRoutenSeat extends Component {
 

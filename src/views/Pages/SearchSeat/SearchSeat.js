@@ -197,6 +197,10 @@
 
 import React, {Component} from 'react';
 
+const data = {
+
+}
+
 class SearchSeat extends Component {
     render() {
         return(
