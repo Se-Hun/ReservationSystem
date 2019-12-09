@@ -1,5 +1,5 @@
-import React, {Component, lazy, Suspense} from 'react';
-import {Redirect, Link} from 'react-router-dom';
+import React, {Component} from 'react';
+import {Link} from 'react-router-dom';
 import {
     Card,
     CardBody,
@@ -11,38 +11,48 @@ import {
     Table,
     Form
 } from 'reactstrap';
-import {getStyle, hexToRgba} from '@coreui/coreui/dist/js/coreui-utilities'
+// import {getStyle, hexToRgba} from '@coreui/coreui/dist/js/coreui-utilities'
 import Button from '@material-ui/core/Button';
 
-const brandPrimary = getStyle('--primary')
-const brandSuccess = getStyle('--success')
-const brandInfo = getStyle('--info')
-const brandWarning = getStyle('--warning')
-const brandDanger = getStyle('--danger')
-
-const defaultProps = {
-    departure: 'Enter your departure',
-    destination: 'Enter your destination',
-    date: 'Enter your date',
-    time: 'Enter your time',
-}
+// const brandPrimary = getStyle('--primary')
+// const brandSuccess = getStyle('--success')
+// const brandInfo = getStyle('--info')
+// const brandWarning = getStyle('--warning')
+// const brandDanger = getStyle('--danger')
+//
+// const defaultProps = {
+//     departure: 'Enter your departure',
+//     destination: 'Enter your destination',
+//     date: 'Enter your date',
+//     time: 'Enter your time',
+// }
 
 class SearchRoutenSeat extends Component {
 
     constructor(props) {
         super(props);
-        console.log(this.props.location);
-        this.toggle = this.toggle.bind(this);
+
+        let departure = ''
+        let destination = ''
+        let date = ''
+        let time = ''
+        if (props.location.state) {
+            departure = props.location.state.departure
+            destination = props.location.state.destination
+            date = props.location.state.date
+            time = props.location.state.time
+        }
+
         this.state = {
             dropdownOpen: false,
             peoplenum: 1,
             disdegree: 1,
             seat: 1,
             train: 1,
-            departure : "대전",
-            destination : "서울",
-            date: "2019-12-10",
-            time: "3:00",
+            departure : departure,
+            destination : destination,
+            date: date,
+            time: time,
             redirect: false,
             routeList: null,
             route: null,
@@ -62,8 +72,9 @@ class SearchRoutenSeat extends Component {
         let arrival = this.state.destination
         let date = this.state.date
         let time = "3:00"
-        let departTime = this.state.time
+
         console.log(this.state)
+
         return fetch(url, {
             method: "POST",
             headers: {"Content-Type": "application/json"},
@@ -138,10 +149,15 @@ class SearchRoutenSeat extends Component {
 
     loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>
 
+    _debug = () => {
+        console.log(this.state)
+    }
+
     render() {
-        console.log(this.state.departure);
         return (
             <div className="animated fadeIn">
+                <Button onClick={this._debug}>DEBUG</Button>
+
                 <Form style={{marginTop: "20px"}}>
                     <Row>
                         <Col sm="6" lg="6">

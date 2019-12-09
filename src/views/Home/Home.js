@@ -25,8 +25,6 @@ const converter = {
 class Home extends Component {
     constructor(props) {
         super(props);
-        this.toggle = this.toggle.bind(this);
-        this.onRadioBtnClick = this.onRadioBtnClick.bind(this);
 
         let departure = ''
         let destination = ''
@@ -46,18 +44,6 @@ class Home extends Component {
         };
     }
 
-    toggle() {
-        this.setState({
-            dropdownOpen: !this.state.dropdownOpen,
-        });
-    }
-
-    onRadioBtnClick(radioSelected) {
-        this.setState({
-            radioSelected: radioSelected,
-        });
-    }
-
     handleChange = (e) => {
         this.setState({
             [e.target.name]: e.target.value
@@ -65,8 +51,14 @@ class Home extends Component {
     }
     handleSubmit = (e) => {
         e.preventDefault();
+
+        const deptForConvert = this.state.departure
+        const destForConvert = this.state.destination
+
         this.setState({
             Redirect: true,
+            departure : converter[deptForConvert],
+            destination : converter[destForConvert]
         })
 
     }
@@ -79,11 +71,11 @@ class Home extends Component {
                 return
             }
             return (
-                <option value={converter[location]} key={id}>{location}</option>
+                <option value={location} key={id}>{location}</option>
             )
         })
 
-        render.unshift(<option value={converter[spot]} key={-1}>{this.state[spot]}</option>)
+        render.unshift(<option value={spot} key={-1}>{this.state[spot]}</option>)
 
         return render
     }
@@ -93,7 +85,7 @@ class Home extends Component {
 
         const render = locations.map((location, id) => {
             return (
-                <option value={converter[location]} key={id}>{location}</option>
+                <option value={location} key={id}>{location}</option>
             )
         })
 
@@ -114,6 +106,7 @@ class Home extends Component {
                 }
             }}></Redirect>
         }
+
         return (
             <div className="animated fadeIn">
                 <form onSubmit={this.handleSubmit} style={{marginTop: "20px"}}>
