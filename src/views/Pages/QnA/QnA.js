@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import { Link } from 'react-router-dom';
 import {
     Table,
+    Card,
+    CardBody
 } from 'reactstrap';
 
 class QnA extends Component {
@@ -38,9 +40,11 @@ class QnA extends Component {
         const render = this.state.QnAList.map((QnA, _id) => {
             return (
                 <tr>
-                    <Link to={"/qna/"+QnA._id}>
-                    <td>{QnA.title}</td>
-                    </Link>
+                    <td>
+                        <Link to={"/qna/"+QnA._id} style={{textDecoration: "none", color: "black"}}>
+                            {QnA.title}
+                        </Link>
+                    </td>
                 </tr>
             )
         })
@@ -49,18 +53,22 @@ class QnA extends Component {
 
     render() {
         return (
-            <div>
-                <Table>
-                    <thead>
-                    <tr>
-                        <th>글 제목</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {this.state.QnAList ? this._renderQnATable() : <tr><td>"Loading..."</td></tr>}
-                    </tbody>
-                </Table>
-            </div>
+            <Card style={{marginTop: "20px"}}>
+                <CardBody>
+                    <h2><strong>Q & A</strong></h2>
+                    <hr style={{border: "2px #e0e0e0 solid"}}/>
+                    <Table>
+                        {/*<thead>*/}
+                        {/*<tr>*/}
+                        {/*    <th>글 제목</th>*/}
+                        {/*</tr>*/}
+                        {/*</thead>*/}
+                        <tbody>
+                            {this.state.QnAList ? this._renderQnATable() : ("Loading...")}
+                        </tbody>
+                    </Table>
+                </CardBody>
+            </Card>
         );
     }
 }
