@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {
     Card,
+    CardHeader,
     CardBody,
     Col,
     Row,
@@ -43,7 +44,7 @@ class NoticeContent extends Component {
     _renderNoticeTitle = () => {
         return (
             <p>
-                {this.state.NoticeList.title}
+                <h3>{this.state.NoticeList.title}</h3>
             </p>
         )
     }
@@ -51,36 +52,34 @@ class NoticeContent extends Component {
     _renderNoticeContent = () => {
         return (
             <p>
-                {this.state.NoticeList.content}
+                <h5>{this.state.NoticeList.content}</h5>
             </p>
         )
     }
 
     render() {
         return (
-            <div>
-                <Row>
-                    <Col></Col>
-                    <Col>
-                    <Card>
-                        <CardBody>
-                            {this.state.NoticeList ? this._renderNoticeTitle() : ("Loading...")}
-                        </CardBody>
-                    </Card>
-                    </Col>
-                    <Col></Col>
-                </Row>
-                <Row>
-                    <Col></Col>
-                    <Col >
-                        <Card>
-                        <CardBody>
-                            {this.state.NoticeList ? this._renderNoticeContent() : ("Loading...")}
-                        </CardBody>
-                        </Card>
-                    </Col>
-                    <Col></Col>
-                </Row>
+            <div style={{marginTop: "20px"}}>
+                <Card>
+                    <CardBody>
+                        <Row>
+                            <Col md={2}>
+                                <h3><strong>제목</strong></h3>
+                            </Col>
+                            <Col>
+                                {this.state.NoticeList ? this._renderNoticeTitle() : ("Loading...")}
+                            </Col>
+                        </Row>
+                    </CardBody>
+                </Card>
+                <Card>
+                    <CardHeader>
+                        <h3><strong>내용</strong></h3>
+                    </CardHeader>
+                    <CardBody>
+                        {this.state.NoticeList ? this._renderNoticeContent() : ("Loading...")}
+                    </CardBody>
+                </Card>
             </div>
         );
     }
