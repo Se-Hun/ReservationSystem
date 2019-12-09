@@ -1,6 +1,7 @@
 import React, {Component, lazy, Suspense} from 'react';
 import {Bar, Line} from 'react-chartjs-2';
-import {Link} from 'react-router-dom';
+import {Link, Redirect} from 'react-router-dom';
+import {getId} from '../../../utils/auth'
 import {
     Badge,
     Button,
@@ -35,15 +36,19 @@ const brandInfo = getStyle('--info')
 const brandWarning = getStyle('--warning')
 const brandDanger = getStyle('--danger')
 
+const data = [
+    {id: "111", time: "1:00"},
+    {id: "222", time: "22:00"}
+]
 
 class ConfirmReservation extends Component {
     constructor(props) {
         super(props);
 
         this.toggle = this.toggle.bind(this);
-        this.onRadioBtnClick = this.onRadioBtnClick.bind(this);
-        this.handleEditClick = this.handleEditClick.bind(this);
-        this.handleCancelClick = this.handleCancelClick.bind(this);
+        // this.onRadioBtnClick = this.onRadioBtnClick.bind(this);
+        // this.handleEditClick = this.handleEditClick.bind(this);
+        // this.handleCancelClick = this.handleCancelClick.bind(this);
 
         this.state = {
             dropdownOpen: false,
@@ -51,6 +56,8 @@ class ConfirmReservation extends Component {
             isCancel: false,
             isEdit: false,
             ReserveList: null,
+            id: getId(),
+            reserveTime: [],
         };
     }
 
@@ -66,46 +73,106 @@ class ConfirmReservation extends Component {
         });
     }
 
-    handleEditClick(radioSelected) {
-
-        this.setState(prevState => ({
-            isEdit: !prevState.isEdit,
-        }));
+    componentDidMount() {
+        this._getReserveList()
     }
 
-    handleCancelClick(radioSelected) {
-        this.setState(prevState => ({
-            isCancel: !prevState.isCancel,
-        }));
+    _getReserveList = async () => {
+        const ReserveList = await this._callApi()
+        this.setState({
+            ReserveList: data,
+        })
+        this._getTimeList()
     }
+
+    _callApi = () => {
+        let url = "http://localhost:5000/api/reservation/getReservation"
+        let id = this.state.id
+        return fetch(url, {
+            method: "POST",
+            body: JSON.stringify({id: id})
+        }).then(res => res.json())
+            .then(data => {
+                return data
+            })
+            .catch(err => console.log(err))
+    }
+
+    _getTimeList = async () => {
+        let Timelist = []
+        this.state.ReserveList.map((reserved, _id) => {
+            let now = new Date().getHours();
+            let time = reserved.time.split(':')
+            let old = time[0]
+            console.log(now)
+            console.log(old)
+            let gap = now - old;
+            if (gap > 0) {
+                Timelist[reserved.id]=true
+            } else {
+                Timelist[reserved.id]=false
+            }
+        })
+        this.setState({
+            reserveTime: Timelist
+        })
+    }
+
 
     loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>
     _renderReserveTable = () => {
-        let now = new Date();
         const render = this.state.ReserveList.map((reserved, _id) => {
-            let old = new Date(reserved.time);
-            let gap = now.getTime()-old.getTime;
-            if(gap<0){
-                this.setState({
-                    isEdit: true,
-                    isCancel: true,
-                })
-            }
+            console.log(this.state.isEdit)
             return (
                 <tr key={_id}>
-                    <td>{reserved}</td>
-                    <button disabled={this.state.isEdit} onClick={()=>this.handleEditClick(reserved._id)}>수정</button>
-                    <button disabled={this.state.isCancel} onClick={()=>this.handleCancelClick(reserved._id)}>취소</button>
+                    <td>{reserved.id}</td>
+                    <td>{this.state.reserveTime[reserved.id] ? (
+                        <Link to={{
+                            pathname: '/editReservation', state: {
+                                peoplenum: this.state.peoplenum,
+                                disdegree: this.state.disdegree,
+                                seat: this.state.seat,
+                                departure: this.state.departure,
+                                destination: this.state.destination,
+                                date: this.state.date,
+                                time: this.state.time,
+                                train: this.state.train,
+                                route: this.state.route,
+                            }
+                        }} style={{textDecoration: "none"}}>
+                            <Button>수정</Button>
+                        </Link>
+                    ) : (
+                        <Button disabled>수정</Button>
+                    )}</td>
+                    <td>{this.state.reserveTime[reserved.id] ? (
+                        <Link to={{
+                            pathname: '/confirmCancelReservation', state: {
+                                peoplenum: this.state.peoplenum,
+                                disdegree: this.state.disdegree,
+                                seat: this.state.seat,
+                                departure: this.state.departure,
+                                destination: this.state.destination,
+                                date: this.state.date,
+                                time: this.state.time,
+                                train: this.state.train,
+                                route: this.state.route,
+                            }
+                        }} style={{textDecoration: "none"}}>
+                            <Button>취소</Button>
+                        </Link>
+                    ) : (
+                        <Button disabled>취소</Button>
+                    )}</td>
                 </tr>
             )
         })
         return render
     }
-    render() {
 
+    render() {
         return (
             <div className="animated fadeIn">
-
                 <Table>
                     <thead>
                     <tr>
@@ -113,7 +180,7 @@ class ConfirmReservation extends Component {
                     </tr>
                     </thead>
                     <tbody>
-                        {this.state.ReserveList ? this._renderReserveTable() : ("Loading...")}
+                    {this.state.ReserveList ? this._renderReserveTable() : ("Loading...")}
                     </tbody>
                 </Table>
             </div>

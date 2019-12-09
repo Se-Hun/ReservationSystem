@@ -19,3 +19,7 @@ export function login(account, token, accountname, phonenum, cardcompany, cardnu
     sessionStorage.setItem("cardcompany", cardcompany)
     sessionStorage.setItem("cardnum", cardnum)
 }
+
+export function getId() {
+    sessionStorage.getItem("account")
+}
