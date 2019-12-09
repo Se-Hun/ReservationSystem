@@ -79,7 +79,7 @@ class ResvList extends Component {
       )
     })
     return render
-}
+  }
 
   render() {
     // const userList = usersData.filter((user) => user.id < 10)
@@ -102,7 +102,7 @@ class ResvList extends Component {
                     </tr>
                   </thead>
                   <tbody>
-                    {this.state.Data ? this._renderQnATable() : ("Loading...")}
+                    {this.state.Data ? this._renderQnATable() : <tr><td>"Loading..."</td></tr>}
                   </tbody>
                 </Table>
               </CardBody>

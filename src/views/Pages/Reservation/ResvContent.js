@@ -132,7 +132,7 @@ class ResvContent extends Component {
               <CardBody>
                   <Table responsive striped hover>
                     <tbody>
-                    {this.state.resvData ? this._renderQnATable() : ("Loading...")}
+                    {this.state.resvData ? this._renderQnATable() : <tr><td>"Loading..."</td></tr>}
                     </tbody>
                   </Table>
               </CardBody>

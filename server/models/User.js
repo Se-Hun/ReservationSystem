@@ -21,7 +21,6 @@ const UserSchema = new Schema(
 // To login
 UserSchema.statics.login = function(account) {
     const login_result = this.findOne({account})
-
     return login_result
 }
 

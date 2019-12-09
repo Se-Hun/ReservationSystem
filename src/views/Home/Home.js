@@ -22,7 +22,7 @@ const converter = {
     울산: "Ulsan"
 }
 
-class Dashboard extends Component {
+class Home extends Component {
     constructor(props) {
         super(props);
         this.toggle = this.toggle.bind(this);
@@ -182,4 +182,4 @@ class Dashboard extends Component {
     }
 }
 
-export default Dashboard;
+export default Home;
