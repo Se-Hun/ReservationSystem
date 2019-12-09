@@ -58,11 +58,6 @@ class Notice extends Component {
                     <h2><strong>공지 사항</strong></h2>
                     <hr style={{border: "2px #e0e0e0 solid"}}/>
                     <Table striped>
-                        {/*<thead>*/}
-                        {/*<tr>*/}
-                        {/*    <th>글 제목</th>*/}
-                        {/*</tr>*/}
-                        {/*</thead>*/}
                         <tbody>
                             {this.state.NoticeList ? this._renderNoticeTable() : ("Loading...")}
                         </tbody>

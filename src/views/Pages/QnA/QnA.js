@@ -58,11 +58,6 @@ class QnA extends Component {
                     <h2><strong>Q & A</strong></h2>
                     <hr style={{border: "2px #e0e0e0 solid"}}/>
                     <Table>
-                        {/*<thead>*/}
-                        {/*<tr>*/}
-                        {/*    <th>글 제목</th>*/}
-                        {/*</tr>*/}
-                        {/*</thead>*/}
                         <tbody>
                             {this.state.QnAList ? this._renderQnATable() : ("Loading...")}
                         </tbody>
