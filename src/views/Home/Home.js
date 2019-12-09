@@ -170,9 +170,7 @@ class Home extends Component {
                 </form>
                 <Row>
                     <Col>
-                        <Card>
-                            <Notice/>
-                        </Card>
+                        <Notice/>
                     </Col>
                 </Row>
             </div>
