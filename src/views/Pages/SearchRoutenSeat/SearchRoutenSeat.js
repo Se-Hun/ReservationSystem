@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
+import React, {Component, Suspense} from 'react';
+// import {Link} from 'react-router-dom';
 import {
     Card,
     CardBody,
@@ -9,7 +9,8 @@ import {
     Label,
     Row,
     Table,
-    Form
+    Form,
+    Container
 } from 'reactstrap';
 import Button from '@material-ui/core/Button';
 import Modal from 'react-awesome-modal';
@@ -31,6 +32,7 @@ class SearchRoutenSeat extends Component {
         }
 
         this.state = {
+            isModalOpen : false,
             dropdownOpen: false,
             peoplenum: 1,
             disdegree: 1,
@@ -46,6 +48,17 @@ class SearchRoutenSeat extends Component {
         };
     }
 
+    _openModal = () => {
+        this.setState({
+            isModalOpen: true,
+        });
+    }
+
+    _closeModal() {
+        this.setState({
+            isModalOpen: false
+        });
+    }
 
     _getRouteList = async () => {
         const RouteList = await this._callApi()
@@ -53,12 +66,13 @@ class SearchRoutenSeat extends Component {
             routeList: RouteList,
         })
     }
+
     _callApi = () => {
         let url = "http://localhost:5000/api/trainRoute/search_path"
         let departure = this.state.departure
         let arrival = this.state.destination
         let date = this.state.date
-        let time = "3:00"
+        let time = "03:00" // this.state.time <= 이거 고쳐야함!!
 
         console.log(this.state)
 
@@ -75,16 +89,17 @@ class SearchRoutenSeat extends Component {
             })
     }
 
-    fetchContent = (e, route) => {
-        console.log(route)
-        this.setState({
-            route: route
-        })
-    }
+    // fetchContent = (e, route) => {
+    //     console.log(route)
+    //     this.setState({
+    //         route: route
+    //     })
+    // }
 
     _renderRouteTable = () => {
-        console.log(this.state.routeList)
+        // console.log(this.state.routeList)
         let now = (this.state.time).split(':')
+
         const render = this.state.routeList.map((route, _id) => {
             let deptime = (route.deptime).split(':')
             if((now[0]-deptime[0])>0) {
@@ -97,19 +112,19 @@ class SearchRoutenSeat extends Component {
                     <td>{route.deptime}</td>
                     <td>{route.arrtime}</td>
                     <td>
-                        <Link to={{pathname: '/searchSeat', state: {
-                                peoplenum: this.state.peoplenum,
-                                disdegree: this.state.disdegree,
-                                seat: this.state.seat,
-                                departure: this.state.departure,
-                                destination: this.state.destination,
-                                date: this.state.date,
-                                time: this.state.time,
-                                train: this.state.train,
-                                route: this.state.route,
-                            }}} style={{textDecoration: "none"}}>
-                            <Button variant="contained" size="small" onClick={(e) => this.fetchContent(e, route)}>확인</Button>
-                        </Link>
+                        {/*<Link to={{pathname: '/searchSeat', state: {*/}
+                        {/*        peoplenum: this.state.peoplenum,*/}
+                        {/*        disdegree: this.state.disdegree,*/}
+                        {/*        seat: this.state.seat,*/}
+                        {/*        departure: this.state.departure,*/}
+                        {/*        destination: this.state.destination,*/}
+                        {/*        date: this.state.date,*/}
+                        {/*        time: this.state.time,*/}
+                        {/*        train: this.state.train,*/}
+                        {/*        route: this.state.route,*/}
+                        {/*    }}} style={{textDecoration: "none"}}>*/}
+                            <Button variant="contained" size="small" onClick={this._openModal}>확인</Button>
+                        {/*</Link>*/}
                     </td>
                 </tr>
             )
@@ -290,8 +305,99 @@ class SearchRoutenSeat extends Component {
                         </Table>
                     </CardBody>
                 </Card>
+                <Button onClick={this._openModal}>DEBUG</Button>
+                <Modal
+                    visible={this.state.isModalOpen}
+                    width="90%"
+                    height="80%"
+                    effect="fadeInUp"
+                    onClickAway={() => this._closeModal()}>
+                    <div className="justify-content-center">
+                        <Col>
+                        <Suspense  fallback={this.loading()}>
+                            <PreviousButton/>
+                        </Suspense>
+                        </Col>
+                        <Col md={10}>
+                        <Suspense  fallback={this.loading()}>
+                            <PresentSeats/>
+                        </Suspense>
+                        </Col>
+                        <Col>
+                        <Suspense  fallback={this.loading()}>
+                            <NextButton/>
+                        </Suspense>
+                        </Col>
+                        {/*/!*<PreviousButton/>*!/*/}
+                        {/*/!*<NextButton/>*!/*/}
+                        {/*<Container>*/}
+                        {/*<Col> /!*marginTop: "auto"*!/*/}
+                        {/*    <PreviousButton style={{position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%, -50%)'}}/>*/}
+                        {/*</Col>*/}
+                        {/*<Col md={10}>*/}
+                        {/*    <PresentSeats style={{position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%, -50%)'}}/>*/}
+                        {/*</Col>*/}
+                        {/*<Col>*/}
+                        {/*    <NextButton style={{position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%, -50%)'}}/>*/}
+                        {/*</Col>*/}
+                        {/*</Container>*/}
+                    </div>
+                </Modal>
             </div>
         );
+    }
+}
+
+class PreviousButton extends Component {
+    _handleClick = () => {
+        console.log("hi")
+    }
+
+    render() {
+        return(
+            <Container>
+                <i className="cui-chevron-left icons font-5xl" onClick={this._handleClick}></i>
+            </Container>
+        )
+    }
+}
+
+class PresentSeats extends Component {
+    render() {
+        return(
+            <Card>
+                <CardBody>
+                    <div>
+                        sad
+                    </div>
+                    <div>
+                        sad
+                    </div>
+                    <div>
+                        sad
+                    </div>
+                    <div>
+                        sad
+                    </div><div>
+                        sad
+                    </div>
+                </CardBody>
+            </Card>
+        )
+    }
+}
+
+class NextButton extends Component {
+    _handleClick = () => {
+        console.log("hi")
+    }
+
+    render() {
+        return(
+            <Container>
+                <i className="cui-chevron-right icons font-5xl" onClick={this._handleClick}></i>
+            </Container>
+        )
     }
 }
 
