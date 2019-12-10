@@ -19,6 +19,7 @@ import {
     Progress,
     Row,
     Table,
+    Form
 } from 'reactstrap';
 import {CustomTooltips} from '@coreui/coreui-plugin-chartjs-custom-tooltips';
 import {getStyle, hexToRgba} from '@coreui/coreui/dist/js/coreui-utilities'
@@ -35,21 +36,39 @@ const brandDanger = getStyle('--danger')
 class ConfirmCancelReservation extends Component {
     constructor(props) {
         super(props);
-
         this.toggle = this.toggle.bind(this);
-        this.onRadioBtnClick = this.onRadioBtnClick.bind(this);
-
+        let peoplenum = 0
+        let disdegree = 1
+        let departure = '서울'
+        let destination = '대전'
+        let cardcompany = '신한'
+        let cardnum = '0000 0000 0000 0000'
+        let seat = 1
+        let date = '2019-12-10'
+        let time = '9:00'
+        if (props.location.state) {
+            peoplenum = props.location.state.peoplenum
+            disdegree = props.location.state.disdegree
+            departure = props.location.state.departure
+            destination = props.location.state.destination
+            cardcompany = props.location.state.cardcompany
+            cardnum = props.location.state.cardnum
+            seat = props.location.state.seat
+            date = props.location.state.date
+            time = props.location.state.time
+        }
         this.state = {
             dropdownOpen: false,
             radioSelected: 2,
-            // peoplenum: this.props.location.state? this.props.location.state.peoplenum: '',
-            // disdegree: this.props.location.state? this.props.location.state.disdegree:'',
-            // seat: this.props.location.state? this.props.location.state.seat: '',
-            // departure: this.props.location.state? this.props.location.state.departure: '',
-            // destination: this.props.location.state? this.props.location.state.destination: '',
-            // date: this.props.location.state? this.props.location.state.date: '',
-            // time: this.props.location.state? this.props.location.state.time: '',
-            infoList: this.props.location.state? this.props.location.state.infoList: '',
+            peoplenum: peoplenum,
+            disdegree: disdegree,
+            departure: departure,
+            destination: destination,
+            cardcompany: cardcompany,
+            cardnum: cardnum,
+            seat: seat,
+            date: date,
+            time: time,
         };
     }
 
@@ -60,37 +79,41 @@ class ConfirmCancelReservation extends Component {
         });
     }
 
-    onRadioBtnClick(radioSelected) {
-        this.setState({
-            radioSelected: radioSelected,
-        });
-    }
-
     handleChange = (e) => {
         this.setState({
             [e.target.name]: e.target.value
         })
     }
-    handleSubmit = (e) => {
+    handleSumbit = (e) => {
+        e.preventDefault()
         let url = ""
-        let peoplenum = this.state.infoList["peoplenum"]
-        let disdegree = this.state.infoList["disdegree"]
-        let departure = this.state.infoList["departure"]
-        let destination = this.state.infoList["destination"]
-        let cardcompany = this.state.infoList["cardcompany"]
-        let cardnum = this.state.infoList["cardnum"]
-        let date = this.state.infoList["date"]
-        let time = this.state.infoList["time"]
-        let seat = this.state.infoList["seat"]
+        let peoplenum = this.state.peoplenum
+        let disdegree = this.state.disdegree
+        let departure = this.state.departure
+        let destination = this.state.destination
+        let cardcompany = this.state.cardcompany
+        let cardnum = this.state.cardnum
+        let seat = this.state.seat
+        let date = this.state.date
+        let time = this.state.time
         fetch(url, {
             method: "POST",
             headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({peoplenum:peoplenum, disdegree:disdegree, departure:departure, arrival:destination,
-                cardcompany: cardcompany, cardnum: cardnum, date: date, time: time, seat: seat})
+            body: JSON.stringify({
+                peoplenum: peoplenum, disdegree: disdegree, departure: departure, arrival: destination,
+                cardcompany: cardcompany, cardnum: cardnum, date: date, time: time, seat: seat
+            })
         }).then(res => res.json())
             .then(data => {
+                if (data.error) {
+                    const errorCode = data.error
+                    alert("잘못된 접근입니다.")
+                    window.location.reload()
+                    return
+                }
                 window.location.replace("/confirmReservation")
             })
+            .catch(err => console.log(err))
     }
     loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>
 
@@ -98,17 +121,23 @@ class ConfirmCancelReservation extends Component {
 
         return (
             <div className="animated fadeIn">
+                <Form onSubmit={this.handleSumbit}>
                 <Row>
                     <Col lg='10'>
                         <Card className="text-white bg-info">
                             <CardBody className="pb-0">
-                                <Col>좌석 정보</Col>
+                                <Col>
+                                    <CardHeader>
+                                        <h1>좌석 정보</h1>
+                                    </CardHeader>
+                                </Col>
                                 <Col xs="12">
                                     <Row>
                                         <Col>
                                             <FormGroup>
                                                 <Label htmlFor="peoplenum">인원수</Label>
-                                                <Input type="select" name="peoplenum" value={this.state.peoplenum} onChange={this.handleChange}>
+                                                <Input type="select" name="peoplenum" value={this.state.peoplenum}
+                                                       onChange={this.handleChange} required>
                                                     <option value="1">1</option>
                                                     <option value="2">2</option>
                                                     <option value="3">3</option>
@@ -138,7 +167,8 @@ class ConfirmCancelReservation extends Component {
                                         <Col>
                                             <FormGroup>
                                                 <Label htmlFor="disdegree">장애 정도</Label>
-                                                <Input type="select" name="disdegree" value={this.state.disdegree} onChange={this.handleChange}>
+                                                <Input type="select" name="disdegree" value={this.state.disdegree}
+                                                       onChange={this.handleChange} required>
                                                     <option value="1급">1급</option>
                                                     <option value="2급">2급</option>
                                                     <option value="3급">3급</option>
@@ -199,7 +229,8 @@ class ConfirmCancelReservation extends Component {
                                                 <Col xs="12">
                                                     <FormGroup>
                                                         <Label htmlFor="card">card company</Label>
-                                                        <Input type="select" name="cardcompany" value={this.state.cardcompany}
+                                                        <Input type="select" name="cardcompany"
+                                                               value={this.state.cardcompany}
                                                                onChange={this.handleChange} id="cardcompany">
                                                             <option value="신한">신한</option>
                                                             <option value="하나">하나</option>
@@ -224,14 +255,14 @@ class ConfirmCancelReservation extends Component {
                                 <Row>
                                     <Col></Col>
                                     <Col col="6" sm="2" md="2" xl className="mb-3 mb-xl-0">
-                                        <Button type="submit" block color="primary">재결제</Button>
+                                        <Button type='submit' block color="primary">재결제</Button>
                                     </Col>
                                 </Row>
                             </CardBody>
                         </Card>
                     </Col>
                 </Row>
-
+                </Form>
             </div>
         );
     }
