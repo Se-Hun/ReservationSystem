@@ -49,17 +49,25 @@ class SearchRoutenSeat extends Component {
             redirect: false,
             routeList: null,
             route: null,
-            seatList : null
+            seatList : null,
+            reservedList : null,
+            presentCar : "2" // 현재 칸을 Default로 2번 칸으로 지정
         };
     }
 
     _openModal = async (Info) => {
         // console.log(Info)
 
-        const seats = await this._callApiForSaetList(Info)
+        let seats = await this._callApiForSaetList(Info)
+        let reservedSeats = await this._callApiForReservedSaetList(Info)
+
+        // console.log(seats)
+        // console.log(reservedSeats)
+        // console.log(presentCar)
 
         this.setState({
             seatList: seats,
+            reservedList : reservedSeats,
             isModalOpen: true,
         });
     }
@@ -83,7 +91,29 @@ class SearchRoutenSeat extends Component {
             })
         }).then(res => res.json())
             .then(data => {
-                console.log(data)
+                // console.log(data)
+                return data
+            })
+            .catch(err => {
+                console.log(err)
+            })
+
+    }
+
+    _callApiForReservedSaetList = (Info) => {
+        let url = "http://localhost:5000/api/trainInfo/get_reserved"
+
+        let trainName = Info
+
+        return fetch(url, {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({
+                trainName: trainName
+            })
+        }).then(res => res.json())
+            .then(data => {
+                // console.log(data)
                 return data
             })
             .catch(err => {
@@ -222,6 +252,121 @@ class SearchRoutenSeat extends Component {
     // _debug = () => {
     //     console.log(this.state)
     // }
+
+    _renderSeats = () => {
+        let seatList = this.state.seatList
+        let reservedList = this.state.reservedList
+        let presentCar = this.state.presentCar
+        let seatInfo = []
+
+        if(seatList.error) {
+            return "이 칸에는 좌석이 없습니다."
+        }
+        if(reservedList.error) {
+            return "이 칸에는 좌석이 없습니다."
+        }
+
+        seatList = seatList.seats
+        reservedList = reservedList.reserved
+
+        seatList = seatList.map((seat, id) => {
+            const splited = seat.split("_")
+
+            if(splited[1] === presentCar) {
+                return splited[2]
+            }
+        })
+
+        reservedList = reservedList.map((seat, id) => {
+            const splited = seat.id.split("_")
+
+            if(seat.state === "o" && splited[0] === presentCar) {
+                return splited[1]
+            }
+        })
+
+        for(var i = 0; i < seatList.length; i++) {
+            if(seatList[i] === undefined || seatList[i] === null) {
+                continue
+            }
+            else {
+                seatInfo.push({
+                    id : seatList[i],
+                    state : (reservedList[i] !== undefined) ? ("o") : ("x")
+                })
+            }
+        }
+
+        console.log(seatInfo)
+
+        const render = []
+        for(var i = 0; i < seatInfo.length; i = i+2) {
+            const id1 = seatInfo[i].id
+            const id2 = seatInfo[i+1].id
+
+            render.push(
+                <div className="col-2">
+                    <Button variant="contained"
+                            className="btn btn-light mr-3"
+                            style={{width: "80%", marginBottom: "30px"}}>{id1}</Button>
+                    <Button variant="contained"
+                            className="btn btn-light mr-3"
+                            style={{width: "80%"}}>{id2}</Button>
+                </div>
+            )
+        }
+
+        // let col_render = []
+        // render.push(<div className="row justify-content-between my-2">)
+
+        // for(var i = 0; i < seatInfo.length; i = i+2) {
+        //     console.log(seatInfo[i].id)
+        //     const id = seatInfo[i].id
+        //     const id2 = seatInfo[i+1].id
+        //
+        //     col_render.push(
+        //         <div className="col-2">
+        //             <button type="button" className="btn btn-light mr-3">{id}</button>
+        //             <button type="button" className="btn btn-light mr-3">{id2}</button>
+        //         </div>
+        //     )
+        // }
+
+        // console.log(col_render)
+
+        // let row_render = []
+        // row_render.push(
+        //     <div className="row justify-content-between my-2">
+        //         {
+        //             col_render.map((col, id) => {
+        //                 return (
+        //                     {col}
+        //                 )
+        //             })
+        //         }
+        //     </div>
+        // )
+
+        // console.log(row_render.length)
+
+        // console.log(seatInfo)
+        // const render = seatList.map((seat, id) => {
+        //     return(
+        //         <div className="row justify-content-between my-2">
+        //             <div className="col-5">
+        //                 <button type="button" className="btn btn-light mr-3">Light</button>
+        //                 <button type="button" className="btn btn-light">Light</button>
+        //             </div>
+        //             <div className="col-5 ml-auto">
+        //                 <button type="button" className="btn btn-light mr-3">Light</button>
+        //                 <button type="button" className="btn btn-light">Light</button>
+        //             </div>
+        //         </div>
+        //     )
+        // })
+        // return col_render
+        return render
+    }
 
     render() {
         return (
@@ -398,24 +543,28 @@ class SearchRoutenSeat extends Component {
                         </Table>
                     </CardBody>
                 </Card>
-                {/*<Button onClick={this._openModal}>DEBUG</Button>*/}
+                <Button onClick={() => this._openModal("6000")}>DEBUG</Button>
                 <Modal
                     visible={this.state.isModalOpen}
                     width="90%"
-                    height="80%"
+                    height="50%"
                     effect="fadeInUp"
                     onClickAway={() => this._closeModal()}>
                     <div className="Container">
+                        <h2 style={{textAlign: "center", marginTop: "20px"}}><strong>좌석 목록</strong></h2>
+                        <h3 style={{marginTop: "20px", color: "#0067a3", textAlign: "center"}}><strong>2번칸</strong></h3>
                         <Row className="p-4">
-                            <Col className="col-1 my-auto">
+                            <Col className="col-1 ml-auto mr-auto">
                                 <button type="button" className="btn btn-primary" onClick={this._handleLeftClick}>
                                     <i className="cui-chevron-left icons font-5xl"/>
                                 </button>
                             </Col>
-                            <Col className="col-8 my-auto">
+                            <Col className="col-10 ml-auto mr-auto">
                                 <div className="card">
                                     <div className="card-body">
-                                        {/*{this._renderSeats}*/}
+                                        <div className="row justify-content-between my-2">
+                                        {this.state.seatList ? (this._renderSeats()) : ("Loading...")}
+                                        </div>
                                         {/*<div className="row justify-content-between my-2">*/}
                                         {/*    <div className="col-5">*/}
                                         {/*        <button type="button" className="btn btn-light mr-3">Light</button>*/}
@@ -469,7 +618,7 @@ class SearchRoutenSeat extends Component {
                                     </div>
                                 </div>
                             </Col>
-                            <Col className="col-1 my-auto">
+                            <Col className="col-1 ml-auto mr-auto">
                                 <button type="button" className="btn btn-primary" onClick={this._handleRightClick}>
                                     <i className="cui-chevron-right icons font-5xl"/>
                                 </button>
@@ -479,6 +628,17 @@ class SearchRoutenSeat extends Component {
                 </Modal>
             </div>
         );
+    }
+}
+
+class SeatColum extends Component {
+    render() {
+        return(
+            <div>
+                <Button>{this.porps.row1}</Button>
+                <Button>{this.props.row2}</Button>
+            </div>
+        )
     }
 }
 
