@@ -10,7 +10,6 @@ import {
     Row,
     Table,
     Form,
-    Container
 } from 'reactstrap';
 import Button from '@material-ui/core/Button';
 import Modal from 'react-awesome-modal';
