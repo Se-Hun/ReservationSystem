@@ -43,13 +43,13 @@ class Reserve extends Component {
         this.state = {
             dropdownOpen: false,
             radioSelected: 2,
-            peoplenum: this.props.location.state.peoplenum,
-            disdegree: this.props.location.state.disdegree,
-            seat: this.props.location.state.seat,
-            departure: this.props.location.state.departure,
-            destination: this.props.location.state.destination,
-            date: this.props.location.state.date,
-            time: this.props.location.state.time,
+            peoplenum: this.props.location.state? this.props.location.state.peoplenum: '',
+            disdegree: this.props.location.state? this.props.location.state.disdegree:'',
+            seat: this.props.location.state? this.props.location.state.seat: '',
+            departure: this.props.location.state? this.props.location.state.departure: '',
+            destination: this.props.location.state? this.props.location.state.destination: '',
+            date: this.props.location.state? this.props.location.state.date: '',
+            time: this.props.location.state? this.props.location.state.time: '',
             cardcompany: '',
             cardnum: ''
         };
@@ -86,8 +86,21 @@ class Reserve extends Component {
                 cardcompany: cardcompany, cardnum: cardnum, date: date, time: time, seat: seat})
         }).then(res => res.json())
             .then(data => {
+                if(data.error){
+                    const errorCode = data.error
+                    if(errorCode === 1) {
+                        alert(data.shouldAttribute + "을(를) 입력해주세요.")
+                        return
+                    }
+                    else {
+                        alert("잘못된 접근입니다.")
+                        window.location.reload()
+                        return
+                    }
+                }
                 window.location.replace("/confirmReservation")
             })
+            .catch(err => console.log(err))
     }
 
     loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>
