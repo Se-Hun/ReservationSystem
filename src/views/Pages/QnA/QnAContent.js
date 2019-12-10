@@ -62,7 +62,7 @@ class QnAContent extends Component {
             <div style={{marginTop: "20px"}}>
                 <Card>
                     <CardHeader>
-                        <h2 style={{color:"#0067a3"}}><strong>Question</strong></h2>
+                        <h2 style={{color:"#dc143c"}}><strong>Question</strong></h2>
                     </CardHeader>
                     <CardBody>
                         {this.state.QnAList ? this._renderQnATitle() : ("Loading...")}
@@ -70,7 +70,7 @@ class QnAContent extends Component {
                 </Card>
                 <Card>
                     <CardHeader>
-                        <h2 style={{color: "#dc143c"}}><strong>Answer</strong></h2>
+                        <h2 style={{color: "#0067a3"}}><strong>Answer</strong></h2>
                     </CardHeader>
                     <CardBody>
                         {this.state.QnAList ? this._renderQnAContent() : ("Loading...")}
