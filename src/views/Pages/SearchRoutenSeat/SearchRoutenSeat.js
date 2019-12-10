@@ -1,4 +1,4 @@
-import React, {Component, Suspense} from 'react';
+import React, {Component} from 'react';
 // import {Link} from 'react-router-dom';
 import {
     Card,
@@ -31,10 +31,10 @@ class SearchRoutenSeat extends Component {
             time = props.location.state.time
         }
 
-        console.log(departure)
-        console.log(destination)
-        console.log(date)
-        console.log(time)
+        // console.log(departure)
+        // console.log(destination)
+        // console.log(date)
+        // console.log(time)
 
         this.state = {
             isModalOpen : false,
@@ -116,14 +116,18 @@ class SearchRoutenSeat extends Component {
         if(arrival === null || arrival === undefined) {
             arrival = "Inchoen"
         }
+        if(date === null || date === undefined) {
+            alert("날짜를 입력해주세요.")
+            window.location.reload()
+        }
         if(time === null || time === undefined) {
             time = "00:00"
         }
 
-        console.log(departure)
-        console.log(arrival)
-        console.log(date)
-        console.log(time)
+        // console.log(departure)
+        // console.log(arrival)
+        // console.log(date)
+        // console.log(time)
 
         return fetch(url, {
             method: "POST",
@@ -147,9 +151,11 @@ class SearchRoutenSeat extends Component {
 
     _renderRouteTable = () => {
         // console.log(this.state.routeList)
-        let now = (this.state.time).split(':')
-
-        // if(this.state.)
+        let now = this.state.time
+        if(now === null || now === undefined) {
+            now = "00:00"
+        }
+        now = now.split(':')
 
         const render = this.state.routeList.map((route, _id) => {
             // console.log(route)
@@ -186,6 +192,13 @@ class SearchRoutenSeat extends Component {
             )
 
         })
+
+        // console.log(render)
+        if(render === null || render === undefined || render === "" || render.length === 0) {
+            // console.log("aa")
+            // console.log(render)
+            return "해당하는 노선 목록이 없습니다."
+        }
         return render
     }
 
