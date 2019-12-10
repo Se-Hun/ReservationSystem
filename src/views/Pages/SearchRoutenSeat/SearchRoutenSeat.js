@@ -15,10 +15,10 @@ import Button from '@material-ui/core/Button';
 import Modal from 'react-awesome-modal';
 
 const converter = {
-    Inchoen : "인천", 
+    Inchoen : "인천",
     Seoul : "서울",
     Daejeon : "대전",
-    Gwangju : "광주", 
+    Gwangju : "광주",
     Daegu : "대구",
     Busan : "부산",
     Ulsan : "울산"
@@ -74,8 +74,8 @@ class SearchRoutenSeat extends Component {
 
     _openModal = async (Info) => {
 
-        let seats = await this._callApiForSaetList(Info)
-        let reservedSeats = await this._callApiForReservedSaetList(Info)
+        let seats = await this._callApiForSeatList(Info)
+        let reservedSeats = await this._callApiForReservedSeatList(Info)
 
         this.setState({
             seatList: seats,
@@ -90,7 +90,7 @@ class SearchRoutenSeat extends Component {
         });
     }
 
-    _callApiForSaetList = (Info) => {
+    _callApiForSeatList = (Info) => {
         let url = "http://localhost:5000/api/trainInfo/get_seat"
 
         let trainName = Info
@@ -111,7 +111,7 @@ class SearchRoutenSeat extends Component {
 
     }
 
-    _callApiForReservedSaetList = (Info) => {
+    _callApiForReservedSeatList = (Info) => {
         let url = "http://localhost:5000/api/trainInfo/get_reserved"
 
         let trainName = Info
