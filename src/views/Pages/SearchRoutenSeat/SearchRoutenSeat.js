@@ -18,10 +18,8 @@ const converter = {
     Inchoen : "인천",
     Seoul : "서울",
     Daejeon : "대전",
-    Gwangju : "광주",
     Daegu : "대구",
-    Busan : "부산",
-    Ulsan : "울산"
+    Busan : "부산"
 }
 
 const convertToTrainId = {
@@ -487,10 +485,8 @@ class SearchRoutenSeat extends Component {
                                                 <option value="Inchoen">인천</option>
                                                 <option value="Seoul">서울</option>
                                                 <option value="Daejeon">대전</option>
-                                                <option value="Gwangju">광주</option>
                                                 <option value="Daegu">대구</option>
                                                 <option value="Busan">부산</option>
-                                                <option value="Ulsan">울산</option>
                                             </Input>
                                         </FormGroup>
                                     </Col>
@@ -502,10 +498,8 @@ class SearchRoutenSeat extends Component {
                                                 <option value="Inchoen">인천</option>
                                                 <option value="Seoul">서울</option>
                                                 <option value="Daejeon">대전</option>
-                                                <option value="Gwangju">광주</option>
                                                 <option value="Daegu">대구</option>
                                                 <option value="Busan">부산</option>
-                                                <option value="Ulsan">울산</option>
                                             </Input>
                                         </FormGroup>
                                     </Col>
