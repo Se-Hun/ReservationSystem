@@ -32,29 +32,89 @@ const brandInfo = getStyle('--info')
 const brandWarning = getStyle('--warning')
 const brandDanger = getStyle('--danger')
 
-
+const costmap = {
+    Inchoen: {
+        Incheon: 0,
+        Seoul: 10000,
+        Daejeon: 20000,
+        Daegu: 30000,
+        Busan: 40000,
+        Ulsan: 50000
+    },
+    Seoul: {
+        Incheon: 10000,
+        Seoul: 0,
+        Daejeon: 10000,
+        Daegu: 20000,
+        Busan: 30000
+    },
+    Daejeon: {
+        Incheon: 20000,
+        Seoul: 10000,
+        Daejeon: 0,
+        Daegu: 10000,
+        Busan: 20000
+    },
+    Daegu: {
+        Incheon: 30000,
+        Seoul: 20000,
+        Daejeon: 10000,
+        Daegu: 0,
+        Busan: 10000
+    },
+    Busan: {
+        Incheon: 40000,
+        Seoul: 30000,
+        Daejeon: 20000,
+        Daegu: 10000,
+        Busan: 0
+    }
+}
 class EditReservation extends Component {
     constructor(props) {
         super(props);
 
         this.toggle = this.toggle.bind(this);
         this.onRadioBtnClick = this.onRadioBtnClick.bind(this);
-
+        let peoplenum = 1
+        let disdegree = 1
+        let departure = 'Seoul'
+        let destination = 'Daejeon'
+        let cardcompany = '신한'
+        let cardnum = '0000 0000 0000 0000'
+        let seat = 1
+        let date = '2019-12-10'
+        let time = '9:00'
+        let cost = 0
+        if (props.location.state) {
+            peoplenum = props.location.state.peoplenum
+            disdegree = props.location.state.disdegree
+            departure = props.location.state.departure
+            destination = props.location.state.destination
+            cardcompany = props.location.state.cardcompany
+            cardnum = props.location.state.cardnum
+            seat = props.location.state.seat
+            date = props.location.state.date
+            time = props.location.state.time
+            cost = props.location.state.cost
+        }
         this.state = {
             dropdownOpen: false,
             radioSelected: 2,
-            peoplenum: this.props.location.state? this.props.location.state.peoplenum: '',
-            disdegree: this.props.location.state? this.props.location.state.disdegree: '',
-            seat: this.props.location.state? this.props.location.state.seat: '',
-            departure: this.props.location.state? this.props.location.state.departure: '',
-            destination: this.props.location.state? this.props.location.state.destination: '',
-            date: this.props.location.state? this.props.location.state.date: '',
-            time: this.props.location.state? this.props.location.state.time: '',
-            cardcompany: '',
-            cardnum: '',
+            peoplenum: peoplenum,
+            disdegree: disdegree,
+            departure: departure,
+            destination: destination,
+            cardcompany: cardcompany,
+            cardnum: cardnum,
+            seat: seat,
+            date: date,
+            time: time,
+            cost: cost,
             infoList: [],
             redirect: false
         };
+
     }
     handleChange = (e) => {
         this.setState({
@@ -81,6 +141,36 @@ class EditReservation extends Component {
             radioSelected: radioSelected,
         });
     }
+    componentDidMount() {
+        this._handleCost()
+    }
+
+    _handleCost = () => {
+        let departure = this.state.departure
+        let destination = this.state.destination
+        let peoplenum = this.state.peoplenum
+        let cost = costmap[departure][destination]
+        console.log(cost)
+        let discountpercent = 1;
+        if (this.state.seat == 2) {
+            cost = cost + 10000
+        }
+        if (this.state.kind == 2) {
+            discountpercent = discountpercent * 0.8
+        } else if (this.state.kind == 3) {
+            discountpercent = discountpercent * 0.5
+        }
+        if (this.state.disdegree == 2) {
+            discountpercent = discountpercent * 0.95
+        } else if (this.state.disdegree == 3) {
+            discountpercent = discountpercent * 0.9
+        }
+        cost = cost * discountpercent * peoplenum
+        console.log(cost+", "+discountpercent)
+        this.setState({
+            cost: cost
+        })
+    }
 
     loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>
 
@@ -100,6 +190,7 @@ class EditReservation extends Component {
                         seat: this.state.seat,
                         date: this.state.date,
                         time: this.state.time,
+                        cost: this.state.cost,
                     }
                 }}></Redirect>
             )

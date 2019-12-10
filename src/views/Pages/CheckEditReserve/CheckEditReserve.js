@@ -46,6 +46,7 @@ class ConfirmCancelReservation extends Component {
         let seat = 1
         let date = '2019-12-10'
         let time = '9:00'
+        let cost = 0
         if (props.location.state) {
             peoplenum = props.location.state.peoplenum
             disdegree = props.location.state.disdegree
@@ -56,6 +57,7 @@ class ConfirmCancelReservation extends Component {
             seat = props.location.state.seat
             date = props.location.state.date
             time = props.location.state.time
+            cost = props.location.state.cost
         }
         this.state = {
             dropdownOpen: false,
@@ -69,6 +71,7 @@ class ConfirmCancelReservation extends Component {
             seat: seat,
             date: date,
             time: time,
+            cost: cost
         };
     }
 
@@ -222,7 +225,7 @@ class ConfirmCancelReservation extends Component {
                                 <Col>
                                     <Card>
                                         <CardHeader>
-                                            <strong>Credit Card</strong>
+                                            <strong>The cost is {this.state.cost}</strong>
                                         </CardHeader>
                                         <CardBody>
                                             <Row>

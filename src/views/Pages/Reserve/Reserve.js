@@ -33,32 +33,63 @@ const brandSuccess = getStyle('--success')
 const brandInfo = getStyle('--info')
 const brandWarning = getStyle('--warning')
 const brandDanger = getStyle('--danger')
-
+const costmap = {
+    Inchoen: {
+        Incheon: 0,
+        Seoul: 10000,
+        Daejeon: 20000,
+        Daegu: 30000,
+        Busan: 40000,
+        Ulsan: 50000
+    },
+    Seoul: {
+        Incheon: 10000,
+        Seoul: 0,
+        Daejeon: 10000,
+        Daegu: 20000,
+        Busan: 30000
+    },
+    Daejeon: {
+        Incheon: 20000,
+        Seoul: 10000,
+        Daejeon: 0,
+        Daegu: 10000,
+        Busan: 20000
+    },
+    Daegu: {
+        Incheon: 30000,
+        Seoul: 20000,
+        Daejeon: 10000,
+        Daegu: 0,
+        Busan: 10000
+    },
+    Busan: {
+        Incheon: 40000,
+        Seoul: 30000,
+        Daejeon: 20000,
+        Daegu: 10000,
+        Busan: 0
+    }
+}
 
 class Reserve extends Component {
     constructor(props) {
         super(props);
         this.onRadioBtnClick = this.onRadioBtnClick.bind(this);
-
         this.state = {
             dropdownOpen: false,
             radioSelected: 2,
-            peoplenum: this.props.location.state? this.props.location.state.peoplenum: '',
-            disdegree: this.props.location.state? this.props.location.state.disdegree:'',
-            seat: this.props.location.state? this.props.location.state.seat: '',
-            departure: this.props.location.state? this.props.location.state.departure: '',
-            destination: this.props.location.state? this.props.location.state.destination: '',
-            date: this.props.location.state? this.props.location.state.date: '',
-            time: this.props.location.state? this.props.location.state.time: '',
+            peoplenum: this.props.location.state ? this.props.location.state.peoplenum : '',
+            disdegree: this.props.location.state ? this.props.location.state.disdegree : '',
+            seat: this.props.location.state ? this.props.location.state.seat : '',
+            departure: this.props.location.state ? this.props.location.state.departure : '',
+            destination: this.props.location.state ? this.props.location.state.destination : '',
+            date: this.props.location.state ? this.props.location.state.date : '',
+            time: this.props.location.state ? this.props.location.state.time : '',
             cardcompany: '',
-            cardnum: ''
+            cardnum: '',
+            cost: 0
         };
-    }
-
-    onRadioBtnClick(radioSelected) {
-        this.setState({
-            radioSelected: radioSelected,
-        });
     }
 
     handleChange = (e) => {
@@ -82,17 +113,18 @@ class Reserve extends Component {
         fetch(url, {
             method: "POST",
             headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({peoplenum:peoplenum, disdegree:disdegree, departure:departure, arrival:destination,
-                cardcompany: cardcompany, cardnum: cardnum, date: date, time: time, seat: seat})
+            body: JSON.stringify({
+                peoplenum: peoplenum, disdegree: disdegree, departure: departure, arrival: destination,
+                cardcompany: cardcompany, cardnum: cardnum, date: date, time: time, seat: seat
+            })
         }).then(res => res.json())
             .then(data => {
-                if(data.error){
+                if (data.error) {
                     const errorCode = data.error
-                    if(errorCode === 1) {
+                    if (errorCode === 1) {
                         alert(data.shouldAttribute + "을(를) 입력해주세요.")
                         return
-                    }
-                    else {
+                    } else {
                         alert("잘못된 접근입니다.")
                         window.location.reload()
                         return
@@ -101,6 +133,34 @@ class Reserve extends Component {
                 window.location.replace("/confirmReservation")
             })
             .catch(err => console.log(err))
+    }
+    componentDidMount() {
+        this._handleCost()
+    }
+
+    _handleCost = () => {
+        let departure = this.state.departure
+        let destination = this.state.destination
+        let peoplenum = this.state.peoplenum
+        let cost = costmap[departure][destination]
+        let discountpercent = 1;
+        if (this.state.seat == 2) {
+            cost = cost + 10000
+        }
+        if (this.state.kind == 2) {
+            discountpercent = discountpercent * 0.8
+        } else if (this.state.kind == 3) {
+            discountpercent = discountpercent * 0.5
+        }
+        if (this.state.disdegree == 2) {
+            discountpercent = discountpercent * 0.95
+        } else if (this.state.disdegree == 3) {
+            discountpercent = discountpercent * 0.9
+        }
+        cost = cost * discountpercent * peoplenum
+        this.setState({
+            cost: cost
+        })
     }
 
     loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>
@@ -122,7 +182,8 @@ class Reserve extends Component {
                                         <Col>
                                             <FormGroup>
                                                 <Label htmlFor="peoplenum">인원수</Label>
-                                                <Input type="select" name="peoplenum" value={this.state.peoplenum} onChange={this.handleChange}>
+                                                <Input type="select" name="peoplenum" value={this.state.peoplenum}
+                                                       onChange={this.handleChange}>
                                                     <option value="1">1</option>
                                                     <option value="2">2</option>
                                                     <option value="3">3</option>
@@ -152,7 +213,8 @@ class Reserve extends Component {
                                         <Col>
                                             <FormGroup>
                                                 <Label htmlFor="disdegree">장애 정도</Label>
-                                                <Input type="select" name="disdegree" value={this.state.disdegree} onChange={this.handleChange}>
+                                                <Input type="select" name="disdegree" value={this.state.disdegree}
+                                                       onChange={this.handleChange}>
                                                     <option value="1급">1급</option>
                                                     <option value="2급">2급</option>
                                                     <option value="3급">3급</option>
@@ -206,14 +268,15 @@ class Reserve extends Component {
                                 <Col>
                                     <Card>
                                         <CardHeader>
-                                            <strong>Credit Card</strong>
+                                            <strong>The cost is {this.state.cost}</strong>
                                         </CardHeader>
                                         <CardBody>
                                             <Row>
                                                 <Col xs="12">
                                                     <FormGroup>
                                                         <Label htmlFor="card">card company</Label>
-                                                        <Input type="select" name="cardcompany" value={this.state.cardcompany}
+                                                        <Input type="select" name="cardcompany"
+                                                               value={this.state.cardcompany}
                                                                onChange={this.handleChange} id="cardcompany">
                                                             <option value="신한">신한</option>
                                                             <option value="하나">하나</option>
