@@ -56,24 +56,19 @@ class EditReservation extends Component {
             redirect: false
         };
     }
+    handleChange = (e) => {
+        this.setState({
+            [e.target.name]: e.target.value
+        })
+    }
     handleSumbit = (e) => {
         e.preventDefault()
         let url = ""
-        let tmpinfoList = []
-        tmpinfoList["peoplenum"] = this.state.peoplenum
-        tmpinfoList["disdegree"] = this.state.disdegree
-        tmpinfoList["departure"] = this.state.departure
-        tmpinfoList["destination"] = this.state.destination
-        tmpinfoList["cardcompany"] = this.state.cardcompany
-        tmpinfoList["cardnum"] = this.state.cardnum
-        tmpinfoList["seat"] = this.state.seat
-        tmpinfoList["date"] = this.state.date
-        tmpinfoList["time"] = this.state.time
-
+        console.log(this.state.tmpinfoList)
         this.setState({
-            infoList: tmpinfoList,
             redirect: true
         })
+        console.log(this.state.infoList)
     }
     toggle() {
         this.setState({
@@ -95,7 +90,16 @@ class EditReservation extends Component {
                 <Redirect to={{
                     pathname: '/checkEditReserve',
                     state: {
-                        infoList: this.state.infoList
+                        infoList: this.state.infoList,
+                        peoplenum : this.state.peoplenum,
+                        disdegree: this.state.disdegree,
+                        departure: this.state.departure,
+                        destination: this.state.destination,
+                        cardcompany: this.state.cardcompany,
+                        cardnum: this.state.cardnum,
+                        seat: this.state.seat,
+                        date: this.state.date,
+                        time: this.state.time,
                     }
                 }}></Redirect>
             )
