@@ -20,6 +20,7 @@ import {
     Progress,
     Row,
     Table,
+    Form
 } from 'reactstrap';
 import {CustomTooltips} from '@coreui/coreui-plugin-chartjs-custom-tooltips';
 import {getStyle, hexToRgba} from '@coreui/coreui/dist/js/coreui-utilities'
@@ -71,24 +72,57 @@ const costmap = {
         Busan: 0
     }
 }
-
+const converter = {
+    Inchoen : "인천",
+    Seoul : "서울",
+    Daejeon : "대전",
+    Gwangju : "광주",
+    Daegu : "대구",
+    Busan : "부산",
+    Ulsan : "울산"
+}
 class Reserve extends Component {
     constructor(props) {
         super(props);
-        this.onRadioBtnClick = this.onRadioBtnClick.bind(this);
+        let peoplenum = 0
+        let disdegree = 1
+        let departure = 'Seoul'
+        let destination = 'Deajeon'
+        let cardcompany = '신한'
+        let cardnum = '0000 0000 0000 0000'
+        let seat = 1
+        let date = '2019-12-10'
+        let time = '9:00'
+        let cost = 0
+        let kind = 1
+        if (props.location.state) {
+            peoplenum = props.location.state.peoplenum
+            disdegree = props.location.state.disdegree
+            departure = props.location.state.departure
+            destination = props.location.state.destination
+            cardcompany = props.location.state.cardcompany
+            cardnum = props.location.state.cardnum
+            seat = props.location.state.seat
+            date = props.location.state.date
+            time = props.location.state.time
+            kind = props.location.state.kind
+        }
         this.state = {
             dropdownOpen: false,
             radioSelected: 2,
-            peoplenum: this.props.location.state ? this.props.location.state.peoplenum : '',
-            disdegree: this.props.location.state ? this.props.location.state.disdegree : '',
-            seat: this.props.location.state ? this.props.location.state.seat : '',
-            departure: this.props.location.state ? this.props.location.state.departure : '',
-            destination: this.props.location.state ? this.props.location.state.destination : '',
-            date: this.props.location.state ? this.props.location.state.date : '',
-            time: this.props.location.state ? this.props.location.state.time : '',
+            peoplenum: peoplenum,
+            disdegree: disdegree,
+            departure: departure,
+            destination: destination,
+            cardcompany: cardcompany,
+            cardnum: cardnum,
+            seat: seat,
+            date: date,
+            time: time,
+            cost: cost,
+
             cardcompany: '',
             cardnum: '',
-            cost: 0
         };
     }
 
@@ -133,6 +167,7 @@ class Reserve extends Component {
                 window.location.replace("/confirmReservation")
             })
             .catch(err => console.log(err))
+        window.location.replace("/confirmReservation")
     }
     componentDidMount() {
         this._handleCost()
@@ -172,6 +207,7 @@ class Reserve extends Component {
         }
         return (
             <div className="animated fadeIn">
+                <Form onSubmit={this.handleSumbit}>
                 <Row>
                     <Col lg='10'>
                         <Card className="text-white bg-info">
@@ -250,6 +286,18 @@ class Reserve extends Component {
                                             </Input>
                                         </FormGroup>
                                     </Col>
+                                    <Col>
+                                        <FormGroup>
+                                            <Label htmlFor="name" style={{color: "black"}}><strong>기차 종류</strong></Label>
+                                            <Input type="select" name="kind" onChange={this.handleChange}
+                                                   value={this.state.kind}
+                                                   id="kind" required>
+                                                <option value="1">KTX</option>
+                                                <option value="2">무궁화호</option>
+                                                <option value="3">새마을호</option>
+                                            </Input>
+                                        </FormGroup>
+                                    </Col>
                                     <Col xs="3">
                                         <FormGroup>
                                             <Label htmlFor="date">날짜</Label>
@@ -260,8 +308,33 @@ class Reserve extends Component {
                                     <Col xs="3">
                                         <FormGroup>
                                             <Label htmlFor="time">시간</Label>
-                                            <Input type="time" name="time" onChange={this.handleChange}
-                                                   value={this.state.time} required/>
+                                            <Input type="select" name="time" onChange={this.handleChange}
+                                                   id="time" value={this.state.time} required>
+                                                <option value="00:00">오전 12시</option>
+                                                <option value="01:00">오전 1시</option>
+                                                <option value="02:00">오전 2시</option>
+                                                <option value="03:00">오전 3시</option>
+                                                <option value="04:00">오전 4시</option>
+                                                <option value="05:00">오전 5시</option>
+                                                <option value="06:00">오전 6시</option>
+                                                <option value="07:00">오전 7시</option>
+                                                <option value="08:00">오전 8시</option>
+                                                <option value="09:00">오전 9시</option>
+                                                <option value="10:00">오전 10시</option>
+                                                <option value="11:00">오전 11시</option>
+                                                <option value="12:00">오후 12시</option>
+                                                <option value="13:00">오후 1시</option>
+                                                <option value="14:00">오후 2시</option>
+                                                <option value="15:00">오후 3시</option>
+                                                <option value="16:00">오후 4시</option>
+                                                <option value="17:00">오후 5시</option>
+                                                <option value="18:00">오후 6시</option>
+                                                <option value="19:00">오후 7시</option>
+                                                <option value="20:00">오후 8시</option>
+                                                <option value="21:00">오후 9시</option>
+                                                <option value="22:00">오후 10시</option>
+                                                <option value="23:00">오후 11시</option>
+                                            </Input>
                                         </FormGroup>
                                     </Col>
                                 </Row>
@@ -308,7 +381,7 @@ class Reserve extends Component {
                         </Card>
                     </Col>
                 </Row>
-
+                </Form>
             </div>
         );
     }
