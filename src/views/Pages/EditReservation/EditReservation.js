@@ -19,10 +19,11 @@ import {
     Progress,
     Row,
     Table,
+    Form
 } from 'reactstrap';
 import {CustomTooltips} from '@coreui/coreui-plugin-chartjs-custom-tooltips';
 import {getStyle, hexToRgba} from '@coreui/coreui/dist/js/coreui-utilities'
-
+import {Redirect} from 'react-router-dom'
 //const Widget03 = lazy(() => import('../../../../../views/Widgets/Widget03'));
 
 const brandPrimary = getStyle('--primary')
@@ -50,30 +51,29 @@ class EditReservation extends Component {
             date: this.props.location.state.date,
             time: this.props.location.state.time,
             cardcompany: '',
-            cardnum: ''
+            cardnum: '',
+            infoList: [],
+            redirect: false
         };
     }
     handleSumbit = (e) => {
         e.preventDefault()
         let url = ""
-        let peoplenum = this.state.peoplenum
-        let disdegree = this.state.disdegree
-        let departure = this.state.departure
-        let destination = this.state.destination
-        let cardcompany = this.state.cardcompany
-        let cardnum = this.state.cardnum
-        let seat = this.state.seat
-        let date = this.state.date
-        let time = this.state.time
-        fetch(url, {
-            method: "POST",
-            headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({peoplenum:peoplenum, disdegree:disdegree, departure:departure, arrival:destination,
-            cardcompany: cardcompany, cardnum: cardnum, date: date, time: time, seat: seat})
-        }).then(res => res.json())
-            .then(data => {
-                window.location.replace("/confirmReservation")
-            })
+        let tmpinfoList = []
+        tmpinfoList["peoplenum"] = this.state.peoplenum
+        tmpinfoList["disdegree"] = this.state.disdegree
+        tmpinfoList["departure"] = this.state.departure
+        tmpinfoList["destination"] = this.state.destination
+        tmpinfoList["cardcompany"] = this.state.cardcompany
+        tmpinfoList["cardnum"] = this.state.cardnum
+        tmpinfoList["seat"] = this.state.seat
+        tmpinfoList["date"] = this.state.date
+        tmpinfoList["time"] = this.state.time
+
+        this.setState({
+            infoList: tmpinfoList,
+            redirect: true
+        })
     }
     toggle() {
         this.setState({
@@ -90,9 +90,19 @@ class EditReservation extends Component {
     loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>
 
     render() {
-
+        if(this.state.redirect){
+            return (
+                <Redirect to={{
+                    pathname: '/checkEditReserve',
+                    state: {
+                        infoList: this.state.infoList
+                    }
+                }}></Redirect>
+            )
+        }
         return (
             <div className="animated fadeIn">
+                <Form onSubmit={this.handleSumbit}>
                 <Row>
                     <Col lg='10'>
                         <Card className="text-white bg-info">
@@ -225,7 +235,7 @@ class EditReservation extends Component {
                         </Card>
                     </Col>
                 </Row>
-
+            </Form>
             </div>
         );
     }
