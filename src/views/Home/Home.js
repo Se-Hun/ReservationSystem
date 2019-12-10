@@ -27,8 +27,8 @@ class Home extends Component {
     constructor(props) {
         super(props);
 
-        let departure = ''
-        let destination = ''
+        let departure = ""
+        let destination = ""
         if (props.location.state) {
             departure = props.location.state.departure
             destination = props.location.state.destination
@@ -40,8 +40,8 @@ class Home extends Component {
             radioSelected: 2,
             departure: departure,
             destination: destination,
-            date: '',
-            time: '',
+            date: null,
+            time: "",
         };
     }
 
@@ -52,6 +52,23 @@ class Home extends Component {
     }
     handleSubmit = (e) => {
         e.preventDefault();
+
+        // if(this.state.departure === null || this.state.departure === undefined) {
+        //     alert("출발지를 입력해주세요.")
+        //     return
+        // }
+        // if(this.state.destination === null || this.state.destination === undefined) {
+        //     alert("도착지를 입력해주세요.")
+        //     return
+        // }
+        if(this.state.date === null || this.state.date === undefined) {
+            alert("날짜를 입력해주세요.")
+            return
+        }
+        // if(this.state.time === null || this.state.time === undefined) {
+        //     alert("시간을 입력해주세요.")
+        //     return
+        // }
 
         const deptForConvert = this.state.departure
         const destForConvert = this.state.destination

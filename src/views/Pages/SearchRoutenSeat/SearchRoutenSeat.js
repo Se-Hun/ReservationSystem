@@ -20,16 +20,21 @@ class SearchRoutenSeat extends Component {
     constructor(props) {
         super(props);
 
-        let departure = ''
-        let destination = ''
-        let date = ''
-        let time = ''
+        let departure = null
+        let destination = null
+        let date = null
+        let time = null
         if (props.location.state) {
             departure = props.location.state.departure
             destination = props.location.state.destination
             date = props.location.state.date
             time = props.location.state.time
         }
+
+        console.log(departure)
+        console.log(destination)
+        console.log(date)
+        console.log(time)
 
         this.state = {
             isModalOpen : false,
@@ -105,6 +110,21 @@ class SearchRoutenSeat extends Component {
 
         // console.log(this.state)
 
+        if(departure === null || departure === undefined) {
+            departure = "Inchoen"
+        }
+        if(arrival === null || arrival === undefined) {
+            arrival = "Inchoen"
+        }
+        if(time === null || time === undefined) {
+            time = "00:00"
+        }
+
+        console.log(departure)
+        console.log(arrival)
+        console.log(date)
+        console.log(time)
+
         return fetch(url, {
             method: "POST",
             headers: {"Content-Type": "application/json"},
@@ -128,6 +148,8 @@ class SearchRoutenSeat extends Component {
     _renderRouteTable = () => {
         // console.log(this.state.routeList)
         let now = (this.state.time).split(':')
+
+        // if(this.state.)
 
         const render = this.state.routeList.map((route, _id) => {
             // console.log(route)
