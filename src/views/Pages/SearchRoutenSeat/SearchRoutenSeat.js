@@ -33,7 +33,7 @@ class SearchRoutenSeat extends Component {
 
         this.state = {
             isModalOpen : false,
-            dropdownOpen: false,
+            // dropdownOpen: false,
             peoplenum: 1,
             disdegree: 1,
             seat: 1,
@@ -45,11 +45,17 @@ class SearchRoutenSeat extends Component {
             redirect: false,
             routeList: null,
             route: null,
+            seatList : null
         };
     }
 
-    _openModal = () => {
+    _openModal = async (Info) => {
+        // console.log(Info)
+
+        const seats = await this._callApiForSaetList(Info)
+
         this.setState({
+            seatList: seats,
             isModalOpen: true,
         });
     }
@@ -60,8 +66,31 @@ class SearchRoutenSeat extends Component {
         });
     }
 
+    _callApiForSaetList = (Info) => {
+        let url = "http://localhost:5000/api/trainInfo/get_seat"
+
+        let trainName = Info
+
+        return fetch(url, {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({
+                trainName: trainName
+            })
+        }).then(res => res.json())
+            .then(data => {
+                console.log(data)
+                return data
+            })
+            .catch(err => {
+                console.log(err)
+            })
+
+    }
+
     _getRouteList = async () => {
         const RouteList = await this._callApi()
+        // console.log(RouteList)
         this.setState({
             routeList: RouteList,
         })
@@ -74,7 +103,7 @@ class SearchRoutenSeat extends Component {
         let date = this.state.date
         let time = "03:00" // this.state.time <= 이거 고쳐야함!!
 
-        console.log(this.state)
+        // console.log(this.state)
 
         return fetch(url, {
             method: "POST",
@@ -101,13 +130,18 @@ class SearchRoutenSeat extends Component {
         let now = (this.state.time).split(':')
 
         const render = this.state.routeList.map((route, _id) => {
+            // console.log(route)
+
             let deptime = (route.deptime).split(':')
             if((now[0]-deptime[0])>0) {
                 return null
             }
+
+            const trainInfo = route.trainInfo
+
             return (
                 <tr key={_id}>
-                    <td>{route.trainInfo}</td>
+                    <td>{trainInfo}</td>
                     <td>{route.laststop}</td>
                     <td>{route.deptime}</td>
                     <td>{route.arrtime}</td>
@@ -123,7 +157,7 @@ class SearchRoutenSeat extends Component {
                         {/*        train: this.state.train,*/}
                         {/*        route: this.state.route,*/}
                         {/*    }}} style={{textDecoration: "none"}}>*/}
-                            <Button variant="contained" size="small" onClick={this._openModal}>확인</Button>
+                            <Button variant="contained" size="small" onClick={() => this._openModal(trainInfo)}>확인</Button>
                         {/*</Link>*/}
                     </td>
                 </tr>
@@ -133,11 +167,11 @@ class SearchRoutenSeat extends Component {
         return render
     }
 
-    toggle() {
-        this.setState({
-            dropdownOpen: !this.state.dropdownOpen,
-        });
-    }
+    // toggle() {
+    //     this.setState({
+    //         dropdownOpen: !this.state.dropdownOpen,
+    //     });
+    // }
 
     handleChange = (e) => {
         this.setState({
@@ -263,8 +297,33 @@ class SearchRoutenSeat extends Component {
                                         <Col xs="6">
                                             <FormGroup>
                                                 <Label htmlFor="name" style={{color: "black"}}><strong>시간</strong></Label>
-                                                <Input type="time" name="time" onChange={this.handleChange}
-                                                       id="time" value={this.state.time} required/>
+                                                <Input type="select" name="time" onChange={this.handleChange}
+                                                       id="time" value={this.state.time} required>
+                                                    <option value="00:00">오전 12시</option>
+                                                    <option value="01:00">오전 1시</option>
+                                                    <option value="02:00">오전 2시</option>
+                                                    <option value="03:00">오전 3시</option>
+                                                    <option value="04:00">오전 4시</option>
+                                                    <option value="05:00">오전 5시</option>
+                                                    <option value="06:00">오전 6시</option>
+                                                    <option value="07:00">오전 7시</option>
+                                                    <option value="08:00">오전 8시</option>
+                                                    <option value="09:00">오전 9시</option>
+                                                    <option value="10:00">오전 10시</option>
+                                                    <option value="11:00">오전 11시</option>
+                                                    <option value="12:00">오후 12시</option>
+                                                    <option value="13:00">오후 1시</option>
+                                                    <option value="14:00">오후 2시</option>
+                                                    <option value="15:00">오후 3시</option>
+                                                    <option value="16:00">오후 4시</option>
+                                                    <option value="17:00">오후 5시</option>
+                                                    <option value="18:00">오후 6시</option>
+                                                    <option value="19:00">오후 7시</option>
+                                                    <option value="20:00">오후 8시</option>
+                                                    <option value="21:00">오후 9시</option>
+                                                    <option value="22:00">오후 10시</option>
+                                                    <option value="23:00">오후 11시</option>
+                                                </Input>
                                             </FormGroup>
                                         </Col>
 
@@ -305,7 +364,7 @@ class SearchRoutenSeat extends Component {
                         </Table>
                     </CardBody>
                 </Card>
-                <Button onClick={this._openModal}>DEBUG</Button>
+                {/*<Button onClick={this._openModal}>DEBUG</Button>*/}
                 <Modal
                     visible={this.state.isModalOpen}
                     width="90%"
@@ -315,66 +374,71 @@ class SearchRoutenSeat extends Component {
                     <div className="Container">
                         <Row className="p-4">
                             <Col className="col-1 my-auto">
-                                <button type="button" className="btn btn-primary">#</button>
+                                <button type="button" className="btn btn-primary" onClick={this._handleLeftClick}>
+                                    <i className="cui-chevron-left icons font-5xl"/>
+                                </button>
                             </Col>
                             <Col className="col-8 my-auto">
                                 <div className="card">
                                     <div className="card-body">
-                                        <div className="row justify-content-between my-2">
-                                            <div className="col-5">
-                                                <button type="button" className="btn btn-light mr-3">Light</button>
-                                                <button type="button" className="btn btn-light">Light</button>
-                                            </div>
-                                            <div className="col-5 ml-auto">
-                                                <button type="button" className="btn btn-light mr-3">Light</button>
-                                                <button type="button" className="btn btn-light">Light</button>
-                                            </div>
-                                        </div>
-                                        <div className="row justify-content-between my-2">
-                                            <div className="col-5">
-                                                <button type="button" className="btn btn-light mr-3">Light</button>
-                                                <button type="button" className="btn btn-light">Light</button>
-                                            </div>
-                                            <div className="col-5">
-                                                <button type="button" className="btn btn-light mr-3">Light</button>
-                                                <button type="button" className="btn btn-light">Light</button>
-                                            </div>
-                                        </div>
-                                        <div className="row justify-content-between my-2 mb-4">
-                                            <div className="col-5">
-                                                <button type="button" className="btn btn-light mr-3">Light</button>
-                                                <button type="button" className="btn btn-light">Light</button>
-                                            </div>
-                                            <div className="col-5">
-                                                <button type="button" className="btn btn-light mr-3">Light</button>
-                                                <button type="button" className="btn btn-light">Light</button>
-                                            </div>
-                                        </div>
-                                        <div className="row justify-content-between my-2">
-                                            <div className="col-5">
-                                                <button type="button" className="btn btn-light mr-3">Light</button>
-                                                <button type="button" className="btn btn-light">Light</button>
-                                            </div>
-                                            <div className="col-5 ml-auto">
-                                                <button type="button" className="btn btn-light mr-3">Light</button>
-                                                <button type="button" className="btn btn-light">Light</button>
-                                            </div>
-                                        </div>
-                                        <div className="row justify-content-between my-2">
-                                            <div className="col-5">
-                                                <button type="button" className="btn btn-light mr-3">Light</button>
-                                                <button type="button" className="btn btn-light">Light</button>
-                                            </div>
-                                            <div className="col-5">
-                                                <button type="button" className="btn btn-light mr-3">Light</button>
-                                                <button type="button" className="btn btn-light">Light</button>
-                                            </div>
-                                        </div>
+                                        {/*{this._renderSeats}*/}
+                                        {/*<div className="row justify-content-between my-2">*/}
+                                        {/*    <div className="col-5">*/}
+                                        {/*        <button type="button" className="btn btn-light mr-3">Light</button>*/}
+                                        {/*        <button type="button" className="btn btn-light">Light</button>*/}
+                                        {/*    </div>*/}
+                                        {/*    <div className="col-5 ml-auto">*/}
+                                        {/*        <button type="button" className="btn btn-light mr-3">Light</button>*/}
+                                        {/*        <button type="button" className="btn btn-light">Light</button>*/}
+                                        {/*    </div>*/}
+                                        {/*</div>*/}
+                                        {/*<div className="row justify-content-between my-2">*/}
+                                        {/*    <div className="col-5">*/}
+                                        {/*        <button type="button" className="btn btn-light mr-3">Light</button>*/}
+                                        {/*        <button type="button" className="btn btn-light">Light</button>*/}
+                                        {/*    </div>*/}
+                                        {/*    <div className="col-5">*/}
+                                        {/*        <button type="button" className="btn btn-light mr-3">Light</button>*/}
+                                        {/*        <button type="button" className="btn btn-light">Light</button>*/}
+                                        {/*    </div>*/}
+                                        {/*</div>*/}
+                                        {/*<div className="row justify-content-between my-2 mb-4">*/}
+                                        {/*    <div className="col-5">*/}
+                                        {/*        <button type="button" className="btn btn-light mr-3">Light</button>*/}
+                                        {/*        <button type="button" className="btn btn-light">Light</button>*/}
+                                        {/*    </div>*/}
+                                        {/*    <div className="col-5">*/}
+                                        {/*        <button type="button" className="btn btn-light mr-3">Light</button>*/}
+                                        {/*        <button type="button" className="btn btn-light">Light</button>*/}
+                                        {/*    </div>*/}
+                                        {/*</div>*/}
+                                        {/*<div className="row justify-content-between my-2">*/}
+                                        {/*    <div className="col-5">*/}
+                                        {/*        <button type="button" className="btn btn-light mr-3">Light</button>*/}
+                                        {/*        <button type="button" className="btn btn-light">Light</button>*/}
+                                        {/*    </div>*/}
+                                        {/*    <div className="col-5 ml-auto">*/}
+                                        {/*        <button type="button" className="btn btn-light mr-3">Light</button>*/}
+                                        {/*        <button type="button" className="btn btn-light">Light</button>*/}
+                                        {/*    </div>*/}
+                                        {/*</div>*/}
+                                        {/*<div className="row justify-content-between my-2">*/}
+                                        {/*    <div className="col-5">*/}
+                                        {/*        <button type="button" className="btn btn-light mr-3">Light</button>*/}
+                                        {/*        <button type="button" className="btn btn-light">Light</button>*/}
+                                        {/*    </div>*/}
+                                        {/*    <div className="col-5">*/}
+                                        {/*        <button type="button" className="btn btn-light mr-3">Light</button>*/}
+                                        {/*        <button type="button" className="btn btn-light">Light</button>*/}
+                                        {/*    </div>*/}
+                                        {/*</div>*/}
                                     </div>
                                 </div>
                             </Col>
                             <Col className="col-1 my-auto">
-                                <button type="button" className="btn btn-primary">#</button>
+                                <button type="button" className="btn btn-primary" onClick={this._handleRightClick}>
+                                    <i className="cui-chevron-right icons font-5xl"/>
+                                </button>
                             </Col>
                         </Row>
                     </div>
@@ -384,57 +448,57 @@ class SearchRoutenSeat extends Component {
     }
 }
 
-class PreviousButton extends Component {
-    _handleClick = () => {
-        console.log("hi")
-    }
-
-    render() {
-        return(
-            <Container>
-                <i className="cui-chevron-left icons font-5xl" onClick={this._handleClick}></i>
-            </Container>
-        )
-    }
-}
-
-class PresentSeats extends Component {
-    render() {
-        return(
-            <Card>
-                <CardBody>
-                    <div>
-                        sad
-                    </div>
-                    <div>
-                        sad
-                    </div>
-                    <div>
-                        sad
-                    </div>
-                    <div>
-                        sad
-                    </div><div>
-                        sad
-                    </div>
-                </CardBody>
-            </Card>
-        )
-    }
-}
-
-class NextButton extends Component {
-    _handleClick = () => {
-        console.log("hi")
-    }
-
-    render() {
-        return(
-            <Container>
-                <i className="cui-chevron-right icons font-5xl" onClick={this._handleClick}></i>
-            </Container>
-        )
-    }
-}
+// class PreviousButton extends Component {
+//     _handleClick = () => {
+//         console.log("hi")
+//     }
+//
+//     render() {
+//         return(
+//             <Container>
+//                 <i className="cui-chevron-left icons font-5xl" onClick={this._handleClick}></i>
+//             </Container>
+//         )
+//     }
+// }
+//
+// class PresentSeats extends Component {
+//     render() {
+//         return(
+//             <Card>
+//                 <CardBody>
+//                     <div>
+//                         sad
+//                     </div>
+//                     <div>
+//                         sad
+//                     </div>
+//                     <div>
+//                         sad
+//                     </div>
+//                     <div>
+//                         sad
+//                     </div><div>
+//                         sad
+//                     </div>
+//                 </CardBody>
+//             </Card>
+//         )
+//     }
+// }
+//
+// class NextButton extends Component {
+//     _handleClick = () => {
+//         console.log("hi")
+//     }
+//
+//     render() {
+//         return(
+//             <Container>
+//                 <i className="cui-chevron-right icons font-5xl" onClick={this._handleClick}></i>
+//             </Container>
+//         )
+//     }
+// }
 
 export default SearchRoutenSeat;

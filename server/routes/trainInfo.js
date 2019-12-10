@@ -10,7 +10,7 @@ const router = express.Router();
 }
 */
 // output : 해당 기차의 좌석 정보
-router.get('/get_seat', (req, res) => {
+router.post('/get_seat', (req, res) => {
 	const trainName = req.body.trainName;
     if(!trainName)
         return res.status(404).send({code: '404', error: 1, shouldAttribute: "trainName"});
@@ -37,7 +37,7 @@ router.get('/get_seat', (req, res) => {
 }
 */
 // output : 해당 기차의 예매된 좌석 정보
-router.get('/get_reserved', (req, res) => {
+router.post('/get_reserved', (req, res) => {
 	const trainName = req.body.trainName;
     if(!trainName)
         return res.status(404).send({code: '404', error: 1, shouldAttribute: "trainName"});
