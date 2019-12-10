@@ -312,35 +312,71 @@ class SearchRoutenSeat extends Component {
                     height="80%"
                     effect="fadeInUp"
                     onClickAway={() => this._closeModal()}>
-                    <div className="justify-content-center">
-                        <Col>
-                        <Suspense  fallback={this.loading()}>
-                            <PreviousButton/>
-                        </Suspense>
-                        </Col>
-                        <Col md={10}>
-                        <Suspense  fallback={this.loading()}>
-                            <PresentSeats/>
-                        </Suspense>
-                        </Col>
-                        <Col>
-                        <Suspense  fallback={this.loading()}>
-                            <NextButton/>
-                        </Suspense>
-                        </Col>
-                        {/*/!*<PreviousButton/>*!/*/}
-                        {/*/!*<NextButton/>*!/*/}
-                        {/*<Container>*/}
-                        {/*<Col> /!*marginTop: "auto"*!/*/}
-                        {/*    <PreviousButton style={{position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%, -50%)'}}/>*/}
-                        {/*</Col>*/}
-                        {/*<Col md={10}>*/}
-                        {/*    <PresentSeats style={{position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%, -50%)'}}/>*/}
-                        {/*</Col>*/}
-                        {/*<Col>*/}
-                        {/*    <NextButton style={{position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%, -50%)'}}/>*/}
-                        {/*</Col>*/}
-                        {/*</Container>*/}
+                    <div className="Container">
+                        <Row className="p-4">
+                            <Col className="col-1 my-auto">
+                                <button type="button" className="btn btn-primary">#</button>
+                            </Col>
+                            <Col className="col-8 my-auto">
+                                <div className="card">
+                                    <div className="card-body">
+                                        <div className="row justify-content-between my-2">
+                                            <div className="col-5">
+                                                <button type="button" className="btn btn-light mr-3">Light</button>
+                                                <button type="button" className="btn btn-light">Light</button>
+                                            </div>
+                                            <div className="col-5 ml-auto">
+                                                <button type="button" className="btn btn-light mr-3">Light</button>
+                                                <button type="button" className="btn btn-light">Light</button>
+                                            </div>
+                                        </div>
+                                        <div className="row justify-content-between my-2">
+                                            <div className="col-5">
+                                                <button type="button" className="btn btn-light mr-3">Light</button>
+                                                <button type="button" className="btn btn-light">Light</button>
+                                            </div>
+                                            <div className="col-5">
+                                                <button type="button" className="btn btn-light mr-3">Light</button>
+                                                <button type="button" className="btn btn-light">Light</button>
+                                            </div>
+                                        </div>
+                                        <div className="row justify-content-between my-2 mb-4">
+                                            <div className="col-5">
+                                                <button type="button" className="btn btn-light mr-3">Light</button>
+                                                <button type="button" className="btn btn-light">Light</button>
+                                            </div>
+                                            <div className="col-5">
+                                                <button type="button" className="btn btn-light mr-3">Light</button>
+                                                <button type="button" className="btn btn-light">Light</button>
+                                            </div>
+                                        </div>
+                                        <div className="row justify-content-between my-2">
+                                            <div className="col-5">
+                                                <button type="button" className="btn btn-light mr-3">Light</button>
+                                                <button type="button" className="btn btn-light">Light</button>
+                                            </div>
+                                            <div className="col-5 ml-auto">
+                                                <button type="button" className="btn btn-light mr-3">Light</button>
+                                                <button type="button" className="btn btn-light">Light</button>
+                                            </div>
+                                        </div>
+                                        <div className="row justify-content-between my-2">
+                                            <div className="col-5">
+                                                <button type="button" className="btn btn-light mr-3">Light</button>
+                                                <button type="button" className="btn btn-light">Light</button>
+                                            </div>
+                                            <div className="col-5">
+                                                <button type="button" className="btn btn-light mr-3">Light</button>
+                                                <button type="button" className="btn btn-light">Light</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </Col>
+                            <Col className="col-1 my-auto">
+                                <button type="button" className="btn btn-primary">#</button>
+                            </Col>
+                        </Row>
                     </div>
                 </Modal>
             </div>
