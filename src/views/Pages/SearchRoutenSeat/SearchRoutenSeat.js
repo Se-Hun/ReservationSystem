@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {Redirect} from 'react-router-dom';
 import {
     Card,
     CardBody,
@@ -12,6 +13,28 @@ import {
 } from 'reactstrap';
 import Button from '@material-ui/core/Button';
 import Modal from 'react-awesome-modal';
+
+const converter = {
+    Inchoen : "인천", 
+    Seoul : "서울",
+    Daejeon : "대전",
+    Gwangju : "광주", 
+    Daegu : "대구",
+    Busan : "부산",
+    Ulsan : "울산"
+}
+
+const convertToTrainId = {
+    KTX : "1",
+    무궁화호 : "2",
+    새마을호 : "3"
+}
+
+const convertToTrainKind = {
+    1 : "KTX",
+    2 : "무궁화호",
+    3 : "새마을호"
+}
 
 class SearchRoutenSeat extends Component {
 
@@ -30,21 +53,22 @@ class SearchRoutenSeat extends Component {
         }
 
         this.state = {
+            Redirect : false,
             isModalOpen : false,
-            peoplenum: 1,
-            disdegree: 1,
-            seat: 1,
-            train: 1,
-            departure : departure,
-            destination : destination,
-            date: date,
-            time: time,
+            peoplenum: "1", // 인원수
+            disdegree: "1", // 장애 정도(일반, 1급, 2급)
+            seat: "1", // 좌석 종류(일반, 우등)
+            kind: "1", // 선택한 기차 종류(ktx, 무궁화호, 새마을호)
+            departure : departure, // 검색할 출발지
+            destination : destination, // 검색할 도착지
+            date: date, // 검색할 날짜
+            time: time, // 검색할 시간
             redirect: false,
-            routeList: null,
-            route: null,
-            seatList : null,
-            reservedList : null,
-            presentCar : "2" // 현재 칸을 Default로 2번 칸으로 지정
+            routeList: null, // 출발지-도착지를 통해 검색한 노선 목록
+            seatList : null, // back-end에서 받아온 현재 기차의 전체 좌석 목록
+            reservedList : null, // back-end에서 받아온 현재 기차의 좌석에서 예약된 목록
+            presentCar : "2", // 현재 칸을 Default로 2번 칸으로 지정
+            selectedSeatList : [] // 유저가 최종적으로 선택한 좌석 목록
         };
     }
 
@@ -110,7 +134,7 @@ class SearchRoutenSeat extends Component {
 
     _getRouteList = async () => {
         const RouteList = await this._callApi()
-        // console.log(RouteList)
+
         this.setState({
             routeList: RouteList,
         })
@@ -143,7 +167,7 @@ class SearchRoutenSeat extends Component {
             body: JSON.stringify({departure: departure, arrival: arrival, date: date, time: time})
         }).then(res => res.json())
             .then(data => {
-                console.log(data)
+                // console.log(data)
                 return data
             })
             .catch(err => {
@@ -158,22 +182,39 @@ class SearchRoutenSeat extends Component {
         }
         now = now.split(':')
 
+        // console.log(this.state.routeList)
+
         const render = this.state.routeList.map((route, _id) => {
             let deptime = (route.deptime).split(':')
             if((now[0]-deptime[0])>0) {
                 return null
             }
 
-            const trainInfo = route.trainInfo
+            const trainInfo = route.trainInfo.split("_")
+            const trainNum = trainInfo[0]
+            const trainKind = trainInfo[1]
+
+            // console.log(trainKind)
+
+            if(convertToTrainId[trainKind] !== this.state.kind) {
+                console.log(this.state.kind)
+                console.log(trainKind)
+                console.log(convertToTrainId[trainKind])
+                return null
+            }
+
+            // console.log(this.state.kind)
+            // console.log(trainKind)
 
             return (
                 <tr key={_id}>
-                    <td>{trainInfo}</td>
-                    <td>{route.laststop}</td>
+                    <td>{trainNum}</td>
+                    <td>{trainKind}</td>
+                    <td>{converter[route.laststop]}</td>
                     <td>{route.deptime}</td>
                     <td>{route.arrtime}</td>
                     <td>
-                        <Button variant="contained" size="small" onClick={() => this._openModal(trainInfo)}>확인</Button>
+                        <Button variant="contained" size="small" onClick={() => this._openModal(trainNum + "_" + trainKind)}>확인</Button>
                     </td>
                 </tr>
             )
@@ -187,6 +228,14 @@ class SearchRoutenSeat extends Component {
     }
 
     handleChange = (e) => {
+        if(e.target.name === "seat") {
+            this.setState({
+                [e.target.name] : e.target.value,
+                presentCar : "3"
+            })
+            return
+        }
+
         this.setState({
             [e.target.name]: e.target.value
         })
@@ -242,28 +291,130 @@ class SearchRoutenSeat extends Component {
             }
         }
 
-        console.log(seatInfo)
-
         const render = []
         for(var i = 0; i < seatInfo.length; i = i+2) {
             const id1 = seatInfo[i].id
+            const state1 = seatInfo[i].state
             const id2 = seatInfo[i+1].id
+            const state2 = seatInfo[i+1].state
 
             render.push(
                 <div className="col-2">
-                    <Button variant="contained"
-                            className="btn btn-light mr-3"
-                            style={{width: "80%", marginBottom: "30px"}}>{id1}</Button>
-                    <Button variant="contained"
-                            className="btn btn-light mr-3"
-                            style={{width: "80%"}}>{id2}</Button>
+                    {
+                        (state1 === "o") ? (
+                            <Button variant="contained"
+                                    className="btn btn-light mr-3"
+                                    style={{width: "80%", marginBottom: "30px"}}
+                                    onClick={() => this._handleSeatClick(id1)}>
+                                {id1}
+                            </Button>
+                        ) : (
+                            <Button variant="contained"
+                                    disabled
+                                    className="btn btn-light mr-3"
+                                    style={{width: "80%", marginBottom: "30px"}}>
+                                {id1}
+                            </Button>
+                        )
+                    }
+                    {
+                        (state2 === "o") ? (
+                            <Button variant="contained"
+                                    className="btn btn-light mr-3"
+                                    style={{width: "80%"}}
+                                    onClick={() => this._handleSeatClick(id2)}>
+                                {id2}
+                            </Button>
+                        ) : (
+                            <Button variant="contained"
+                                    disabled
+                                    className="btn btn-light mr-3"
+                                    style={{width: "80%"}}>
+                                {id2}
+                            </Button>
+                        )
+                    }
                 </div>
             )
         }
         return render
     }
 
+    _handleSeatClick = (id) => {
+        const result = convertToTrainKind[this.state.kind] + "_" + this.state.presentCar + "_" + id
+
+        let previousSelectedSeatList = this.state.selectedSeatList
+        previousSelectedSeatList.push(result)
+
+        this.setState({
+            selectedSeatList : previousSelectedSeatList
+        })
+
+        console.log(previousSelectedSeatList.length)
+            console.log(this.state.peoplenum)
+
+        if(previousSelectedSeatList.length.toString() === this.state.peoplenum) {
+            this.setState({
+                Redirect: true
+            })
+        }
+        else {
+            alert("고객님 한 분의 좌석이 선택되었습니다.")
+        }
+    }
+
+    _handleLeftClick = () => {
+        const presentCar = this.state.presentCar
+
+        if(parseInt(presentCar) === 1) {
+            alert("이 열차의 첫번째 호차입니다.")
+            return
+        }
+        if(parseInt(presentCar) === 3 && this.state.seat === "2") {
+            alert("우등 좌석은 3호차에서만 선택할 수 있습니다.")
+            return
+        }
+
+        this.setState({
+            presentCar: (parseInt(presentCar) - 1).toString()
+        })
+    }
+
+    _handleRightClick = () => {
+        const presentCar = this.state.presentCar
+
+        if(parseInt(presentCar) === 3) {
+            alert("이 열차의 마지막 호차입니다.")
+            return
+        }
+        if(parseInt(presentCar) === 2 && this.state.seat === "1") {
+            alert("일반 좌석은 1호차와 2호차에서만 선택할 수 있습니다.")
+            return
+        }
+
+        this.setState({
+            presentCar: (parseInt(presentCar) + 1).toString()
+        })
+    }
+
     render() {
+        if (this.state.Redirect) {
+            return <Redirect to={{
+                pathname: '/reserve',
+                state: {
+                    peoplenum: this.state.peoplenum, // 인원수
+                    disdegree: this.state.disdegree, // 장애 정도(일반, 1급, 2급)
+                    departure : this.state.departure, // 검색할 출발지
+                    destination : this.state.destination, // 검색할 도착지
+                    seat: this.state.seat, // 좌석 종류(일반, 우등)
+                    kind: this.state.kind, // 선택한 기차 종류(ktx, 무궁화호, 새마을호)
+                    date: this.state.date, // 검색할 날짜
+                    time: this.state.time, // 검색할 시간
+                    selectedSeatList : this.state.selectedSeatList, // 유저가 최종적으로 선택한 좌석 목록["기차이름_칸_좌석", ...]
+                }
+            }}></Redirect>
+        }
+
         return (
             <div className="animated fadeIn">
                 <Form style={{marginTop: "20px"}}>
@@ -309,9 +460,9 @@ class SearchRoutenSeat extends Component {
                                         <Col xs="6">
                                             <FormGroup>
                                                 <Label htmlFor="name" style={{color: "black"}}><strong>기차 종류</strong></Label>
-                                                <Input type="select" name="train" onChange={this.handleChange}
-                                                       value={this.state.train}
-                                                       id="train" required>
+                                                <Input type="select" name="kind" onChange={this.handleChange}
+                                                       value={this.state.kind}
+                                                       id="kind" required>
                                                     <option value="1">KTX</option>
                                                     <option value="2">무궁화호</option>
                                                     <option value="3">새마을호</option>
@@ -424,6 +575,7 @@ class SearchRoutenSeat extends Component {
                             <thead>
                                 <tr>
                                     <th>기차 번호</th>
+                                    <th>기차 종류</th>
                                     <th>종점</th>
                                     <th>출발 시간</th>
                                     <th>도착 시간</th>
@@ -436,7 +588,7 @@ class SearchRoutenSeat extends Component {
                         </Table>
                     </CardBody>
                 </Card>
-                <Button onClick={() => this._openModal("6000")}>DEBUG</Button>
+                <Button onClick={() => this._openModal("6000_새마을")}>DEBUG</Button>
                 <Modal
                     visible={this.state.isModalOpen}
                     width="90%"
