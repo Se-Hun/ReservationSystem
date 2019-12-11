@@ -280,4 +280,112 @@ router.post('/list/reservation', (req, res) => {
         }) // Code 3 : BackEnd 나 DB 문제인 경우
 })
 
+// input : 예약목록에 추가할 계정 명, 추가할 reservation ID
+// output : success state or error msg
+router.post('/reserve', (req, res) => {
+    // Error Code
+    // 1 : front-end에서 account를 보내지 않았을때
+    // 2 : 해당하는 아이디가 없는 경우
+    // 3 : 500 에러 => Back-End나 DB 문제
+
+    const account = req.body.account
+    const resvID = req.body.resvID
+
+    if(!account)
+        return res.status(404).send({code: '404', error: 1, shouldAttribute: "account"})
+    if(!resvID)
+        return res.status(404).send({code: '404', error: 1, shouldAttribute: "resvID"})
+
+    User.login(account)
+        .then((user) => {
+            if(!user) {
+                return res.status(404).send({code: '404', error: 2})
+            }
+            else {
+                var reserveList=user.reservation;
+                reserveList.push(resvID);
+                User.updateResvList(account, reserveList)
+                    .then((register_result) => {
+                        if(register_result) {
+                            return res.send({
+                                state: true
+                            })
+                        }
+                        else {
+                            // Code 3 : BackEnd 나 DB 문제인 경우
+                            return res.status(500).send({code: '500', error: 3})
+                        }
+                    })
+                    .catch(err => {
+                        console.log(err)
+                        res.status(500).send({code: '500', error: 3})
+                    }) // Code 3 : BackEnd 나 DB 문제인 경우
+            }
+        })
+        .catch(err => {
+            console.log(err)
+            return res.status(500).send({code: '500', error: 3})
+        }) // Code 3 : BackEnd 나 DB 문제인 경우
+})
+
+// input : 삭제를 진행할 계정 명, 삭제할 reservation ID
+// output : success state or error msg
+router.post('/reserve_cancel', (req, res) => {
+    // Error Code
+    // 1 : front-end에서 account를 보내지 않았을때
+    // 2 : 해당하는 아이디가 없는 경우
+    // 3 : 500 에러 => Back-End나 DB 문제
+
+    const account = req.body.account
+    const resvID = req.body.resvID
+
+    if(!account)
+        return res.status(404).send({code: '404', error: 1, shouldAttribute: "account"})
+    if(!resvID)
+        return res.status(404).send({code: '404', error: 1, shouldAttribute: "resvID"})
+
+    User.login(account)
+        .then((user) => {
+            if(!user) {
+                return res.status(404).send({code: '404', error: 2})
+            }
+            else {
+                var reserveList=user.reservation;
+                let deleteTarget=-1; // 발견되지 않았을 때 -1
+                for(let i=0; i<reserveList.length; i++){
+                    if(reserveList[i]===resvID){
+                        deleteTarget=i;
+                        break;
+                    }
+                }
+
+                if(deleteTarget==-1)
+                    return res.status(404).send({code: '404', error: 2});
+                
+                reserveList.splice(deleteTarget, 1);
+
+                User.updateResvList(account, reserveList)
+                    .then((register_result) => {
+                        if(register_result) {
+                            return res.send({
+                                state: true
+                            })
+                        }
+                        else {
+                            // Code 3 : BackEnd 나 DB 문제인 경우
+                            return res.status(500).send({code: '500', error: 3})
+                        }
+                    })
+                    .catch(err => {
+                        console.log(err)
+                        res.status(500).send({code: '500', error: 3})
+                    }) // Code 3 : BackEnd 나 DB 문제인 경우
+            }
+        })
+        .catch(err => {
+            console.log(err)
+            return res.status(500).send({code: '500', error: 3})
+        }) // Code 3 : BackEnd 나 DB 문제인 경우
+})
+
 module.exports = router

@@ -70,7 +70,7 @@ router.post('/cancel', (req, res) => {
             return res.status(404).send({code: '404', error: 2, state: false})
         }
         else {
-            res.send({state: true});
+            res.send(id);
         }
     })
     .catch((err) => {

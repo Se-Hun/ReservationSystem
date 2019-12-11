@@ -41,6 +41,13 @@ UserSchema.statics.modify = function(account, accountname, phonenum, password, c
     return modify_result
 }
 
+UserSchema.statics.updateResvList = function(account, reservation) {
+    const modify_result = this.findOneAndUpdate({account}, {reservation}, {new: true});
+
+    // { new: true } : return the modified document rather than the original. Default is false.
+    return modify_result
+}
+
 // To return User's bookmarks
 UserSchema.statics.returnBookmarks = function(account) {
     // Find User by ID
