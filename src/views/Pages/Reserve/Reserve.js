@@ -95,6 +95,7 @@ class Reserve extends Component {
         let time = '9:00'
         let cost = 0
         let kind = 1
+        let selectSeatList = []
         if (props.location.state) {
             peoplenum = props.location.state.peoplenum
             disdegree = props.location.state.disdegree
@@ -106,6 +107,7 @@ class Reserve extends Component {
             date = props.location.state.date
             time = props.location.state.time
             kind = props.location.state.kind
+            selectSeatList = props.location.state.selectSeatList
         }
         this.state = {
             dropdownOpen: false,
@@ -120,7 +122,7 @@ class Reserve extends Component {
             date: date,
             time: time,
             cost: cost,
-
+            selectSeatList: selectSeatList,
             cardcompany: '',
             cardnum: '',
         };
@@ -134,7 +136,19 @@ class Reserve extends Component {
 
     handleSumbit = (e) => {
         e.preventDefault()
-        let url = ""
+        let _id = this._getReservation()
+        this._getUserReserve(_id)
+        this.state.selectSeatList.map((seat, _id) => {
+            let seatInfo = seat.split('_')
+            let trainName = seatInfo[0]
+            let trainIndex = seatInfo[1]+'_'+seatInfo[2]
+            this._updateTrainSeat(trainName, trainIndex)
+
+        })
+        window.location.replace("/confirmReservation")
+    }
+    _getReservation = () => {
+        let url = "http://localhost:5000/api/reservation/reserve"
         let peoplenum = this.state.peoplenum
         let disdegree = this.state.disdegree
         let departure = this.state.departure
@@ -144,6 +158,8 @@ class Reserve extends Component {
         let seat = this.state.seat
         let date = this.state.date
         let time = this.state.time
+        let age = 'adult'
+        let way = 'oneway'
         fetch(url, {
             method: "POST",
             headers: {"Content-Type": "application/json"},
@@ -164,11 +180,58 @@ class Reserve extends Component {
                         return
                     }
                 }
-                window.location.replace("/confirmReservation")
             })
             .catch(err => console.log(err))
-        window.location.replace("/confirmReservation")
     }
+    _getUserReserve = (_id) => {
+        let url = "http://localhost:5000/api/user/reserve"
+        fetch(url, {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({
+                id: _id
+            })
+        }).then(res => res.json())
+            .then(data => {
+                if (data.error) {
+                    const errorCode = data.error
+                    if (errorCode === 1) {
+                        alert(data.shouldAttribute + "을(를) 입력해주세요.")
+                        return
+                    } else {
+                        alert("잘못된 접근입니다.")
+                        window.location.reload()
+                        return
+                    }
+                }
+            })
+            .catch(err => console.log(err))
+    }
+    _updateTrainSeat = (_trainName, _trainIndex) => {
+        let url = "http://localhost:5000/api/trainInfo/reservate"
+        fetch(url, {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({
+                trainName: _trainName, trainIndex: _trainIndex
+            })
+        }).then(res => res.json())
+            .then(data => {
+                if (data.error) {
+                    const errorCode = data.error
+                    if (errorCode === 1) {
+                        alert(data.shouldAttribute + "을(를) 입력해주세요.")
+                        return
+                    } else {
+                        alert("잘못된 접근입니다.")
+                        window.location.reload()
+                        return
+                    }
+                }
+            })
+            .catch(err => console.log(err))
+    }
+
     componentDidMount() {
         this._handleCost()
     }
