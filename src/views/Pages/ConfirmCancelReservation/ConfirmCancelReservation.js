@@ -22,7 +22,7 @@ import {
 } from 'reactstrap';
 import {CustomTooltips} from '@coreui/coreui-plugin-chartjs-custom-tooltips';
 import {getStyle, hexToRgba} from '@coreui/coreui/dist/js/coreui-utilities'
-
+import {getId} from '../../../utils/auth'
 //const Widget03 = lazy(() => import('../../../../../views/Widgets/Widget03'));
 
 const brandPrimary = getStyle('--primary')
@@ -30,6 +30,7 @@ const brandSuccess = getStyle('--success')
 const brandInfo = getStyle('--info')
 const brandWarning = getStyle('--warning')
 const brandDanger = getStyle('--danger')
+var id = getId()
 const convertToTrainKind = {
     1 : "KTX",
     2 : "무궁화호",
@@ -64,6 +65,8 @@ class ConfirmCancelReservation extends Component {
         let date = '2019-12-10'
         let time = '9:00'
         let cost = 0
+        let train = ''
+        let route = ''
         if (props.location.state) {
             peoplenum = props.location.state.peoplenum
             disdegree = props.location.state.disdegree
@@ -75,6 +78,8 @@ class ConfirmCancelReservation extends Component {
             date = props.location.state.date
             time = props.location.state.time
             cost = props.location.state.cost
+            train = props.location.state.train
+            route = props.location.state.route
         }
         this.state = {
             dropdownOpen: false,
@@ -88,12 +93,52 @@ class ConfirmCancelReservation extends Component {
             seat: seat,
             date: date,
             time: time,
-            cost: cost
+            cost: cost,
+            route: route,
+            train: train,
         };
     }
+    componentDidMount() {
+        this._callUserApi()
+    }
 
+    _callCancelApi = () => {
+        let url = "http://localhost:5000/api/reservation/cancel"
+        let id = id
+        return fetch(url, {
+            method: "POST",
+            body: JSON.stringify({id: id})
+        }).then(res => res.json())
+            .then(data => {
+                return data
+            })
+            .catch(err => console.log(err))
+    }
+    _callUserApi = () => {
+        let url = "http://localhost:5000/api/user/resesrve_cancel"
+        let id = this._callCancelApi()
+        return fetch(url, {
+            method: "POST",
+            body: JSON.stringify({id: id})
+        }).then(res => res.json())
+            .then(data => {
+                return data
+            })
+            .catch(err => console.log(err))
+    }
     loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>
-
+    handleClick = (e) => {
+        let url = "http://localhost:5000/api/trainInfo/reservateCancel"
+        let trainName = this.state.train
+        return fetch(url, {
+            method: "POST",
+            body: JSON.stringify({id: id})
+        }).then(res => res.json())
+            .then(data => {
+                return data
+            })
+            .catch(err => console.log(err))
+    }
     render() {
 
         return (
@@ -182,6 +227,7 @@ class ConfirmCancelReservation extends Component {
                                     </Col>
                                 </CardBody>
                                 <CardFooter>해당 예매가 취소되었습니다.</CardFooter>
+                                <Button onClick={this.handleClick}>확인</Button>
                             </Card>
                         </Col>
                     </Row>

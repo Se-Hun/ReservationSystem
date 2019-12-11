@@ -44,10 +44,6 @@ const data = [
 class ConfirmReservation extends Component {
     constructor(props) {
         super(props);
-
-        this.toggle = this.toggle.bind(this);
-        // this.onRadioBtnClick = this.onRadioBtnClick.bind(this);
-        // this.handleEditClick = this.handleEditClick.bind(this);
         // this.handleCancelClick = this.handleCancelClick.bind(this);
 
         this.state = {
@@ -67,11 +63,6 @@ class ConfirmReservation extends Component {
         });
     }
 
-    onRadioBtnClick(radioSelected) {
-        this.setState({
-            radioSelected: radioSelected,
-        });
-    }
 
     componentDidMount() {
         this._getReserveList()
