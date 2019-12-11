@@ -14,7 +14,8 @@ const router = express.Router();
     "way": "oneway",
     "card": "Kakao_bank",
     "cardnum": "3333-33-3333",
-    "state": "0"
+    "state": "0",
+    "seat":["6000_새마을호","1_a"]
 }
 */
 // output : _ID
@@ -30,6 +31,7 @@ router.post('/reserve', (req, res) => {
     const card = req.body.card;
     const cardnum = req.body.cardnum;
     const state = req.body.state;
+    const seat = req.body.seat;
 
     if(!departure)
         return res.status(404).send({code: '404', error: 1, shouldAttribute: "departure"});
@@ -51,6 +53,8 @@ router.post('/reserve', (req, res) => {
         return res.status(404).send({code: '404', error: 1, shouldAttribute: "cardnum"});
     if(!state)
         return res.status(404).send({code: '404', error: 1, shouldAttribute: "state"});
+    if(!seat)
+        return res.status(404).send({code: '404', error: 1, shouldAttribute: "seat"});
 
     Reservation.reserve(req.body)
     .then(reservation => res.send(reservation._id))
@@ -58,11 +62,25 @@ router.post('/reserve', (req, res) => {
 })
 
 // input : 해당 예매 정보에 대한 id
-// output : state
+// output : 삭제된 예매 정보의 좌석 정보
 router.post('/cancel', (req, res) => {
     const id = req.body.id;
     if(!id)
         return res.status(404).send({code: '404', error: 1, shouldAttribute: "id"});
+    let deleteTarget;
+    Reservation.getReservation(id)
+        .then((reservation) => {
+            if(!reservation) {
+                // 없을 경우
+                return res.status(404).send({code: '404', error: 2})
+            }
+            else {
+                deleteTarget=reservation.seat;
+            }
+        })
+        .catch((err) => {
+            res.status(500).send({code: '500', error: 3})
+        })
     Reservation.deleteReservation(id)
     .then((reservation) => {
         if(!reservation) {
@@ -70,7 +88,7 @@ router.post('/cancel', (req, res) => {
             return res.status(404).send({code: '404', error: 2, state: false})
         }
         else {
-            res.send(id);
+            res.send(deleteTarget);
         }
     })
     .catch((err) => {
@@ -112,6 +130,7 @@ router.post('/getReservation', (req, res) => {
     "card": "Kakao_bank",
     "cardnum": "3333-33-3333",
     "state": "0"
+    "seat":["6000_새마을호","1_a"]
 }
 */
 // output : state
@@ -126,6 +145,7 @@ router.post('/edit', (req, res) => {
     const card = req.body.card;
     const cardnum = req.body.cardnum;
     const state = req.body.state;
+    const seat = req.body.seat;
 
     if(!departure)
         return res.status(404).send({code: '404', error: 1, shouldAttribute: "departure"});
@@ -147,6 +167,9 @@ router.post('/edit', (req, res) => {
         return res.status(404).send({code: '404', error: 1, shouldAttribute: "cardnum"});
     if(!state)
         return res.status(404).send({code: '404', error: 1, shouldAttribute: "state"});
+    if(!seat)
+        return res.status(404).send({code: '404', error: 1, shouldAttribute: "seat"});
+
     Reservation.editReservation(req.body)
     .then(res.send({state: true}))
     .catch(err => res.status(500).send({code: '500', error: 3, state: false}));

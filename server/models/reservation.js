@@ -12,7 +12,8 @@ const reservationSchema = new Schema(
         way: {type: String, required: true},
         card: {type: String, required: true},
         cardnum: {type: String, required: true},
-        state: {type: String, required: true}
+        state: {type: String, required: true},
+        seat: {type: Array, required: true}
     },
     {
         collection: 'reservation',
@@ -46,7 +47,9 @@ reservationSchema.statics.editReservation = function(id, departure, arrival, dat
              "way": way,
              "card": card,
              "cardnum": cardnum,
-             "state": state
+             "state": state,
+             // trainName, seat
+             "seat": seat
             } 
         }
     );
