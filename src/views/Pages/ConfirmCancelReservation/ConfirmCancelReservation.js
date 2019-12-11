@@ -19,6 +19,7 @@ import {
     Progress,
     Row,
     Table,
+    ListGroup, ListGroupItem
 } from 'reactstrap';
 import {CustomTooltips} from '@coreui/coreui-plugin-chartjs-custom-tooltips';
 import {getStyle, hexToRgba} from '@coreui/coreui/dist/js/coreui-utilities'
@@ -135,6 +136,7 @@ class ConfirmCancelReservation extends Component {
             body: JSON.stringify({id: id})
         }).then(res => res.json())
             .then(data => {
+                window.location.replace("/confirmReservation")
                 return data
             })
             .catch(err => console.log(err))
@@ -152,81 +154,67 @@ class ConfirmCancelReservation extends Component {
                                             <h1>좌석 정보</h1>
                                         </CardHeader>
                                     </Col>
-                                    <Col xs="12">
-                                        <Row>
-                                            <Col>
-                                                <FormGroup>
-                                                    <Label htmlFor="peoplenum">인원수</Label>
-                                                    {this.state.peoplenum}
-                                                </FormGroup>
-                                            </Col>
-                                            <Col>
-                                                <FormGroup>
-                                                    <Label htmlFor="departure">출발지</Label>
-                                                    {convertTolocal[this.state.departure]}
-                                                </FormGroup>
-                                            </Col>
-                                        </Row>
+                                    <Row>
+                                    <Col xs="6">
+                                        <CardHeader>인원수</CardHeader>
+                                        <CardBody>{this.state.peoplenum}</CardBody>
                                     </Col>
+                                    <Col xs="6">
+                                        <CardHeader>출발지</CardHeader>
+                                        <CardBody>{convertTolocal[this.state.departure]}</CardBody>
+                                    </Col>
+                                    </Row>
                                     <Col xs="12">
                                         <Row>
                                             <Col>
-                                                <FormGroup>
-                                                    <Label htmlFor="disdegree">장애 정도</Label>
-                                                    {convertTodisdegree[this.state.disdegree]}
-                                                </FormGroup>
+                                                <CardHeader>
+                                                    장애 정도
+                                                </CardHeader>
+                                                <CardBody>{convertTodisdegree[this.state.disdegree]}</CardBody>
                                             </Col>
                                             <Col>
-                                                <FormGroup>
-                                                    <Label htmlFor="destination">도착지</Label>
-                                                    {convertTolocal[this.state.destination]}
-                                                </FormGroup>
+                                                <CardHeader>도착지</CardHeader>
+                                                <CardBody>{convertTolocal[this.state.destination]}</CardBody>
                                             </Col>
                                         </Row>
                                     </Col>
                                     <Row>
                                         <Col>
-                                            <FormGroup>
-                                                <Label htmlFor="seat">좌석 종류</Label>
-                                                {convertToseat[this.state.seat]}
-                                            </FormGroup>
+                                            <CardHeader>좌석 종류</CardHeader>
+                                            <CardBody> {convertToseat[this.state.seat]}</CardBody>
                                         </Col>
                                         <Col xs="3">
-                                            <FormGroup>
-                                                <Label htmlFor="date">날짜</Label>
-                                                {this.state.date}
-                                            </FormGroup>
+                                            <CardHeader>날짜</CardHeader>
+                                            <CardBody>{this.state.date}</CardBody>
                                         </Col>
                                         <Col xs="3">
-                                                <Label htmlFor="time">시간</Label>
-                                                {this.state.time}
+                                            <CardHeader>시간</CardHeader>
+                                            <CardBody>{this.state.time}</CardBody>
                                         </Col>
                                     </Row>
                                     <Col>
-                                        <Card>
+                                        <Card className="text-white bg-info">
                                             <CardHeader>
                                                 <strong>The cost is {this.state.cost}</strong>
                                             </CardHeader>
                                             <CardBody>
                                                 <Row>
                                                     <Col xs="12">
-                                                        <FormGroup>
-                                                            <Label htmlFor="card">card company</Label>
-                                                            {this.state.cardcompany}
-                                                        </FormGroup>
+                                                        <CardHeader>card company</CardHeader>
+                                                        <CardBody>{this.state.cardcompany}</CardBody>
                                                     </Col>
                                                 </Row>
                                                 <Row>
                                                     <Col xs="12">
-                                                            <Label htmlFor="ccnumber">Credit Card Number</Label>
-                                                        {this.state.cardnum}
+                                                        <CardHeader>Credit Card Number</CardHeader>
+                                                        <CardBody>{this.state.cardnum}</CardBody>
                                                     </Col>
                                                 </Row>
                                             </CardBody>
                                         </Card>
                                     </Col>
                                 </CardBody>
-                                <CardFooter>해당 예매가 취소되었습니다.</CardFooter>
+                                <CardFooter className="text-white bg-info">해당 예매가 취소되었습니다.</CardFooter>
                                 <Button onClick={this.handleClick}>확인</Button>
                             </Card>
                         </Col>
