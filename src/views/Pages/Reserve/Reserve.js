@@ -109,7 +109,9 @@ class Reserve extends Component {
             date: date, // 검색할 날짜
             time: time, // 검색할 시간
             selectedTrainNum : selectedTrainNum, // 유저가 최종적으로 선택한 기차 번호
-            selectedSeatList : selectedSeatList // 유저가 최종적으로 선택한 좌석 목록
+            selectedSeatList : selectedSeatList, // 유저가 최종적으로 선택한 좌석 목록
+
+        // !!!카드 회사랑 카드 번호 넣어야함!!!
         };
     }
 

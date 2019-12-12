@@ -14,7 +14,8 @@ const reservationSchema = new Schema(
         cardnum: {type: String, required: true},
         state: {type: String, required: true},
         seat: {type: Array, required: true},
-        level: {type: String, required: true}
+        level: {type: String, required: true},
+        disdegree: {type: String, required: true}
     },
     {
         collection: 'reservation',
@@ -24,6 +25,10 @@ const reservationSchema = new Schema(
 
 reservationSchema.statics.reserve = function(departure, arrival, date, time, peoplenum, age, way, card, cardnum, state, seat, level) {
     var newReserve = new this(departure, arrival, date, time, peoplenum, age, way, card, cardnum, state, seat, level);
+}
+
+reservationSchema.statics.reserve = function(departure, arrival, date, time, peoplenum, age, way, card, cardnum, state, seat, disdegree) {
+    var newReserve = new this(departure, arrival, date, time, peoplenum, age, way, card, cardnum, state, seat, disdegree);
     return newReserve.save();
 }
 
@@ -38,21 +43,44 @@ reservationSchema.statics.getReservation = function(id) {
 reservationSchema.statics.editReservation = function(id, departure, arrival, date, time, peoplenum, age, way, card, cardnum, state, seat, level) {
     return this.update(
         { _id: id},
+        {
+            $set: {
+                "departure": departure,
+                "arrival": arrival,
+                "date": date,
+                "time": time,
+                "peoplenum": peoplenum,
+                "age": age,
+                "way": way,
+                "card": card,
+                "cardnum": cardnum,
+                "state": state,
+                // trainName, seat
+                "seat": seat,
+                "level": level
+            }
+        }
+
+    )
+
+reservationSchema.statics.editReservation = function(id, departure, arrival, date, time, peoplenum, age, way, card, cardnum, state, seat, disdegree) {
+    return this.update(
+        { _id: id},
         { $set: {
-                 "departure": departure,
-                 "arrival": arrival,
-                 "date": date,
-                 "time": time,
-                 "peoplenum": peoplenum,
-                 "age": age,
-                 "way": way,
-                 "card": card,
-                 "cardnum": cardnum,
-                 "state": state,
-                 // trainName, seat
-                 "seat": seat,
-                "level" : level
-                }
+             "departure": departure,
+             "arrival": arrival,
+             "date": date,
+             "time": time,
+             "peoplenum": peoplenum,
+             "age": age,
+             "way": way,
+             "card": card,
+             "cardnum": cardnum,
+             "state": state,
+             // trainName, seat
+             "seat": seat,
+             "disdegree": disdegree
+            }
         }
     );
 }

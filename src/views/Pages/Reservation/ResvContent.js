@@ -22,6 +22,7 @@ class ResvContent extends Component {
     this.setState({
       resvData: resvData
     })
+    console.log(resvData);
     this._getTimeList();
   }
 
@@ -153,7 +154,7 @@ class ResvContent extends Component {
               disdegree: reserved.disdegree,
               seat: reserved.seat,
               departure: reserved.departure,
-              destination: reserved.destination,
+              arrival: reserved.arrival,
               date: reserved.date,
               time: reserved.time,
               train: reserved.train,
@@ -172,12 +173,15 @@ class ResvContent extends Component {
               disdegree: reserved.disdegree,
               seat: reserved.seat,
               departure: reserved.departure,
-              destination: reserved.destination,
+              arrival: reserved.arrival,
               date: reserved.date,
               time: reserved.time,
-              train: reserved.train,
-              route: reserved.route,
-
+              train: reserved.seat[0],
+              // route: reserved.route,
+              disdegree:reserved.disdegree,
+              id: reserved._id,
+              cardcompany: reserved.card,
+              cardnum: reserved.cardnum
             }
           }} style={{ textDecoration: "none" }}>
             <Button>취소</Button>
