@@ -19,12 +19,13 @@ import {
     Progress,
     Row,
     Table,
-    Form
+    Form,
+    ModalHeader, ModalFooter, ModalBody, Modal
 } from 'reactstrap';
 import {CustomTooltips} from '@coreui/coreui-plugin-chartjs-custom-tooltips';
 import {getStyle, hexToRgba} from '@coreui/coreui/dist/js/coreui-utilities'
 import {Redirect} from 'react-router-dom'
-
+import {isLoggedIn} from '../../../utils/auth'
 const brandPrimary = getStyle('--primary')
 const brandSuccess = getStyle('--success')
 const brandInfo = getStyle('--info')
@@ -124,10 +125,21 @@ class EditReservation extends Component {
             redirect: false,
             age: age,
             way: way,
+            modal: true,
         };
 
     }
+    toggle() {
+        this.setState({
+            modal: !this.state.modal,
+        });
+    }
+    toggleSmall() {
 
+        this.setState({
+            small: !this.state.small,
+        });
+    }
     handleChange = (e) => {
         this.setState({
             [e.target.name]: e.target.value
@@ -140,7 +152,12 @@ class EditReservation extends Component {
             redirect: true
         })
     }
-
+    handleClickModal=(e)=>{
+        e.preventDefault()
+        this.setState({
+            modal: false
+        })
+    }
     componentDidMount() {
         this._handleCost()
     }
@@ -175,6 +192,10 @@ class EditReservation extends Component {
     loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>
 
     render() {
+        if (!isLoggedIn()) {
+            alert("로그인이 필요합니다.")
+            return <Redirect to={{pathname:"/Login"}}></Redirect>
+        }
         if (this.state.redirect) {
             return (
                 <Redirect to={{
@@ -200,6 +221,16 @@ class EditReservation extends Component {
         }
         return (
             <div className="animated fadeIn">
+                <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
+                    <ModalHeader toggle={this.toggle}>확인</ModalHeader>
+                    <ModalBody>
+                        예매를 수정하시겠습니까?
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button color="primary" onClick={this.handleClickModal}>확인</Button>{' '}
+                        <Button color="secondary" onClick={this.handleClickModal}>취소</Button>
+                    </ModalFooter>
+                </Modal>
                 <Form onSubmit={this.handleSumbit}>
                     <Row>
                         <Col lg='10'>
