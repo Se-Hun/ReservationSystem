@@ -127,6 +127,7 @@ class Reserve extends Component {
         // console.log(this.state)
 
         const _id = await this._addReservationList()
+        console.log(_id)
 
 
         /////// 1. 그 다음 User의 Reservation 목록이랑
@@ -182,6 +183,7 @@ class Reserve extends Component {
                         return
                     }
                 }
+                return data._id
             })
             .catch(err => console.log(err))
     }
