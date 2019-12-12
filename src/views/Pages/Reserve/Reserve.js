@@ -116,7 +116,8 @@ class Reserve extends Component {
             selectedTrainNum : selectedTrainNum, // 유저가 최종적으로 선택한 기차 번호
             selectedSeatList : selectedSeatList, // 유저가 최종적으로 선택한 좌석 목록
             card : sessionStorage.getItem("cardcompany"),
-            cardnum : sessionStorage.getItem("cardnum")
+            cardnum : sessionStorage.getItem("cardnum"),
+            cost : 0
         };
     }
 
