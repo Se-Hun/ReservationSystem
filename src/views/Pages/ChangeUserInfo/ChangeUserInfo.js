@@ -1,11 +1,9 @@
 import React, {Component} from 'react';
-import {Link, Redirect} from 'react-router-dom';
+import {Redirect} from 'react-router-dom';
 import {
     Button,
     Card,
     CardBody,
-    CardFooter,
-    CardHeader,
     Col,
     Container,
     Form, FormGroup,
@@ -90,7 +88,7 @@ class ChangeUserInfo extends Component {
                                 <CardBody className="p-4">
                                     <Form onSubmit={this.handleSubmit}>
                                         <h1></h1>
-                                        <p className="text-muted">Change Account Information</p>
+                                        <p className="text-muted"><h2><strong>회원 정보 변경</strong></h2></p>
                                         <InputGroup className="mb-3">
                                             <InputGroupAddon addonType="prepend">
                                                 <InputGroupText>
@@ -124,7 +122,7 @@ class ChangeUserInfo extends Component {
                                         <Row>
                                             <Col xs="4">
                                                 <FormGroup>
-                                                    <Label htmlFor="card">card company</Label>
+                                                    <Label htmlFor="card">카드 회사</Label>
                                                     <Input type="select" name="cardcompany" onChange={this.handleChange} id="cardcompany" placeholder="신한">
                                                         <option value="신한">신한</option>
                                                         <option value="하나">하나</option>
@@ -138,13 +136,13 @@ class ChangeUserInfo extends Component {
                                         <Row>
                                             <Col xs="12">
                                                 <FormGroup>
-                                                    <Label htmlFor="cardnum">Credit Card Number</Label>
+                                                    <Label htmlFor="cardnum">카드 번호</Label>
                                                     <Input type="text" name="cardnum" id="cardnum" onChange={this.handleChange}
                                                            placeholder="변경하실 카드 번호 입력" required/>
                                                 </FormGroup>
                                             </Col>
                                         </Row>
-                                        <Button type="submit" color="success" block>Change Account Information</Button>
+                                        <Button type="submit" color="success" block>제출</Button>
                                     </Form>
                                 </CardBody>
                             </Card>

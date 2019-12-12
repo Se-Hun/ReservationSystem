@@ -10,7 +10,6 @@ const ConfirmCancelReservation = React.lazy(() => import('./views/Pages/ConfirmC
 const EditReservation = React.lazy(() => import('./views/Pages/EditReservation'));
 const SearchRoutenSeat = React.lazy(() => import('./views/Pages/SearchRoutenSeat'));
 const SearchSeat = React.lazy(() => import('./views/Pages/SearchSeat'));
-const ConfirmReservation = React.lazy(() => import('./views/Pages/ConfirmReservation'));
 const CheckEditReserve = React.lazy(() => import('./views/Pages/CheckEditReserve'));
 // const ConfirmLogin = React.lazy(() => import('./views/Pages/ConfirmLogin'));
 const Notice = React.lazy(() => import('./views/Pages/Notice/Notice'));
@@ -30,7 +29,7 @@ const routes = [
   { path: '/changeuserinfo', exact: true, name: 'change user information', component: ChangeUserInfo },
   { path: '/reserve', name: 'reserve', component: Reserve },
   { path: '/confirmCancelReservation', exact: true, name: 'confirm cancel reserve', component: ConfirmCancelReservation },
-  { path: '/confirmReservation', exact: true, name: 'confirm reserve', component: ConfirmReservation },
+  // { path: '/confirmReservation', exact: true, name: 'confirm reserve', component: ConfirmReservation },
   { path: '/checkEditReserve',  exact: true,  name: 'check edit reserve', component: CheckEditReserve },
   { path: '/editReservation', name: 'edit reserve', component: EditReservation },
   { path: '/searchRoutenSeat', exact: true, name: 'search route and seat', component: SearchRoutenSeat },

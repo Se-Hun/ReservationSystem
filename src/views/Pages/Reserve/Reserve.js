@@ -329,6 +329,7 @@ class Reserve extends Component {
 
     _closeModal2 = () => {
         this.setState({
+            Redirect : true,
             isModalOpen2: false
         })
     }

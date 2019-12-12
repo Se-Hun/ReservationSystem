@@ -187,6 +187,7 @@ class ResvContent extends Component {
     return render
   }
 
+  /*
   _renderReserveTable = () => {
     let reserved = this.state.resvData;
     return (
@@ -235,6 +236,7 @@ class ResvContent extends Component {
       </tr>
     )
   }
+   */
 
   render() {
     return (
@@ -251,9 +253,9 @@ class ResvContent extends Component {
                     {this.state.resvData ? this._renderResvTable() : <tr><td>"Loading..."</td></tr>}
                   </tbody>
 
-                  <tbody>
-                    {this.state.resvData ? this._renderReserveTable() : <tr><td>"Loading..."</td></tr>}
-                  </tbody>
+                  {/*<tbody>*/}
+                    {/*{this.state.resvData ? this._renderReserveTable() : <tr><td>"Loading..."</td></tr>}*/}
+                  {/*</tbody>*/}
                 </Table>
               </CardBody>
             </Card>

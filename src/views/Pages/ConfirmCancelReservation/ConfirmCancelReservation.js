@@ -80,7 +80,6 @@ class ConfirmCancelReservation extends Component {
             date: date,
             time: time,
             cost: cost,
-            route: route,
             train: train,
             route: route,
             id: id,
@@ -180,70 +179,63 @@ class ConfirmCancelReservation extends Component {
         }
         return (
             <div className="animated fadeIn">
-                    <Row>
+                    <Row style={{marginTop : "20px"}}>
                         <Col lg='10'>
                             <Card className="text-white bg-info">
                                 <CardBody className="pb-0">
-
                                     <Col>
-                                        <CardHeader>
-                                            <h1>좌석 정보</h1>
-                                        </CardHeader>
+                                        <h1 style={{color: "black", marginBottom: "10px"}}><strong>예매 취소 정보</strong></h1>
                                     </Col>
-                                    <Row>
-                                    <Col xs="6">
-                                        <CardHeader>인원수</CardHeader>
-                                        <CardBody>{this.state.peoplenum}</CardBody>
-                                    </Col>
-                                    <Col xs="6">
-                                        <CardHeader>출발지</CardHeader>
-                                        <CardBody>{convertTolocal[this.state.departure]}</CardBody>
-                                    </Col>
-                                    </Row>
-                                    <Col xs="12">
-                                        <Row>
-                                            <Col>
-                                                <CardHeader>
-                                                    장애 정도
-                                                </CardHeader>
-                                                <CardBody>{this.state.disdegree}</CardBody>
-                                            </Col>
-                                            <Col>
-                                                <CardHeader>도착지</CardHeader>
-                                                <CardBody>{convertTolocal[this.state.arrival]}</CardBody>
-                                            </Col>
-                                        </Row>
-                                    </Col>
-                                    <Row>
+                                    <Row style={{marginBottom : "10px"}}>
+                                        <Col xs="6">
+                                            <CardHeader style={{backgroundColor: "#0067a3"}}><strong>인원수</strong></CardHeader>
+                                            <CardBody style={{backgroundColor: "white", color : "black"}}><strong>{this.state.peoplenum}</strong></CardBody>
+                                        </Col>
                                         <Col>
-                                            <CardHeader>좌석 종류</CardHeader>
-                                            <CardBody> {convertToseat[this.state.seat]}</CardBody>
+                                            <CardHeader style={{backgroundColor: "#0067a3"}}><strong>장애 정도</strong></CardHeader>
+                                            <CardBody style={{backgroundColor: "white", color : "black"}}><strong>{this.state.disdegree}</strong></CardBody>
+                                        </Col>
+                                    </Row>
+                                    <Row style={{marginBottom : "10px"}}>
+                                            <Col xs="6">
+                                                <CardHeader style={{backgroundColor: "#0067a3"}}>출발지</CardHeader>
+                                                <CardBody style={{backgroundColor: "white", color : "black"}}><strong>{convertTolocal[this.state.departure]}</strong></CardBody>
+                                            </Col>
+                                            <Col>
+                                                <CardHeader style={{backgroundColor: "#0067a3"}}><strong>도착지</strong></CardHeader>
+                                                <CardBody style={{backgroundColor: "white", color : "black"}}><strong>{convertTolocal[this.state.arrival]}</strong></CardBody>
+                                            </Col>
+                                    </Row>
+                                    <Row style={{marginBottom : "10px"}}>
+                                        <Col>
+                                            <CardHeader style={{backgroundColor: "#0067a3"}}><strong>좌석 종류</strong></CardHeader>
+                                            <CardBody style={{backgroundColor: "white", color : "black"}}><strong>{convertToseat[this.state.seat]}</strong></CardBody>
                                         </Col>
                                         <Col xs="3">
-                                            <CardHeader>날짜</CardHeader>
-                                            <CardBody>{this.state.date}</CardBody>
+                                            <CardHeader style={{backgroundColor: "#0067a3"}}><strong>날짜</strong></CardHeader>
+                                            <CardBody style={{backgroundColor: "white", color : "black"}}><strong>{this.state.date}</strong></CardBody>
                                         </Col>
                                         <Col xs="3">
-                                            <CardHeader>시간</CardHeader>
-                                            <CardBody>{this.state.time}</CardBody>
+                                            <CardHeader style={{backgroundColor: "#0067a3"}}><strong>시간</strong></CardHeader>
+                                            <CardBody style={{backgroundColor: "white", color : "black"}}><strong>{this.state.time}</strong></CardBody>
                                         </Col>
                                     </Row>
                                     <Col>
                                         <Card className="text-white bg-info">
-                                            <CardHeader>
-                                                <strong>The cost is {this.state.cost}</strong>
+                                            <CardHeader style={{backgroundColor: "#0067a3"}}>
+                                                <h3><strong>현재 요금 : {this.state.cost}</strong></h3>
                                             </CardHeader>
                                             <CardBody>
                                                 <Row>
                                                     <Col xs="12">
-                                                        <CardHeader>card company</CardHeader>
-                                                        <CardBody>{this.state.card}</CardBody>
+                                                        <CardHeader style={{backgroundColor: "#0067a3"}}><strong>카드 회사</strong></CardHeader>
+                                                        <CardBody style={{backgroundColor: "white", color : "black"}}><strong>{this.state.card}</strong></CardBody>
                                                     </Col>
                                                 </Row>
                                                 <Row>
                                                     <Col xs="12">
-                                                        <CardHeader>Credit Card Number</CardHeader>
-                                                        <CardBody>{this.state.cardnum}</CardBody>
+                                                        <CardHeader style={{backgroundColor: "#0067a3"}}><strong>카드 번호</strong></CardHeader>
+                                                        <CardBody style={{backgroundColor: "white", color : "black"}}><strong>{this.state.cardnum}</strong></CardBody>
                                                     </Col>
                                                 </Row>
                                             </CardBody>

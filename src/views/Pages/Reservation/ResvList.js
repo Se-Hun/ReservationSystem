@@ -52,6 +52,7 @@ class ResvList extends Component {
 
     _getResvList = async () => {
         const ResvList = await this._getResvIDList()
+
         var allData = this.state.Data
         for (let i = 0; i < ResvList.reservation.length; i++) {
             await Promise.resolve(this._getResvData(ResvList.reservation[i])).then((jsonResults) => {
@@ -109,6 +110,10 @@ class ResvList extends Component {
     }
 
     _renderResvTable = () => {
+        if(this.state.Data.length === 0) {
+            return "예매 목록이 없습니다."
+        }
+
         const render = this.state.Data.map((data, i) => {
             // console.log(this.state.Data);
             return (
