@@ -34,9 +34,10 @@ class Bookmark extends Component {
             body: JSON.stringify({account: account})
         }).then(res => res.json())
             .then(data => {
+
+                    console.log(data)
                 if(data.error) {
                     const errorCode = data.error
-
                     // 아무것도 없을 때 어떻게 되는지 해봐야함!
                     if(errorCode === 1) {
                         return "잘못된 접근입니다."
@@ -49,14 +50,13 @@ class Bookmark extends Component {
                     }
                 }
                 else {
-                    if(data === undefined || data === null) {
+                    if(data.bookmarks === undefined || data.bookmarks === null || data.bookmarks === "" || data.bookmarks.length < 1) {
                         return "즐겨찾기가 비어 있습니다. 즐겨찾기를 추가해주세요."
                     }
                     else {
                         return data.bookmarks
                     }
                 }
-                console.log(data)
             })
             .catch(err => console.log(err))
     }

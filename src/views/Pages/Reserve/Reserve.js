@@ -123,8 +123,6 @@ class Reserve extends Component {
             time: time,
             cost: cost,
             selectSeatList: selectSeatList,
-            cardcompany: '',
-            cardnum: '',
         };
     }
 
