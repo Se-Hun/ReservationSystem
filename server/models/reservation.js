@@ -23,13 +23,8 @@ const reservationSchema = new Schema(
     }
 );
 
-reservationSchema.statics.reserve = function(departure, arrival, date, time, peoplenum, age, way, card, cardnum, state, seat, level) {
-    var newReserve = new this(departure, arrival, date, time, peoplenum, age, way, card, cardnum, state, seat, level);
-}
-
-reservationSchema.statics.reserve = function(departure, arrival, date, time, peoplenum, age, way, card, cardnum, state, seat, disdegree) {
-    var newReserve = new this(departure, arrival, date, time, peoplenum, age, way, card, cardnum, state, seat, disdegree);
-    return newReserve.save();
+reservationSchema.statics.reserve = function(departure, arrival, date, time, peoplenum, age, way, card, cardnum, state, seat, level, disdegree) {
+    var newReserve = new this(departure, arrival, date, time, peoplenum, age, way, card, cardnum, state, seat, level, disdegree);
 }
 
 reservationSchema.statics.deleteReservation = function(id) {
@@ -40,9 +35,9 @@ reservationSchema.statics.getReservation = function(id) {
     return this.findOne({ _id: id});
 }
 
-reservationSchema.statics.editReservation = function(id, departure, arrival, date, time, peoplenum, age, way, card, cardnum, state, seat, level) {
+reservationSchema.statics.editReservation = function(id, departure, arrival, date, time, peoplenum, age, way, card, cardnum, state, seat, level, disdegree) {
     return this.update(
-        { _id: id},
+        {_id: id},
         {
             $set: {
                 "departure": departure,
@@ -60,30 +55,7 @@ reservationSchema.statics.editReservation = function(id, departure, arrival, dat
                 "level": level
             }
         }
-
     )
-
-reservationSchema.statics.editReservation = function(id, departure, arrival, date, time, peoplenum, age, way, card, cardnum, state, seat, disdegree) {
-    return this.update(
-        { _id: id},
-        { $set: {
-             "departure": departure,
-             "arrival": arrival,
-             "date": date,
-             "time": time,
-             "peoplenum": peoplenum,
-             "age": age,
-             "way": way,
-             "card": card,
-             "cardnum": cardnum,
-             "state": state,
-             // trainName, seat
-             "seat": seat,
-             "disdegree": disdegree
-            }
-        }
-    );
 }
-
 
 module.exports = mongoose.model('reservation', reservationSchema);
