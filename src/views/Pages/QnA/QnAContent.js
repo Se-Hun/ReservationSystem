@@ -3,6 +3,7 @@ import {
     Card,
     CardBody,
     CardHeader,
+    CardFooter,
     Col,
     Row,
 } from 'reactstrap';
@@ -40,7 +41,7 @@ class QnAContent extends Component {
             })
             .catch(err => console.log(err))
     }
-    
+
     _renderQnATitle = () => {
         return (
             <p>
@@ -75,6 +76,7 @@ class QnAContent extends Component {
                     <CardBody>
                         {this.state.QnAList ? this._renderQnAContent() : ("Loading...")}
                     </CardBody>
+                    <CardFooter>추가 문의 사항이 있을 시, master@kjhtrain.com으로 연락 바랍니다.</CardFooter>
                 </Card>
             </div>
         );
