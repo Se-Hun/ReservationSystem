@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
-import {getId} from '../../../utils/auth'
+import {Link, Redirect} from 'react-router-dom';
+import {isLoggedIn, getId} from '../../../utils/auth'
 import {
     Button,
     Table,
@@ -49,7 +49,7 @@ class ConfirmReservation extends Component {
         let id = this.state.id
         return fetch(url, {
             method: "POST",
-            body: JSON.stringify({id: id})  
+            body: JSON.stringify({id: id})
         }).then(res => res.json())
             .then(data => {
                 return data
@@ -59,6 +59,13 @@ class ConfirmReservation extends Component {
 
     _getTimeList = async () => {
         let Timelist = []
+        console.log(this.state.ReserveList)
+        if (this.state.ReserveList == null) {
+            alert("해당하는 예매 목록이 없습니다")
+            return <Redirect to={{
+                pathname: '/'
+            }}></Redirect>
+        }
         this.state.ReserveList.map((reserved, _id) => {
             let now = new Date().getHours();
             let time = reserved.time.split(':')
@@ -67,9 +74,9 @@ class ConfirmReservation extends Component {
             console.log(old)
             let gap = now - old;
             if (gap > 0) {
-                Timelist[reserved.id]=true
+                Timelist[reserved.id] = true
             } else {
-                Timelist[reserved.id]=false
+                Timelist[reserved.id] = false
             }
         })
         this.setState({
@@ -132,20 +139,27 @@ class ConfirmReservation extends Component {
     }
 
     render() {
-        return (
-            <div className="animated fadeIn">
-                <Table>
-                    <thead>
-                    <tr>
-                        <th>예매 목록</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {this.state.ReserveList ? this._renderReserveTable() : ("Loading...")}
-                    </tbody>
-                </Table>
-            </div>
-        );
+        if (!isLoggedIn()) {
+            alert("로그인을 해주십시오")
+            return <Redirect to={{
+                pathname: '/login'
+            }}></Redirect>
+        } else {
+            return (
+                <div className="animated fadeIn">
+                    <Table>
+                        <thead>
+                        <tr>
+                            <th>예매 목록</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {this.state.ReserveList ? this._renderReserveTable() : ("Loading...")}
+                        </tbody>
+                    </Table>
+                </div>
+            );
+        }
     }
 }
 
