@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom';
 import {
     Table,
     Card,
-    CardBody
+    CardBody,
+    CardFooter
 } from 'reactstrap';
 
 class QnA extends Component {
@@ -67,6 +68,7 @@ class QnA extends Component {
                         </tbody>
                     </Table>
                 </CardBody>
+                <CardFooter>추가 문의 사항이 있을 시, master@kjhtrain.com으로 연락 바랍니다.</CardFooter>
             </Card>
         );
     }
