@@ -1,36 +1,15 @@
-import React, {Component, lazy, Suspense} from 'react';
-import {Bar, Line} from 'react-chartjs-2';
+import React, {Component} from 'react';
 import {
-    Badge,
     Button,
-    ButtonDropdown,
-    ButtonGroup,
-    ButtonToolbar,
     Card,
     CardBody,
     CardFooter,
     CardHeader,
-    CardTitle,
     Col,
-    Dropdown,
-    DropdownItem,
-    DropdownMenu,
-    DropdownToggle, FormGroup, Input, Label,
-    Progress,
     Row,
-    Table,
-    ListGroup, ListGroupItem
 } from 'reactstrap';
-import {CustomTooltips} from '@coreui/coreui-plugin-chartjs-custom-tooltips';
-import {getStyle, hexToRgba} from '@coreui/coreui/dist/js/coreui-utilities'
 import {getId} from '../../../utils/auth'
-//const Widget03 = lazy(() => import('../../../../../views/Widgets/Widget03'));
 
-const brandPrimary = getStyle('--primary')
-const brandSuccess = getStyle('--success')
-const brandInfo = getStyle('--info')
-const brandWarning = getStyle('--warning')
-const brandDanger = getStyle('--danger')
 var id = getId()
 const convertToTrainKind = {
     1 : "KTX",
@@ -59,7 +38,7 @@ class ConfirmCancelReservation extends Component {
         let peoplenum = 1
         let disdegree = 1
         let departure = '서울'
-        let destination = '대전'
+        let arrival = '대전'
         let cardcompany = '신한'
         let cardnum = '0000 0000 0000 0000'
         let seat = 1
@@ -68,11 +47,12 @@ class ConfirmCancelReservation extends Component {
         let cost = 0
         let train = ''
         let route = ''
+        let id=''
         if (props.location.state) {
             peoplenum = props.location.state.peoplenum
             disdegree = props.location.state.disdegree
             departure = props.location.state.departure
-            destination = props.location.state.destination
+            arrival = props.location.state.arrival
             cardcompany = props.location.state.cardcompany
             cardnum = props.location.state.cardnum
             seat = props.location.state.seat
@@ -81,6 +61,7 @@ class ConfirmCancelReservation extends Component {
             cost = props.location.state.cost
             train = props.location.state.train
             route = props.location.state.route
+            id= props.location.state.id
         }
         this.state = {
             dropdownOpen: false,
@@ -88,7 +69,7 @@ class ConfirmCancelReservation extends Component {
             peoplenum: peoplenum,
             disdegree: disdegree,
             departure: departure,
-            destination: destination,
+            arrival: arrival,
             cardcompany: cardcompany,
             cardnum: cardnum,
             seat: seat,
@@ -97,6 +78,9 @@ class ConfirmCancelReservation extends Component {
             cost: cost,
             route: route,
             train: train,
+            route: route,
+            id: id,
+            trainInfo:''
         };
     }
     componentDidMount() {
@@ -105,38 +89,64 @@ class ConfirmCancelReservation extends Component {
 
     _callCancelApi = () => {
         let url = "http://localhost:5000/api/reservation/cancel"
-        let id = id
+        let id = this.state.id;
+        console.log(id)
         return fetch(url, {
             method: "POST",
-            body: JSON.stringify({id: id})
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({"id": id})
         }).then(res => res.json())
             .then(data => {
-                return data
+                console.log(data);
+                return data;
             })
             .catch(err => console.log(err))
     }
-    _callUserApi = () => {
-        let url = "http://localhost:5000/api/user/resesrve_cancel"
-        let id = this._callCancelApi()
+    _callUserApi = async () => {
+        let url = "http://localhost:5000/api/user/reserve_cancel"
+        let result=this._callCancelApi()
+        let id = this.state.id;
+        let trainInfo;
+
+        await Promise.resolve(result).then((jsonResults) => {
+            trainInfo=jsonResults;
+        })
+        this.setState({
+            trainInfo: trainInfo
+        })
+
+        let account=sessionStorage.account;
+        console.log(account);
         return fetch(url, {
             method: "POST",
-            body: JSON.stringify({id: id})
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({account:account ,resvID: id})
         }).then(res => res.json())
             .then(data => {
+                console.log(data)
                 return data
             })
             .catch(err => console.log(err))
     }
     loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>
+
     handleClick = (e) => {
         let url = "http://localhost:5000/api/trainInfo/reservateCancel"
-        let trainName = this.state.train
+        // let trainName = this.state.train
+        console.log(this.state.trainInfo)
+        let trainName=this.state.trainInfo[0];
+        let trainIndex=this.state.trainInfo[1];
+        console.log(this.state.trainInfo[0])
+        console.log(this.state.trainInfo[1])
         return fetch(url, {
             method: "POST",
-            body: JSON.stringify({id: id})
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({trainName: trainName, trainIndex: trainIndex})
         }).then(res => res.json())
             .then(data => {
-                window.location.replace("/confirmReservation")
+                console.log("c")
+                console.log(data)
+                // window.location.replace("/confirmReservation")
                 return data
             })
             .catch(err => console.log(err))
@@ -161,7 +171,8 @@ class ConfirmCancelReservation extends Component {
                                     </Col>
                                     <Col xs="6">
                                         <CardHeader>출발지</CardHeader>
-                                        <CardBody>{convertTolocal[this.state.departure]}</CardBody>
+                                        {/* <CardBody>{convertTolocal[this.state.departure]}</CardBody> */}
+                                        <CardBody>{this.state.departure}</CardBody>
                                     </Col>
                                     </Row>
                                     <Col xs="12">
@@ -170,18 +181,21 @@ class ConfirmCancelReservation extends Component {
                                                 <CardHeader>
                                                     장애 정도
                                                 </CardHeader>
-                                                <CardBody>{convertTodisdegree[this.state.disdegree]}</CardBody>
+                                                {/* <CardBody>{convertTodisdegree[this.state.disdegree]}</CardBody> */}
+                                                <CardBody>{this.state.disdegree}</CardBody>
                                             </Col>
                                             <Col>
                                                 <CardHeader>도착지</CardHeader>
-                                                <CardBody>{convertTolocal[this.state.destination]}</CardBody>
+                                                {/* <CardBody>{convertTolocal[this.state.arrival]}</CardBody> */}
+                                                <CardBody>{this.state.arrival}</CardBody>
                                             </Col>
                                         </Row>
                                     </Col>
                                     <Row>
                                         <Col>
                                             <CardHeader>좌석 종류</CardHeader>
-                                            <CardBody> {convertToseat[this.state.seat]}</CardBody>
+                                            {/* <CardBody> {convertToseat[this.state.seat]}</CardBody> */}
+                                            <CardBody> {this.state.seat}</CardBody>
                                         </Col>
                                         <Col xs="3">
                                             <CardHeader>날짜</CardHeader>

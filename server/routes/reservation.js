@@ -15,7 +15,8 @@ const router = express.Router();
     "card": "Kakao_bank",
     "cardnum": "3333-33-3333",
     "state": "0",
-    "seat":["6000_새마을호","1_a"]
+    "seat":["6000_새마을호","1_a"],
+    "disdegree":"0"
 }
 */
 // output : _ID
@@ -32,6 +33,8 @@ router.post('/reserve', (req, res) => {
     const cardnum = req.body.cardnum;
     const state = req.body.state;
     const seat = req.body.seat;
+    const disdegree = req.body.disdegree;
+
 
     if(!departure)
         return res.status(404).send({code: '404', error: 1, shouldAttribute: "departure"});
@@ -55,6 +58,8 @@ router.post('/reserve', (req, res) => {
         return res.status(404).send({code: '404', error: 1, shouldAttribute: "state"});
     if(!seat)
         return res.status(404).send({code: '404', error: 1, shouldAttribute: "seat"});
+    if(!disdegree)
+        return res.status(404).send({code: '404', error: 1, shouldAttribute: "disdegree"});
 
     Reservation.reserve(req.body)
     .then(reservation => res.send(reservation._id))
@@ -81,6 +86,7 @@ router.post('/cancel', (req, res) => {
         .catch((err) => {
             res.status(500).send({code: '500', error: 3})
         })
+    console.log(deleteTarget)
     Reservation.deleteReservation(id)
     .then((reservation) => {
         if(!reservation) {
@@ -131,6 +137,7 @@ router.post('/getReservation', (req, res) => {
     "cardnum": "3333-33-3333",
     "state": "0"
     "seat":["6000_새마을호","1_a"]
+    "disdegree":"0"
 }
 */
 // output : state
@@ -169,6 +176,8 @@ router.post('/edit', (req, res) => {
         return res.status(404).send({code: '404', error: 1, shouldAttribute: "state"});
     if(!seat)
         return res.status(404).send({code: '404', error: 1, shouldAttribute: "seat"});
+    if(!disdegree)
+        return res.status(404).send({code: '404', error: 1, shouldAttribute: "disdegree"});
 
     Reservation.editReservation(req.body)
     .then(res.send({state: true}))
