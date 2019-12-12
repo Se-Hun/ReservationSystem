@@ -46,7 +46,7 @@ class ConfirmReservation extends Component {
             return <Redirect to={{
                 pathname: '/'
             }}></Redirect>
-        }else {
+        } else {
             this._getTimeList()
         }
     }
@@ -101,15 +101,18 @@ class ConfirmReservation extends Component {
                         <Link to={{
                             pathname: '/editReservation', state: {
                                 peoplenum: reserved.peoplenum,
-                                disdegree: reserved.disdegree,
                                 seatList: reserved.seat,
                                 departure: reserved.departure,
                                 destination: reserved.destination,
                                 date: reserved.date,
                                 time: reserved.time,
-                                train: reserved.train,
-                                route: reserved.route,
-                            }
+                                age: reserved.age,
+                                way: reserved.way,
+                                card: reserved.card,
+                                cardnum: reserved.cardnum,
+                                state: reserved.state,
+                                seat: reserved.seatLevel,
+                        }
                         }} style={{textDecoration: "none"}}>
                             <Button>수정</Button>
                         </Link>
@@ -120,14 +123,17 @@ class ConfirmReservation extends Component {
                         <Link to={{
                             pathname: '/confirmCancelReservation', state: {
                                 peoplenum: reserved.peoplenum,
-                                disdegree: reserved.disdegree,
                                 seatList: reserved.seat,
                                 departure: reserved.departure,
                                 destination: reserved.destination,
                                 date: reserved.date,
                                 time: reserved.time,
-                                train: reserved.train,
-                                route: reserved.route,
+                                age: reserved.age,
+                                way: reserved.way,
+                                card: reserved.card,
+                                cardnum: reserved.cardnum,
+                                state: reserved.state,
+                                seat: reserved.seat,
 
                             }
                         }} style={{textDecoration: "none"}}>

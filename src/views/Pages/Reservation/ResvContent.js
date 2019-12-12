@@ -130,7 +130,7 @@ class ResvContent extends Component {
     return label;
   }
 
-  _renderQnATable = () => {
+  _renderResvTable = () => {
     let arr = this._jsonToKeyValueArray(this.state.resvData);
     const render = arr.map((([key, value]) => {
       return (
@@ -205,7 +205,7 @@ class ResvContent extends Component {
               <CardBody>
                 <Table responsive striped hover>
                   <tbody>
-                    {this.state.resvData ? this._renderQnATable() : <tr><td>"Loading..."</td></tr>}
+                    {this.state.resvData ? this._renderResvTable() : <tr><td>"Loading..."</td></tr>}
                   </tbody>
 
                   <tbody>
