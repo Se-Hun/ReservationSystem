@@ -312,7 +312,7 @@ class SearchRoutenSeat extends Component {
             render.push(
                 <div className="col-2">
                     {
-                        (state1 === "o") ? (
+                        (state1 === "x") ? (
                             <Button variant="contained"
                                     className="btn btn-light mr-3"
                                     style={{width: "80%", marginBottom: "30px"}}
@@ -329,7 +329,7 @@ class SearchRoutenSeat extends Component {
                         )
                     }
                     {
-                        (state2 === "o") ? (
+                        (state2 === "x") ? (
                             <Button variant="contained"
                                     className="btn btn-light mr-3"
                                     style={{width: "80%"}}
