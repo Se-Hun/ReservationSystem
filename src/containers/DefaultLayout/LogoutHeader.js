@@ -34,6 +34,13 @@ class LogoutHeader extends Component {
                     <NavItem className="px-3">
                         <Link to="/QnA" className="nav-link" style={{color: "black", textDecoration: "bold"}}>Q&A</Link>
                     </NavItem>
+                    <Link to="/register" style={{position: 'absolute', right: 100, textDecoration: "none"}}>
+                        <Button variant="outlined"
+                                size="medium"
+                                color="primary">
+                            회원가입
+                        </Button>
+                    </Link>
                     <Link to="/login" style={{position: 'absolute', right: 10, textDecoration: "none"}}>
                         <Button variant="outlined"
                                 size="medium"
