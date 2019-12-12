@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {Redirect} from 'react-router-dom';
 import {
     Button,
     Card,
@@ -80,7 +81,8 @@ class ConfirmCancelReservation extends Component {
             train: train,
             route: route,
             id: id,
-            trainInfo:''
+            trainInfo:'',
+            redirect: false
         };
     }
     componentDidMount() {
@@ -132,7 +134,6 @@ class ConfirmCancelReservation extends Component {
 
     handleClick = (e) => {
         let url = "http://localhost:5000/api/trainInfo/reservateCancel"
-        // let trainName = this.state.train
         console.log(this.state.trainInfo)
         let trainName=this.state.trainInfo[0];
         let trainIndex=this.state.trainInfo[1];
@@ -147,12 +148,17 @@ class ConfirmCancelReservation extends Component {
                 console.log("c")
                 console.log(data)
                 // window.location.replace("/confirmReservation")
+                this.setState({
+                    redirect: true
+                })
                 return data
             })
             .catch(err => console.log(err))
     }
     render() {
-
+        if(this.state.redirect){
+            return <Redirect to={{pathname: '/confirmReservation'}}></Redirect>
+        }
         return (
             <div className="animated fadeIn">
                     <Row>
@@ -171,7 +177,6 @@ class ConfirmCancelReservation extends Component {
                                     </Col>
                                     <Col xs="6">
                                         <CardHeader>출발지</CardHeader>
-                                        {/* <CardBody>{convertTolocal[this.state.departure]}</CardBody> */}
                                         <CardBody>{this.state.departure}</CardBody>
                                     </Col>
                                     </Row>
@@ -181,12 +186,10 @@ class ConfirmCancelReservation extends Component {
                                                 <CardHeader>
                                                     장애 정도
                                                 </CardHeader>
-                                                {/* <CardBody>{convertTodisdegree[this.state.disdegree]}</CardBody> */}
                                                 <CardBody>{this.state.disdegree}</CardBody>
                                             </Col>
                                             <Col>
                                                 <CardHeader>도착지</CardHeader>
-                                                {/* <CardBody>{convertTolocal[this.state.arrival]}</CardBody> */}
                                                 <CardBody>{this.state.arrival}</CardBody>
                                             </Col>
                                         </Row>
@@ -194,7 +197,6 @@ class ConfirmCancelReservation extends Component {
                                     <Row>
                                         <Col>
                                             <CardHeader>좌석 종류</CardHeader>
-                                            {/* <CardBody> {convertToseat[this.state.seat]}</CardBody> */}
                                             <CardBody> {this.state.seat}</CardBody>
                                         </Col>
                                         <Col xs="3">

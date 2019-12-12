@@ -70,6 +70,7 @@ const costmap = {
         Busan: 0
     }
 }
+
 class EditReservation extends Component {
     constructor(props) {
         super(props);
@@ -238,9 +239,9 @@ class EditReservation extends Component {
                                             <FormGroup>
                                                 <Label htmlFor="disdegree">장애 정도</Label>
                                                 <Input type="select" name="disdegree" value={this.state.disdegree} onChange={this.handleChange}>
-                                                    <option value="1급">1급</option>
-                                                    <option value="2급">2급</option>
-                                                    <option value="3급">3급</option>
+                                                    <option value="1">일반</option>
+                                                    <option value="2">2급</option>
+                                                    <option value="3">3급</option>
                                                 </Input>
                                             </FormGroup>
                                         </Col>
