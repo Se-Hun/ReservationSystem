@@ -36,6 +36,7 @@ class ResvContent extends Component {
     })
       .then(res => res.json())
       .then(data => {
+        console.log(data)
         return data
       })
       .catch(err => console.log(err))
@@ -102,6 +103,15 @@ class ResvContent extends Component {
       case "cardnum":
         label = "결제 카드 번호";
         break;
+      case "seat":
+        label = "좌석 번호";
+        break;
+      case "level":
+        label = "좌석 종류";
+        break;
+      case "disdegree":
+        label = "장애 정도";
+        break;
       default:
         label = key;
     }
@@ -112,17 +122,26 @@ class ResvContent extends Component {
   _valueToLabel = (value) => {
     let label;
     switch (value) {
-      case "oneway":
-        label = "편도";
-        break;
-      case "return":
-        label = "왕복";
-        break;
       case "children":
         label = "아동";
         break;
       case "adult":
         label = "어른";
+        break;
+      case "Daejeon":
+        label = "대전";
+        break;
+      case "Seoul":
+        label = "서울";
+        break;
+      case "Busan":
+        label = "부산";
+        break;
+      case "Inchoen":
+        label = "인천";
+        break;
+      case "Daegu":
+        label = "대구";
         break;
       default:
         label = value;
@@ -133,6 +152,31 @@ class ResvContent extends Component {
   _renderResvTable = () => {
     let arr = this._jsonToKeyValueArray(this.state.resvData);
     const render = arr.map((([key, value]) => {
+      if(key === "편도/왕복") {
+        return(
+            <tr key={key}>
+              <td>{`${key}`}</td>
+              <td><strong>{(value === "1") ? ("편도") : ("왕복")}</strong></td>
+            </tr>
+        )
+      }
+      if(key === "좌석 종류") {
+        return(
+            <tr key={key}>
+              <td>{`${key}`}</td>
+              <td><strong>{(value === "1") ? ("일반") : ("우등")}</strong></td>
+            </tr>
+        )
+      }
+      if(key === "장애 정도") {
+        return(
+            <tr key={key}>
+              <td>{`${key}`}</td>
+              <td><strong>{(value === "1") ? ("일반") : ((value === "2") ? ("1급") : ("2급"))}</strong></td>
+            </tr>
+        )
+      }
+
       return (
         <tr key={key}>
           <td>{`${key}`}</td>
@@ -170,7 +214,6 @@ class ResvContent extends Component {
           <Link to={{
             pathname: '/confirmCancelReservation', state: {
               peoplenum: reserved.peoplenum,
-              disdegree: reserved.disdegree,
               seat: reserved.seat,
               departure: reserved.departure,
               arrival: reserved.arrival,
@@ -198,7 +241,7 @@ class ResvContent extends Component {
       <div className="animated fadeIn">
         <Row>
           <Col lg={6}>
-            <Card>
+            <Card style={{marginTop: "20px"}}>
               <CardHeader>
                 <strong><i className="icon-info pr-1"></i> 예매 정보</strong>
               </CardHeader>

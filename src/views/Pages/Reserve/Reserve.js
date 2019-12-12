@@ -179,7 +179,7 @@ class Reserve extends Component {
         let seat = []
         let selectedSeatList = this.state.selectedSeatList
 
-        seat[0] = this.state.selectedTrainNum + "_" + this.state.kind
+        seat[0] = this.state.selectedTrainNum + "_" + convertToTrainKind[this.state.kind]
 
         for(var i = 0; i < selectedSeatList.length; i++) {
             seat[i+1] = selectedSeatList[i]

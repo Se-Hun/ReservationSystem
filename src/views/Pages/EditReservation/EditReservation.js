@@ -207,7 +207,6 @@ class EditReservation extends Component {
                         destination: this.state.destination,
                         card: this.state.card,
                         cardnum: this.state.cardnum,
-                        seat: this.state.seat,
                         date: this.state.date,
                         time: this.state.time,
                         cost: this.state.cost,

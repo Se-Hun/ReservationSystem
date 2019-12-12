@@ -1,6 +1,20 @@
 import React, {Component} from 'react';
 import {Link, Redirect} from 'react-router-dom';
-import {Badge, Card, CardBody, CardHeader, Col, Row, Table, Button} from 'reactstrap';
+import {Card, CardBody, CardHeader, Col, Row, Table} from 'reactstrap';
+import {Button} from "@material-ui/core";
+
+const converter = {
+    Inchoen : "인천",
+    Seoul : "서울",
+    Daejeon : "대전",
+    Daegu : "대구",
+    Busan : "부산"
+}
+
+const convertToWay = {
+    1 : "편도",
+    2 : "왕복"
+}
 
 class ResvList extends Component {
     constructor(props) {
@@ -16,11 +30,11 @@ class ResvList extends Component {
         this._getResvList()
     }
 
-    _getTimeList = async () => {
+    _getTimeList = () => {
         let Timelist = []
-        console.log(this.state.Data)
+        // console.log(this.state.Data)
         this.state.Data.map((reserved, _id) => {
-            console.log(reserved)
+            // console.log(reserved)
             let now = new Date().getHours();
             let time = reserved.time.split(':')
             let old = time[0]
@@ -31,7 +45,7 @@ class ResvList extends Component {
                 Timelist[reserved._id] = false
             }
         })
-        console.log(Timelist)
+        // console.log(Timelist)
         this.setState({
             reserveTime: Timelist
         })
@@ -95,10 +109,28 @@ class ResvList extends Component {
             // console.log(this.state.Data);
             return (
                 <tr key={data._id}>
-                    <th scope="row"><Link to={"/reservation/" + data._id}>{data.date}</Link></th>
-                    <td><Link to={"/reservation/" + data._id}>{data.departure}</Link></td>
-                    <td><Link to={"/reservation/" + data._id}>{data.arrival}</Link></td>
-                    <td><Link to={"/reservation/" + data._id}>{data.way}</Link></td>
+                    <td>
+                        <Link to={"/reservation/" + data._id}
+                              style={{textDecoration: "none", color: "black"}}>
+                            <strong>{data.date}</strong>
+                        </Link>
+                    </td>
+                    <td>
+                        <Link to={"/reservation/" + data._id}
+                              style={{textDecoration: "none", color: "black"}}>
+                            <strong>{converter[data.departure]}</strong>
+                        </Link>
+                    </td>
+                    <td>
+                        <Link to={"/reservation/" + data._id} style={{textDecoration: "none", color: "black"}}>
+                            <strong>{converter[data.arrival]}</strong>
+                        </Link>
+                    </td>
+                    <td>
+                        <Link to={"/reservation/" + data._id} style={{textDecoration: "none", color: "black"}}>
+                            <strong>{convertToWay[data.way]}</strong>
+                        </Link>
+                    </td>
                     <td>{this.state.reserveTime[data._id] ? (
                         <Link to={{
                             pathname: '/editReservation', state: {
@@ -113,10 +145,10 @@ class ResvList extends Component {
                                 route: data.route,
                             }
                         }} style={{textDecoration: "none"}}>
-                            <Button>수정</Button>
+                            <Button variant="contained" color="primary">수정</Button>
                         </Link>
                     ) : (
-                        <Button disabled>수정</Button>
+                        <Button variant="contained" color="primary" disabled>수정</Button>
                     )}</td>
                     <td>{this.state.reserveTime[data._id] ? (
                         <Link to={{
@@ -129,16 +161,15 @@ class ResvList extends Component {
                                 date: data.date,
                                 time: data.time,
                                 train: data.seat[0],
-                                disdegree: data.disdegree,
                                 id: data._id,
                                 cardcompany: data.card,
                                 cardnum: data.cardnum
                             }
                         }} style={{textDecoration: "none"}}>
-                            <Button>취소</Button>
+                            <Button variant="contained" color="secondary">취소</Button>
                         </Link>
                     ) : (
-                        <Button disabled>취소</Button>
+                        <Button variant="contained" color="secondary" disabled>취소</Button>
                     )}</td>
                 </tr>
             )
@@ -149,25 +180,27 @@ class ResvList extends Component {
     render() {
         // const userList = usersData.filter((user) => user.id < 10)
         return (
-            <div className="animated fadeIn">
+            <div className="animated fadeIn" style={{marginTop : "20px"}}>
                 <Row>
-                    <Col xl={6}>
+                    <Col>
                         <Card>
                             <CardHeader>
-                                <i className="fa fa-align-justify"></i> 예매목록
+                                <i className="fa fa-align-justify"></i><strong>예매목록</strong>
                             </CardHeader>
                             <CardBody>
-                                <Table responsive hover>
+                                <Table responsive hover striped>
                                     <thead>
-                                    <tr>
-                                        <th scope="col">date</th>
-                                        <th scope="col">departure</th>
-                                        <th scope="col">arrival</th>
-                                        <th scope="col">way</th>
-                                    </tr>
+                                        <tr>
+                                            <th scope="col">예매 날짜</th>
+                                            <th scope="col">출발지</th>
+                                            <th scope="col">도착지</th>
+                                            <th scope="col">편도/왕복</th>
+                                            <th scope="col">수정</th>
+                                            <th scope="col">취소</th>
+                                        </tr>
                                     </thead>
                                     <tbody>
-                                    {this.state.Data ? this._renderResvTable() : <tr><td>"Loading..."</td></tr>}
+                                        {this.state.Data ? this._renderResvTable() : <tr><td>"Loading..."</td></tr>}
                                     </tbody>
                                 </Table>
                             </CardBody>
