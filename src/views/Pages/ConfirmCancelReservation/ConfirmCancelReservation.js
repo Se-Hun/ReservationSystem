@@ -8,6 +8,7 @@ import {
     CardHeader,
     Col,
     Row,
+    ModalHeader, ModalFooter, ModalBody, Modal
 } from 'reactstrap';
 import {getId} from '../../../utils/auth'
 
@@ -36,11 +37,13 @@ const convertTodisdegree = {
 class ConfirmCancelReservation extends Component {
     constructor(props) {
         super(props);
+        this.toggle = this.toggle.bind(this);
+        this.toggleSmall = this.toggleSmall.bind(this);
         let peoplenum = 1
         let disdegree = 1
         let departure = '서울'
         let arrival = '대전'
-        let cardcompany = '신한'
+        let card = '신한'
         let cardnum = '0000 0000 0000 0000'
         let seat = 1
         let date = '2019-12-10'
@@ -54,7 +57,7 @@ class ConfirmCancelReservation extends Component {
             disdegree = props.location.state.disdegree
             departure = props.location.state.departure
             arrival = props.location.state.arrival
-            cardcompany = props.location.state.cardcompany
+            card = props.location.state.cardcompany
             cardnum = props.location.state.cardnum
             seat = props.location.state.seat
             date = props.location.state.date
@@ -71,7 +74,7 @@ class ConfirmCancelReservation extends Component {
             disdegree: disdegree,
             departure: departure,
             arrival: arrival,
-            cardcompany: cardcompany,
+            card: card,
             cardnum: cardnum,
             seat: seat,
             date: date,
@@ -82,13 +85,24 @@ class ConfirmCancelReservation extends Component {
             route: route,
             id: id,
             trainInfo:'',
-            redirect: false
+            redirect: false,
+            modal: false,
         };
     }
     componentDidMount() {
         this._callUserApi()
     }
+    toggle() {
+        this.setState({
+            modal: !this.state.modal,
+        });
+    }
+    toggleSmall() {
 
+        this.setState({
+            small: !this.state.small,
+        });
+    }
     _callCancelApi = () => {
         let url = "http://localhost:5000/api/reservation/cancel"
         let id = this.state.id;
@@ -133,6 +147,8 @@ class ConfirmCancelReservation extends Component {
     loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>
 
     handleClick = (e) => {
+    }
+    handleClickModal=(e)=>{
         let url = "http://localhost:5000/api/trainInfo/reservateCancel"
         console.log(this.state.trainInfo)
         let trainName=this.state.trainInfo[0];
@@ -147,7 +163,6 @@ class ConfirmCancelReservation extends Component {
             .then(data => {
                 console.log("c")
                 console.log(data)
-                // window.location.replace("/confirmReservation")
                 this.setState({
                     redirect: true
                 })
@@ -165,6 +180,7 @@ class ConfirmCancelReservation extends Component {
                         <Col lg='10'>
                             <Card className="text-white bg-info">
                                 <CardBody className="pb-0">
+
                                     <Col>
                                         <CardHeader>
                                             <h1>좌석 정보</h1>
@@ -177,7 +193,7 @@ class ConfirmCancelReservation extends Component {
                                     </Col>
                                     <Col xs="6">
                                         <CardHeader>출발지</CardHeader>
-                                        <CardBody>{this.state.departure}</CardBody>
+                                        <CardBody>{convertTolocal[this.state.departure]}</CardBody>
                                     </Col>
                                     </Row>
                                     <Col xs="12">
@@ -190,14 +206,14 @@ class ConfirmCancelReservation extends Component {
                                             </Col>
                                             <Col>
                                                 <CardHeader>도착지</CardHeader>
-                                                <CardBody>{this.state.arrival}</CardBody>
+                                                <CardBody>{convertTolocal[this.state.arrival]}</CardBody>
                                             </Col>
                                         </Row>
                                     </Col>
                                     <Row>
                                         <Col>
                                             <CardHeader>좌석 종류</CardHeader>
-                                            <CardBody> {this.state.seat}</CardBody>
+                                            <CardBody> {convertToseat[this.state.seat]}</CardBody>
                                         </Col>
                                         <Col xs="3">
                                             <CardHeader>날짜</CardHeader>
@@ -217,7 +233,7 @@ class ConfirmCancelReservation extends Component {
                                                 <Row>
                                                     <Col xs="12">
                                                         <CardHeader>card company</CardHeader>
-                                                        <CardBody>{this.state.cardcompany}</CardBody>
+                                                        <CardBody>{this.state.card}</CardBody>
                                                     </Col>
                                                 </Row>
                                                 <Row>
@@ -231,7 +247,17 @@ class ConfirmCancelReservation extends Component {
                                     </Col>
                                 </CardBody>
                                 <CardFooter className="text-white bg-info">해당 예매가 취소되었습니다.</CardFooter>
-                                <Button onClick={this.handleClick}>확인</Button>
+                                <Button onClick={this.toggle}>확인</Button>
+                                <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
+                                    <ModalHeader toggle={this.toggle}>확인</ModalHeader>
+                                    <ModalBody>
+                                        예매를 취소하시겠습니까?
+                                    </ModalBody>
+                                    <ModalFooter>
+                                        <Button color="primary" onClick={this.handleClickModal}>확인</Button>{' '}
+                                        <Button color="secondary" onClick={this.handleClickModal}>취소</Button>
+                                    </ModalFooter>
+                                </Modal>
                             </Card>
                         </Col>
                     </Row>

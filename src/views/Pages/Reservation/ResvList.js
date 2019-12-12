@@ -20,6 +20,7 @@ class ResvList extends Component {
         let Timelist = []
         console.log(this.state.Data)
         this.state.Data.map((reserved, _id) => {
+            console.log(reserved)
             let now = new Date().getHours();
             let time = reserved.time.split(':')
             let old = time[0]
