@@ -22,11 +22,11 @@ const convertToseat = {
     2: "우등"
 }
 const convertTolocal = {
-    인천: "Inchoen",
-    서울: "Seoul",
-    대전: "Daejeon",
-    대구: "Daegu",
-    부산: "Busan",
+    Inchoen: "인천",
+    Seoul:"서울",
+    Daejeon: "대전",
+    Daegu: "대구",
+    Busan: "부산",
 }
 const convertTodisdegree = {
     1: "일반",
