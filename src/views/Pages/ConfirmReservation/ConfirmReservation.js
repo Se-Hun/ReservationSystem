@@ -41,7 +41,14 @@ class ConfirmReservation extends Component {
         this.setState({
             ReserveList: data,
         })
-        this._getTimeList()
+        if (ReserveList == null) {
+            alert("해당하는 예매 목록이 없습니다")
+            return <Redirect to={{
+                pathname: '/'
+            }}></Redirect>
+        }else {
+            this._getTimeList()
+        }
     }
 
     _callApi = () => {
@@ -61,10 +68,7 @@ class ConfirmReservation extends Component {
         let Timelist = []
         console.log(this.state.ReserveList)
         if (this.state.ReserveList == null) {
-            alert("해당하는 예매 목록이 없습니다")
-            return <Redirect to={{
-                pathname: '/'
-            }}></Redirect>
+            return "해당하는 예매 목록이 없습니다"
         }
         this.state.ReserveList.map((reserved, _id) => {
             let now = new Date().getHours();
