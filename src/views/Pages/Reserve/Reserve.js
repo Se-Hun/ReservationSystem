@@ -1,5 +1,5 @@
 import React, {Component, lazy, Suspense} from 'react';
-import {Link} from 'react-router-dom';
+import {Link, Redirect} from 'react-router-dom';
 import {Bar, Line} from 'react-chartjs-2';
 import {
     Badge,
@@ -95,7 +95,7 @@ class Reserve extends Component {
         let time = '9:00'
         let cost = 0
         let kind = 1
-        let selectSeatList = []
+        let selectedSeatList = []
         if (props.location.state) {
             peoplenum = props.location.state.peoplenum
             disdegree = props.location.state.disdegree
@@ -107,7 +107,7 @@ class Reserve extends Component {
             date = props.location.state.date
             time = props.location.state.time
             kind = props.location.state.kind
-            selectSeatList = props.location.state.selectSeatList
+            selectedSeatList = props.location.state.selectedSeatList
         }
         this.state = {
             dropdownOpen: false,
@@ -122,7 +122,7 @@ class Reserve extends Component {
             date: date,
             time: time,
             cost: cost,
-            selectSeatList: selectSeatList,
+            selectedSeatList: selectedSeatList,
         };
     }
 
@@ -138,12 +138,13 @@ class Reserve extends Component {
         this._getUserReserve(_id)
         this.state.selectSeatList.map((seat, _id) => {
             let seatInfo = seat.split('_')
-            let trainName = seatInfo[0]
+            let trainName = seatInfo[0]+'_'+this.state.kind
             let trainIndex = seatInfo[1]+'_'+seatInfo[2]
             this._updateTrainSeat(trainName, trainIndex)
-
         })
-        window.location.replace("/confirmReservation")
+        return <Redirect to={{
+            pathname: "/confirmReservation",
+        }}></Redirect>
     }
     _getReservation = () => {
         let url = "http://localhost:5000/api/reservation/reserve"
@@ -156,14 +157,23 @@ class Reserve extends Component {
         let seat = this.state.seat
         let date = this.state.date
         let time = this.state.time
-        let age = 'adult'
+        let age = "adult"
         let way = 'oneway'
+        let train = this.state.selectedSetList[0].split('_')
+        let trainName = train[0]+"_"+this.state.kind
+        let seatList = []
+        seatList[0] = trainName
+        for(let index = 0; index<this.state.peoplenum; index++){
+            train = this.state.selectedSeatList[index].split('_')
+            let trainInfo = train[1]+"_"+train[2]
+            seatList[index+1] = trainInfo
+        }
         fetch(url, {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({
                 peoplenum: peoplenum, disdegree: disdegree, departure: departure, arrival: destination,
-                cardcompany: cardcompany, cardnum: cardnum, date: date, time: time, seat: seat
+                card: cardcompany, cardnum: cardnum, date: date, time: time, seat: seatList, age: age, way: way
             })
         }).then(res => res.json())
             .then(data => {
@@ -312,9 +322,9 @@ class Reserve extends Component {
                                                 <Label htmlFor="disdegree">장애 정도</Label>
                                                 <Input type="select" name="disdegree" value={this.state.disdegree}
                                                        onChange={this.handleChange}>
-                                                    <option value="1급">1급</option>
-                                                    <option value="2급">2급</option>
-                                                    <option value="3급">3급</option>
+                                                    <option value="1">일반</option>
+                                                    <option value="2">1급</option>
+                                                    <option value="3">2급</option>
                                                 </Input>
                                             </FormGroup>
                                         </Col>

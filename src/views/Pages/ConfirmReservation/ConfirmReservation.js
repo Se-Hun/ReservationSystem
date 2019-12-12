@@ -91,7 +91,7 @@ class ConfirmReservation extends Component {
                             pathname: '/editReservation', state: {
                                 peoplenum: reserved.peoplenum,
                                 disdegree: reserved.disdegree,
-                                seat: reserved.seat,
+                                seatList: reserved.seat,
                                 departure: reserved.departure,
                                 destination: reserved.destination,
                                 date: reserved.date,
@@ -110,14 +110,14 @@ class ConfirmReservation extends Component {
                             pathname: '/confirmCancelReservation', state: {
                                 peoplenum: reserved.peoplenum,
                                 disdegree: reserved.disdegree,
-                                seat: reserved.seat,
+                                seatList: reserved.seat,
                                 departure: reserved.departure,
                                 destination: reserved.destination,
                                 date: reserved.date,
                                 time: reserved.time,
                                 train: reserved.train,
                                 route: reserved.route,
-                                
+
                             }
                         }} style={{textDecoration: "none"}}>
                             <Button>취소</Button>
