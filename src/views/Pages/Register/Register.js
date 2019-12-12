@@ -115,7 +115,7 @@ class Register extends Component {
                         {this.state.accountname}님, 회원가입을 환영합니다!
                     </ModalBody>
                     <ModalFooter>
-                        <Link to ={{pathname:"/"}}>
+                        <Link to ={{pathname:"/login"}}>
                         <Button color="primary" onClick={this.handleClickModal}>확인</Button>{' '}
                         </Link>
                     </ModalFooter>
