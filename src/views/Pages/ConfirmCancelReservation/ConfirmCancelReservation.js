@@ -10,7 +10,7 @@ import {
     Row,
     ModalHeader, ModalFooter, ModalBody, Modal
 } from 'reactstrap';
-import {getId} from '../../../utils/auth'
+import {isLoggedIn, getId} from '../../../utils/auth'
 
 var id = getId()
 const convertToTrainKind = {
@@ -171,6 +171,10 @@ class ConfirmCancelReservation extends Component {
             .catch(err => console.log(err))
     }
     render() {
+        if (!isLoggedIn()) {
+            alert("로그인이 필요합니다.")
+            return <Redirect to={{pathname:"/Login"}}></Redirect>
+        }
         if(this.state.redirect){
             return <Redirect to={{pathname: '/confirmReservation'}}></Redirect>
         }
