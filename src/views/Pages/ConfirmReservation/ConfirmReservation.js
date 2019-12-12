@@ -1,40 +1,10 @@
-import React, {Component, lazy, Suspense} from 'react';
-import {Bar, Line} from 'react-chartjs-2';
-import {Link, Redirect} from 'react-router-dom';
+import React, {Component} from 'react';
+import {Link} from 'react-router-dom';
 import {getId} from '../../../utils/auth'
 import {
-    Badge,
     Button,
-    ButtonDropdown,
-    ButtonGroup,
-    ButtonToolbar,
-    Card,
-    CardBody,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-    Col,
-    Dropdown,
-    DropdownItem,
-    DropdownMenu,
-    DropdownToggle, FormGroup, Input, Label,
-    Progress,
-    Row,
     Table,
-    NavLink,
-    Nav,
-    NavItem,
 } from 'reactstrap';
-import {CustomTooltips} from '@coreui/coreui-plugin-chartjs-custom-tooltips';
-import {getStyle, hexToRgba} from '@coreui/coreui/dist/js/coreui-utilities'
-
-//const Widget03 = lazy(() => import('../../../../../views/Widgets/Widget03'));
-
-const brandPrimary = getStyle('--primary')
-const brandSuccess = getStyle('--success')
-const brandInfo = getStyle('--info')
-const brandWarning = getStyle('--warning')
-const brandDanger = getStyle('--danger')
 
 const data = [
     {id: "111", time: "1:00"},
@@ -44,8 +14,6 @@ const data = [
 class ConfirmReservation extends Component {
     constructor(props) {
         super(props);
-        // this.handleCancelClick = this.handleCancelClick.bind(this);
-
         this.state = {
             dropdownOpen: false,
             radioSelected: 2,
@@ -81,7 +49,7 @@ class ConfirmReservation extends Component {
         let id = this.state.id
         return fetch(url, {
             method: "POST",
-            body: JSON.stringify({id: id})
+            body: JSON.stringify({id: id})  
         }).then(res => res.json())
             .then(data => {
                 return data
@@ -111,6 +79,7 @@ class ConfirmReservation extends Component {
 
 
     loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>
+
     _renderReserveTable = () => {
         const render = this.state.ReserveList.map((reserved, _id) => {
             console.log(this.state.isEdit)
