@@ -388,4 +388,55 @@ router.post('/reserve_cancel', (req, res) => {
         }) // Code 3 : BackEnd 나 DB 문제인 경우
 })
 
+// input : 즐겨찾기에 추가할 계정 명, 추가할 bookmark
+// output : success state or error msg
+router.post('/add/bookmark', (req, res) => {
+    // Error Code
+    // 1 : front-end에서 account를 보내지 않았을때
+    // 2 : 해당하는 아이디가 없는 경우
+    // 3 : 500 에러 => Back-End나 DB 문제
+
+    const account = req.body.account
+    const bookmark = req.body.bookmark
+
+    console.log(account)
+    console.log(bookmark)
+
+    if(!account)
+        return res.status(404).send({code: '404', error: 1, shouldAttribute: "account"})
+    if(!bookmark)
+        return res.status(404).send({code: '404', error: 1, shouldAttribute: "bookmark"})
+
+    User.login(account)
+        .then((user) => {
+            if(!user) {
+                return res.status(404).send({code: '404', error: 2})
+            }
+            else {
+                var bookmarkList=user.bookmarks;
+                bookmarkList.push(bookmark);
+                User.addBookmarks(account, bookmarkList)
+                    .then((register_result) => {
+                        if(register_result) {
+                            return res.send({
+                                state: true
+                            })
+                        }
+                        else {
+                            // Code 3 : BackEnd 나 DB 문제인 경우
+                            return res.status(500).send({code: '500', error: 3})
+                        }
+                    })
+                    .catch(err => {
+                        console.log(err)
+                        res.status(500).send({code: '500', error: 3})
+                    }) // Code 3 : BackEnd 나 DB 문제인 경우
+            }
+        })
+        .catch(err => {
+            console.log(err)
+            return res.status(500).send({code: '500', error: 3})
+        }) // Code 3 : BackEnd 나 DB 문제인 경우
+})
+
 module.exports = router

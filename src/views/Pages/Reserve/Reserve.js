@@ -102,6 +102,7 @@ class Reserve extends Component {
 
         this.state = {
             isModalOpen : false,
+            isModalOpen2 : false,
             Redirect : false,
             peoplenum: peoplenum, // 인원수
             disdegree: disdegree, // 장애 정도(일반, 1급, 2급)
@@ -152,9 +153,6 @@ class Reserve extends Component {
             console.log(temp)
         }
 
-        this.setState({
-            Redirect : true
-        })
     }
     componentDidMount() {
         this._handleCost()
@@ -190,8 +188,10 @@ class Reserve extends Component {
         })
         console.log(this.state.cost)
     }
+
     _handleClickPayment = () => {
         this._handleSumbit()
+        this._openModal2()
     }
 
     _openModal = () => {
@@ -318,6 +318,62 @@ class Reserve extends Component {
                 return data
             })
             .catch(err => console.log(err))
+    }
+
+    _openModal2 = () => {
+        this.setState({
+            isModalOpen : false,
+            isModalOpen2: true
+        })
+    }
+
+    _closeModal2 = () => {
+        this.setState({
+            isModalOpen2: false
+        })
+    }
+
+    _addBookmark = () => {
+        let url = "http://localhost:5000/api/user/add/bookmark"
+
+        const data = fetch(url, {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({
+                account : sessionStorage.getItem("account"),
+                bookmark : {
+                    departure : this.state.departure,
+                    arrival : this.state.destination
+                }
+            })
+        }).then(res => res.json())
+            .then(data => {
+                console.log(data)
+
+                if (data.error) {
+                    const errorCode = data.error
+                    if (errorCode === 1) {
+                        alert(data.shouldAttribute + "을(를) 입력해주세요.")
+                        return
+                    } else {
+                        alert("잘못된 접근입니다.")
+                        window.location.reload()
+                        return
+                    }
+                }
+                return data
+            })
+            .catch(err => console.log(err))
+
+        if(data.error) {
+           alert("잘못된 접근입니다.")
+           window.location.reload()
+            return
+        }
+
+        this.setState({
+            Redirect : true
+        })
     }
 
     render() {
@@ -559,13 +615,19 @@ class Reserve extends Component {
                     </div>
                 </Modal>
                 <Modal
-                    visible={this.state.isModalOpen}
+                    visible={this.state.isModalOpen2}
                     width="40%"
                     height="20%"
                     effect="fadeInUp"
-                    onClickAway={this._closeModal}>
+                    onClickAway={this._closeModal2}>
                     <div className="Container">
-                        <h2 style={{textAlign: "centenr", marginTop: "20px"}}><strong>즐겨찾기에 추가하시겠습니까?</strong></h2>
+                        <h2 style={{textAlign: "center", marginTop: "20px"}}><strong>즐겨찾기에 추가하시겠습니까?</strong></h2>
+                        <Row>
+                            <Col style={{textAlign: "center", marginTop: "20px"}}>
+                            <Button variant="contained" color="primary" style={{marginRight: "20px", width: "30%"}} onClick={this._addBookmark}>예</Button>
+                            <Button variant="contained" color="secondary" style={{width: "30%"}} onClick={this._closeModal2}>아니오</Button>
+                            </Col>
+                        </Row>
                     </div>
                 </Modal>
             </div>

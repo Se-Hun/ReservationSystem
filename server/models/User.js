@@ -70,4 +70,12 @@ UserSchema.statics.returnBookmarks = function(account) {
     return bookmarks
 }
 
+// To add User's bookmarks
+UserSchema.statics.addBookmarks = function(account, bookmarks) {
+    const modify_result = this.findOneAndUpdate({account}, {bookmarks}, {new: true});
+
+    // { new: true } : return the modified document rather than the original. Default is false.
+    return modify_result
+}
+
 module.exports = mongoose.model('User', UserSchema);
