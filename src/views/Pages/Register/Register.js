@@ -87,7 +87,7 @@ class Register extends Component {
                     }
                 }
                 else {
-                    login(data.account, data.token, data.accountname, data.phonenum, data.cardcompany, data.cardnum, data.password)
+                    login(data.account, data.token, data.accountname, data.phonenum, data.cardcompany, data.cardnum)
                 }
 
                 if(!isLoggedIn()) {
@@ -115,7 +115,7 @@ class Register extends Component {
                         {this.state.accountname}님, 회원가입을 환영합니다!
                     </ModalBody>
                     <ModalFooter>
-                        <Link to ={{pathname:"/"}}>
+                        <Link to ={{pathname:"/login"}}>
                         <Button color="primary" onClick={this.handleClickModal}>확인</Button>{' '}
                         </Link>
                     </ModalFooter>

@@ -22,7 +22,7 @@ class ResvList extends Component {
         this.state = {
             ResvList: null,
             Data: new Array(),
-            reservedTime:[]
+            reservedTime: []
         };
     }
 
@@ -59,14 +59,7 @@ class ResvList extends Component {
                 allData.push(jsonResults);
             })
         }
-        if (ResvList == null) {
-            alert("해당하는 예매 목록이 없습니다")
-            return <Redirect to={{
-                pathname: '/'
-            }}></Redirect>
-        } else {
-            this._getTimeList()
-        }
+        this._getTimeList()
 
         this.setState({
             ResvList: ResvList,
@@ -84,6 +77,19 @@ class ResvList extends Component {
         })
             .then(res => res.json())
             .then(data => {
+                if (data.error) {
+                    const errorCode = data.error
+                    if (errorCode === 1) {
+                        console.log(data.error)
+                        alert(data.shouldAttribute + "을(를) 입력해주세요.")
+                        return
+                    } else {
+                        alert("해당하는 예매 목록이 없습니다.")
+                        return <Redirect to={{
+                            pathname: '/'
+                        }}></Redirect>
+                    }
+                }
                 return data
             })
             .catch(err => console.log(err))
@@ -98,7 +104,6 @@ class ResvList extends Component {
         })
             .then(res => res.json())
             .then(data => {
-                // console.log(data)
                 return data
             })
             .catch(err => console.log(err))
@@ -179,6 +184,13 @@ class ResvList extends Component {
 
     render() {
         // const userList = usersData.filter((user) => user.id < 10)
+
+        if (this.state.Data == null) {
+            alert("해당하는 예매 목록이 없습니다")
+            return <Redirect to={{
+                pathname: '/'
+            }}></Redirect>
+        }
         return (
             <div className="animated fadeIn" style={{marginTop : "20px"}}>
                 <Row>
@@ -200,7 +212,9 @@ class ResvList extends Component {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {this.state.Data ? this._renderResvTable() : <tr><td>"Loading..."</td></tr>}
+                                        {this.state.Data ? this._renderResvTable() : <tr>
+                                            <td>"Loading..."</td>
+                                        </tr>}
                                     </tbody>
                                 </Table>
                             </CardBody>
