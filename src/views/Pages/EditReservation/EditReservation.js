@@ -37,7 +37,6 @@ const costmap = {
         Daejeon: 20000,
         Daegu: 30000,
         Busan: 40000,
-        Ulsan: 50000
     },
     Seoul: {
         Incheon: 10000,
@@ -67,6 +66,13 @@ const costmap = {
         Daegu: 10000,
         Busan: 0
     }
+}
+const converter = {
+    인천: "Inchoen",
+    서울:"Seoul",
+    대전:"Daejeon",
+    대구:"Daegu",
+    부산:"Busan"
 }
 
 class EditReservation extends Component {
@@ -143,8 +149,8 @@ class EditReservation extends Component {
         let departure = this.state.departure
         let destination = this.state.destination
         let peoplenum = this.state.peoplenum
+        console.log(departure+ " "+ destination)
         let cost = costmap[departure][destination]
-        console.log(cost)
         let discountpercent = 1;
         if (this.state.seat == 2) {
             cost = cost + 10000
@@ -221,11 +227,9 @@ class EditReservation extends Component {
                                                            id="departure" value={this.state.departure} required>
                                                         <option value="Inchoen">인천</option>
                                                         <option value="Seoul">서울</option>
-                                                        <option value="Daejoen">대전</option>
-                                                        <option value="Gwangju">광주</option>
+                                                        <option value="Daejeon">대전</option>
                                                         <option value="Daegu">대구</option>
                                                         <option value="Busan">부산</option>
-                                                        <option value="Ulsan">울산</option>
                                                     </Input>
                                                 </FormGroup>
                                             </Col>
@@ -251,11 +255,9 @@ class EditReservation extends Component {
                                                            id="destination" value={this.state.destination} required>
                                                         <option value="Inchoen">인천</option>
                                                         <option value="Seoul">서울</option>
-                                                        <option value="Daejoen">대전</option>
-                                                        <option value="Gwangju">광주</option>
+                                                        <option value="Daejeon">대전</option>
                                                         <option value="Daegu">대구</option>
                                                         <option value="Busan">부산</option>
-                                                        <option value="Ulsan">울산</option>
                                                     </Input>
                                                 </FormGroup>
                                             </Col>

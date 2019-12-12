@@ -19,9 +19,6 @@ class ResvList extends Component {
     _getTimeList = async () => {
         let Timelist = []
         console.log(this.state.Data)
-        // if (this.state.ReserveList == null) {
-        //     return "해당하는 예매 목록이 없습니다"
-        // }
         this.state.Data.map((reserved, _id) => {
             let now = new Date().getHours();
             let time = reserved.time.split(':')
@@ -108,7 +105,7 @@ class ResvList extends Component {
                                 disdegree: data.disdegree,
                                 seat: data.seat,
                                 departure: data.departure,
-                                arrival: data.arrival,
+                                destination: data.arrival,
                                 date: data.date,
                                 time: data.time,
                                 train: data.train,
@@ -127,7 +124,7 @@ class ResvList extends Component {
                                 disdegree: data.disdegree,
                                 seat: data.seat,
                                 departure: data.departure,
-                                arrival: data.arrival,
+                                destination: data.arrival,
                                 date: data.date,
                                 time: data.time,
                                 train: data.seat[0],
