@@ -185,7 +185,6 @@ class SearchRoutenSeat extends Component {
         }
         now = now.split(':')
 
-        // console.log(this.state.routeList)
 
         const render = this.state.routeList.map((route, _id) => {
             let deptime = (route.deptime).split(':')
@@ -197,17 +196,10 @@ class SearchRoutenSeat extends Component {
             const trainNum = trainInfo[0]
             const trainKind = trainInfo[1]
 
-            // console.log(trainKind)
-
             if(convertToTrainId[trainKind] !== this.state.kind) {
-                // console.log(this.state.kind)
-                // console.log(trainKind)
-                // console.log(convertToTrainId[trainKind])
                 return null
             }
 
-            // console.log(this.state.kind)
-            // console.log(trainKind)
 
             return (
                 <tr key={_id}>
