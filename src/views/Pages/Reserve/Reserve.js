@@ -57,10 +57,8 @@ const converter = {
     Inchoen : "인천",
     Seoul : "서울",
     Daejeon : "대전",
-    Gwangju : "광주",
     Daegu : "대구",
     Busan : "부산",
-    Ulsan : "울산"
 }
 
 const convertToTrainKind = {
