@@ -23,6 +23,8 @@ trainInfoSchema.statics.addTrainInfo = function(data) {
 }
 
 trainInfoSchema.statics.reservate=function(name, index){
+    console.log(name)
+    console.log(index)
     return this.update({trainName: name, "reserved.id":index}, { $set: { "reserved.$.state": "o" } });
 }
 

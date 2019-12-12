@@ -117,7 +117,9 @@ router.post('/reservate', (req, res) => {
 		return res.status(404).send({code: '404', error: 1, shouldAttribute: "trainName"});
 	if(!trainIndex)
 		return res.status(404).send({code: '404', error: 1, shouldAttribute: "trainIndex"});
-		
+
+	console.log(req.body)
+
 	TrainInfo.reservate(trainName,trainIndex)
 	.then((trainInfo) => {
         if(!trainInfo) {

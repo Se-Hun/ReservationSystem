@@ -63,6 +63,12 @@ const converter = {
     Ulsan : "울산"
 }
 
+const convertToTrainKind = {
+    1 : "KTX",
+    2 : "무궁화호",
+    3 : "새마을호"
+}
+
 class Reserve extends Component {
     constructor(props) {
         super(props);
@@ -127,19 +133,28 @@ class Reserve extends Component {
         // console.log(this.state)
 
         const _id = await this._addReservationList()
+        if(_id.error) {
+            alert("잘못된 접근입니다.")
+            window.location.reload()
+            return
+        }
         // console.log(_id)
 
-        const user_reservation_result = await this._addUserReservationList(_id)
+        const user_reservation_result = await this._addUserReservationList(_id._id)
+        if(user_reservation_result.error) {
+            alert("잘못된 접근입니다.")
+            window.location.reload()
+            return
+        }
 
         const peoplenum = this.state.peoplenum
         const trainName = this.state.selectedTrainNum
+        const kind = this.state.kind
         const trainIndex = this.state.selectedSeatList
         for(var i = 0; i < peoplenum; i++) {
-            const temp = await this._addTrainInfoReservationList(trainName, trainIndex[i])
+            const temp = await this._addTrainInfoReservationList(trainName + "_" + convertToTrainKind[kind], trainIndex[i])
+            console.log(temp)
         }
-
-        /////// 1. 그 다음 User의 Reservation 목록이랑
-        /////// 2. TrainInfo의  Reservation 목록 갱신해주어야함!!
     }
 
     _addReservationList = () => {
@@ -191,7 +206,7 @@ class Reserve extends Component {
                         return
                     }
                 }
-                return data._id
+                return data
             })
             .catch(err => console.log(err))
     }
@@ -208,7 +223,7 @@ class Reserve extends Component {
             })
         }).then(res => res.json())
             .then(data => {
-                console.log(data)
+                // console.log(data)
 
                 if (data.error) {
                     const errorCode = data.error
