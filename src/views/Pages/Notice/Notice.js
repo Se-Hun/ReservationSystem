@@ -37,6 +37,11 @@ class Notice extends Component {
     }
 
     _renderNoticeTable = () => {
+        if(this.state.NoticeList.length < 1) {
+            return "공지사항 데이터가 없습니다."
+        }
+
+        
         const render = this.state.NoticeList.map((Notice, _id) => {
             return (
                 <tr>

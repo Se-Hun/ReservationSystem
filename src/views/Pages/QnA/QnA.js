@@ -37,6 +37,10 @@ class QnA extends Component {
     }
 
     _renderQnATable = () => {
+        if(this.state.QnAList.length < 1) {
+            return "QnA 데이터가 없습니다."
+        }
+
         const render = this.state.QnAList.map((QnA, _id) => {
             return (
                 <tr>
