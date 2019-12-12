@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {Link, Redirect} from 'react-router-dom'
 import {
     Button,
     Card,
@@ -12,7 +13,8 @@ import {
     InputGroupText,
     Row,
     FormGroup,
-    Label
+    Label,
+    ModalHeader, ModalFooter, ModalBody, Modal
 } from 'reactstrap';
 import {isLoggedIn, login} from "../../../utils/auth";
 
@@ -28,7 +30,13 @@ class Register extends Component {
             cardcompany: '신한',
             cardnum: '',
             Redirect: false,
+            modal:false,
         };
+    }
+    toggle() {
+        this.setState({
+            modal: !this.state.modal,
+        });
     }
     handleChange = (e) => {
         this.setState({
@@ -79,21 +87,39 @@ class Register extends Component {
                     }
                 }
                 else {
-                    login(data.account, data.token, data.accountname, data.phonenum, data.cardcompany, data.cardnum)
+                    login(data.account, data.token, data.accountname, data.phonenum, data.cardcompany, data.cardnum, data.password)
                 }
 
                 if(!isLoggedIn()) {
                     window.location.reload()
                 }
                 else {
-                    window.location.replace("/")
+                    this.setState({
+                        modal:true
+                    })
                 }
             })
             .catch(err => console.log(err))
     }
+    handleClickModal = (e) => {
+        return <Redirect to ={{
+            pathname: "/"
+        }}></Redirect>
+    }
     render() {
         return (
             <div className="app flex-row align-items-center">
+                <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
+                    <ModalHeader toggle={this.toggle}>확인</ModalHeader>
+                    <ModalBody>
+                        {this.state.accountname}님, 회원가입을 환영합니다!
+                    </ModalBody>
+                    <ModalFooter>
+                        <Link to ={{pathname:"/"}}>
+                        <Button color="primary" onClick={this.handleClickModal}>확인</Button>{' '}
+                        </Link>
+                    </ModalFooter>
+                </Modal>
                 <Container>
                     <Row className="justify-content-center">
                         <Col md="9" lg="7" xl="6">
