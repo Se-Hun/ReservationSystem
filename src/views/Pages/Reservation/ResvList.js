@@ -32,14 +32,13 @@ class ResvList extends Component {
 
     _getTimeList = () => {
         let Timelist = []
-        // console.log(this.state.Data)
         this.state.Data.map((reserved, _id) => {
-            // console.log(reserved)
-            let now = new Date().getHours();
+            let now = new Date();
             let time = reserved.time.split(':')
-            let old = time[0]
+            let date = reserved.date.split('-')
+            let old = new Date(Number(date[0]), Number(date[1]), Number(date[2]), Number(time[0]), Number(time[1]), 0)
             let gap = now - old;
-            if (gap > 0) {
+            if (old>now) {
                 Timelist[reserved._id] = true
             } else {
                 Timelist[reserved._id] = false
