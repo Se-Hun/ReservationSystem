@@ -19,11 +19,13 @@ import {
     Progress,
     Row,
     Table,
-    Form
+    Form,
+    ModalHeader, ModalFooter, ModalBody, Modal
 } from 'reactstrap';
 import {CustomTooltips} from '@coreui/coreui-plugin-chartjs-custom-tooltips';
 import {getStyle, hexToRgba} from '@coreui/coreui/dist/js/coreui-utilities'
 import {getId} from '../../../utils/auth'
+import {Redirect} from 'react-router-dom'
 //const Widget03 = lazy(() => import('../../../../../views/Widgets/Widget03'));
 
 const brandPrimary = getStyle('--primary')
@@ -59,6 +61,7 @@ class ConfirmEditReservation extends Component {
     constructor(props) {
         super(props);
         this.toggle = this.toggle.bind(this);
+        this.toggleSmall = this.toggleSmall.bind(this);
         let peoplenum = 1
         let disdegree = 1
         let departure = 'Seoul'
@@ -106,13 +109,19 @@ class ConfirmEditReservation extends Component {
             redirect: false,
             age: age,
             way: way,
+            modal: false,
         };
     }
 
-
     toggle() {
         this.setState({
-            dropdownOpen: !this.state.dropdownOpen,
+            modal: !this.state.modal,
+        });
+    }
+    toggleSmall() {
+
+        this.setState({
+            small: !this.state.small,
         });
     }
 
@@ -130,7 +139,7 @@ class ConfirmEditReservation extends Component {
         let destination = this.state.destination
         let card = this.state.card
         let cardnum = this.state.cardnum
-        let seat = this.state.seat
+        let level = this.state.seat
         let date = this.state.date
         let time = this.state.time
         let cost = this.state.cost
@@ -143,7 +152,7 @@ class ConfirmEditReservation extends Component {
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({
                 peoplenum: peoplenum, departure: departure, arrival: destination, age: age, way: way,
-                card: card, cardnum: cardnum, date: date, time: time, seatList: seatList, state: state,
+                card: card, cardnum: cardnum, date: date, time: time, seat: seatList, state: state, level:level, disdegree: disdegree
             })
         }).then(res => res.json())
             .then(data => {
@@ -153,12 +162,47 @@ class ConfirmEditReservation extends Component {
                     window.location.reload()
                     return
                 }
-                window.location.replace("/confirmReservation")
+                return <Redirect to={{pathname: "/confirmReservation"}}></Redirect>
             })
             .catch(err => console.log(err))
     }
     loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>
-
+    handleClickModal=(e)=>{
+        e.preventDefault()
+        let url = "http://localhost:5000/api/reservation/edit"
+        let peoplenum = this.state.peoplenum
+        let disdegree = this.state.disdegree
+        let departure = this.state.departure
+        let destination = this.state.destination
+        let card = this.state.card
+        let cardnum = this.state.cardnum
+        let level = this.state.seat
+        let date = this.state.date
+        let time = this.state.time
+        let cost = this.state.cost
+        let way = this.state.way
+        let age = this.state.age
+        let state = this.state.state
+        let seatList = this.state.seatList
+        fetch(url, {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({
+                peoplenum: peoplenum, departure: departure, arrival: destination, age: age, way: way,
+                card: card, cardnum: cardnum, date: date, time: time, seat: seatList, state: state, level:level, disdegree: disdegree
+            })
+        }).then(res => res.json())
+            .then(data => {
+                if (data.error) {
+                    const errorCode = data.error
+                    alert("잘못된 접근입니다.")
+                    window.location.reload()
+                    return
+                }
+                return <Redirect to={{pathname: "/confirmReservation"}}></Redirect>
+            })
+            .catch(err => console.log(err))
+    }
     render() {
 
         return (
@@ -233,7 +277,17 @@ class ConfirmEditReservation extends Component {
                                         </Card>
                                     </Col>
                                 </CardBody>
-                                <Button onClick={this.handleClick}>재결제</Button>
+                                <Button onClick={this.toggle}>재결제</Button>
+                                <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
+                                    <ModalHeader toggle={this.toggle}>확인</ModalHeader>
+                                    <ModalBody>
+                                        예매를 수정하시겠습니까?
+                                    </ModalBody>
+                                    <ModalFooter>
+                                        <Button color="primary" onClick={this.handleClickModal}>확인</Button>{' '}
+                                        <Button color="secondary" onClick={this.handleClickModal}>취소</Button>
+                                    </ModalFooter>
+                                </Modal>
                             </Card>
                         </Col>
                     </Row>
