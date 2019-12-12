@@ -54,7 +54,7 @@ class Login extends Component {
             }
           }
           else {
-            login(data.account, data.token, data.accountname, data.phonenum, data.cardcompany, data.cardnum)
+            login(data.account, data.token, data.accountname, data.phonenum, data.cardcompany, data.cardnum, data.password)
           }
 
           if(!isLoggedIn()) {
@@ -105,7 +105,7 @@ class Login extends Component {
                             <Button variant="outlined"
                                     size="large"
                                     style={{marginLeft: "60%", marginTop: "5px", marginBottom: "10px", fontWeight: "bold"}}>
-                              회원가입
+                              로그인
                             </Button>
                           </Link>
                         </Col>

@@ -16,7 +16,7 @@ import {
     Row
 } from 'reactstrap';
 
-import {isLoggedIn} from '../../../utils/auth'
+import {isLoggedIn, getPassword} from '../../../utils/auth'
 
 class ChangeUserInfo extends Component {
     constructor(props) {
@@ -48,7 +48,10 @@ class ChangeUserInfo extends Component {
         let phonenum = this.state.phonenum
         let cardcompany = this.state.cardcompany
         let cardnum = this.state.cardnum
-
+        if(getPassword!=password)   {
+            alert("비밀번호가 틀립니다!")
+            return <Redirect to={{pathname:"/"}}></Redirect>
+        }
         let body="{"
         body+='"account":"'+account+'", ';
         body+='"password":"'+password+'", ';
@@ -73,6 +76,10 @@ class ChangeUserInfo extends Component {
 
 
     render() {
+        if (!isLoggedIn()) {
+            alert("로그인이 필요합니다.")
+            return <Redirect to={{pathname:"/Login"}}></Redirect>
+        }
         return (
             <div className="app flex-row align-items-center">
                 <Container>
