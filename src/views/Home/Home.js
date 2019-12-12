@@ -39,7 +39,7 @@ class Home extends Component {
             departure: departure,
             destination: destination,
             date: null,
-            time: "",
+            time: null,
         };
     }
 
@@ -63,10 +63,11 @@ class Home extends Component {
             alert("날짜를 입력해주세요.")
             return
         }
-        // if(this.state.time === null || this.state.time === undefined) {
-        //     alert("시간을 입력해주세요.")
-        //     return
-        // }
+        if(this.state.time === null || this.state.time === undefined) {
+            this.setState({
+                time : "00:00"
+            })
+        }
 
         const deptForConvert = this.state.departure
         const destForConvert = this.state.destination

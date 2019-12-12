@@ -24,7 +24,11 @@ const reservationSchema = new Schema(
 );
 
 reservationSchema.statics.reserve = function(departure, arrival, date, time, peoplenum, age, way, card, cardnum, state, seat, level, disdegree) {
-    var newReserve = new this(departure, arrival, date, time, peoplenum, age, way, card, cardnum, state, seat, level, disdegree);
+    var newReserve = new this({departure, arrival, date, time, peoplenum, age, way, card, cardnum, state, seat, level, disdegree});
+
+    const result = newReserve.save()
+
+    return result;
 }
 
 reservationSchema.statics.deleteReservation = function(id) {
@@ -50,7 +54,7 @@ reservationSchema.statics.editReservation = function(id, departure, arrival, dat
                 "card": card,
                 "cardnum": cardnum,
                 "state": state,
-                // trainName, seat
+                "disdegree" : disdegree,
                 "seat": seat,
                 "level": level
             }

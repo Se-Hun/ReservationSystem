@@ -146,7 +146,7 @@ class SearchRoutenSeat extends Component {
         let departure = this.state.departure
         let arrival = this.state.destination
         let date = this.state.date
-        let time = "03:00" // this.state.time <= 이거 고쳐야함!!
+        let time = this.state.time // this.state.time <= 이거 고쳐야함!!
 
         if(departure === null || departure === undefined) {
             departure = "Inchoen"
@@ -161,6 +161,8 @@ class SearchRoutenSeat extends Component {
         if(time === null || time === undefined) {
             time = "00:00"
         }
+
+        // console.log(this.state)
 
         return fetch(url, {
             method: "POST",
@@ -230,10 +232,18 @@ class SearchRoutenSeat extends Component {
 
     handleChange = (e) => {
         if(e.target.name === "seat") {
-            this.setState({
-                [e.target.name] : e.target.value,
-                presentCar : "3"
-            })
+            if(e.target.value === "2") {
+                this.setState({
+                    [e.target.name] : e.target.value,
+                    presentCar : "3"
+                })
+            }
+            else {
+                this.setState({
+                    [e.target.name] : e.target.value,
+                    presentCar : "2"
+                })
+            }
             return
         }
 
@@ -406,11 +416,11 @@ class SearchRoutenSeat extends Component {
                     destination : this.state.destination, // 검색할 도착지
                     seat: this.state.seat, // 좌석 종류(일반, 우등)
                     kind: this.state.kind, // 선택한 기차 종류(ktx, 무궁화호, 새마을호)
-                    age : "children", // 연령대(children : 20세 미만, adult : 20세 이상)
-                    way : "1", // 편도/왕복(1 : 편도, 2 : 왕복)
+                    age : this.state.age, // 연령대(children : 20세 미만, adult : 20세 이상)
+                    way : this.state.way, // 편도/왕복(1 : 편도, 2 : 왕복)
                     date: this.state.date, // 검색할 날짜
                     time: this.state.time, // 검색할 시간
-                    selectedTrainNum : this.state.selectedTrainNum,
+                    selectedTrainNum : this.state.selectedTrainNum, // 선택된 기차 번호
                     selectedSeatList : this.state.selectedSeatList, // 유저가 최종적으로 선택한 좌석 목록["칸_좌석", ...]
                 }
             }}></Redirect>

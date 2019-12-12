@@ -36,7 +36,7 @@ router.post('/reserve', (req, res) => {
     const seat = req.body.seat;
     const level = req.body.level;
     const disdegree = req.body.disdegree;
-    console.log(req.body)
+    // console.log(req.body)
 
     if(!departure)
         return res.status(404).send({code: '404', error: 1, shouldAttribute: "departure"});
@@ -65,9 +65,9 @@ router.post('/reserve', (req, res) => {
     if(!disdegree)
         return res.status(404).send({code: '404', error: 1, shouldAttribute: "disdegree"});
 
-    Reservation.reserve(req.body)
-    .then(reservation => res.send(reservation._id))
-    .catch(err => res.status(500).send({code: '500', error: 3, state: false}));
+    Reservation.reserve(departure, arrival, date, time, peoplenum, age, way, card, cardnum, state, seat, level, disdegree)
+        .then(reservation => res.send({_id : reservation._id}))
+        .catch(err => res.status(500).send({code: '500', error: 3, state: false}));
 })
 
 // input : 해당 예매 정보에 대한 id
@@ -158,8 +158,8 @@ router.post('/edit', (req, res) => {
     const cardnum = req.body.cardnum;
     const state = req.body.state;
     const seat = req.body.seat;
-    const disdegree = req.body.disdegree;
     const level = req.body.level;
+    const disdegree = req.body.disdegree;
 
     if(!departure)
         return res.status(404).send({code: '404', error: 1, shouldAttribute: "departure"});
@@ -188,7 +188,7 @@ router.post('/edit', (req, res) => {
     if(!disdegree)
         return res.status(404).send({code: '404', error: 1, shouldAttribute: "disdegree"});
 
-    Reservation.editReservation(req.body)
+    Reservation.editReservation(departure, arrival, date, time, peoplenum, age, way, card, cardnum, state, seat, level, disdegree)
     .then(res.send({state: true}))
     .catch(err => res.status(500).send({code: '500', error: 3, state: false}));
 })

@@ -67,13 +67,13 @@ class Reserve extends Component {
     constructor(props) {
         super(props);
 
-        console.log(props.location.state)
+        // console.log(props.location.state)
 
         let peoplenum = null // 인원수
         let disdegree = null // 장애 정도(일반, 1급, 2급)
         let departure = null // 예약할 출발지
         let destination = null // 예약할 도착지
-        // 일반, 우등은 조금있다가 생각하자!!
+        let level = null
         let kind = null // 선택한 기차 종류(ktx, 무궁화호, 새마을호)
         let age = null // 연령대(children : 20세 미만, adult : 20세 이상)
         let way = null // 편도/왕복(1: 편도, 2 : 왕복)
@@ -84,6 +84,7 @@ class Reserve extends Component {
         if (props.location.state) {
             peoplenum = props.location.state.peoplenum
             disdegree = props.location.state.disdegree
+            level = props.location.state.seat
             departure = props.location.state.departure
             destination = props.location.state.destination
             kind = props.location.state.kind
@@ -92,15 +93,14 @@ class Reserve extends Component {
             date = props.location.state.date
             time = props.location.state.time
             selectedTrainNum = props.location.state.selectedTrainNum
-            selectedSeatList = props.location.selectedSeatList
+            selectedSeatList = props.location.state.selectedSeatList
         }
 
         this.state = {
             Redirect : false,
             peoplenum: peoplenum, // 인원수
             disdegree: disdegree, // 장애 정도(일반, 1급, 2급)
-        // !!!좌석 종류 해야함!!!
-            // seat: seat, // 좌석 종류(일반, 우등)
+            level: level, // 좌석 종류(일반, 우등)
             departure : departure, // 예매할 출발지
             destination : destination, // 예매할 도착지
             kind: kind, // 선택한 기차 종류(ktx, 무궁화호, 새마을호)
@@ -110,8 +110,8 @@ class Reserve extends Component {
             time: time, // 검색할 시간
             selectedTrainNum : selectedTrainNum, // 유저가 최종적으로 선택한 기차 번호
             selectedSeatList : selectedSeatList, // 유저가 최종적으로 선택한 좌석 목록
-
-        // !!!카드 회사랑 카드 번호 넣어야함!!!
+            card : sessionStorage.getItem("cardcompany"),
+            cardnum : sessionStorage.getItem("cardnum")
         };
     }
 
@@ -121,32 +121,56 @@ class Reserve extends Component {
         })
     }
 
-    handleSumbit = (e) => {
+    handleSumbit = async(e) => {
         e.preventDefault()
-        // let _id = this._getReservation()
-        // this._getUserReserve(_id)
-        // this.state.selectSeatList.map((seat, _id) => {
-        //     let seatInfo = seat.split('_')
-        //     let trainName = seatInfo[0]+'_'+this.state.kind
-        //     let trainIndex = seatInfo[1]+'_'+seatInfo[2]
-        //     this._updateTrainSeat(trainName, trainIndex)
-        // })
-        // return <Redirect to={{
-        //     pathname: "/confirmReservation",
-        // }}></Redirect>
+
+        // console.log(this.state)
+
+        const _id = await this._addReservationList()
+
+
+        /////// 1. 그 다음 User의 Reservation 목록이랑
+        /////// 2. TrainInfo의  Reservation 목록 갱신해주어야함!!
     }
 
     _addReservationList = () => {
-        let url = "http://localhost:5000/reservation/reserve"
+        let url = "http://localhost:5000/api/reservation/reserve"
+
+        let seat = []
+        let selectedSeatList = this.state.selectedSeatList
+
+        seat[0] = this.state.selectedTrainNum + "_" + this.state.kind
+
+        for(var i = 0; i < selectedSeatList.length; i++) {
+            seat[i+1] = selectedSeatList[i]
+        }
+
+        // console.log(this.state)
+
+        let card = this.state.card
 
         return fetch(url, {
+            method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({
                 peoplenum : this.state.peoplenum,
-                disdegree : "",
+                disdegree : this.state.disdegree,
+                level : this.state.level,
+                age : this.state.age,
+                way : this.state.way,
+                departure : this.state.departure,
+                arrival : this.state.destination,
+                date : this.state.date,
+                time : this.state.time,
+                state : "0",
+                seat : seat,
+                card : card,
+                cardnum : this.state.cardnum
             })
         }).then(res => res.json())
             .then(data => {
+                // console.log(data)
+
                 if (data.error) {
                     const errorCode = data.error
                     if (errorCode === 1) {
@@ -231,10 +255,10 @@ class Reserve extends Component {
                                 <Row>
                                     <Col>
                                         <FormGroup>
-                                            <Label htmlFor="seat" style={{color: "black"}}><strong>좌석 종류</strong></Label>
-                                            <Input type="select" name="seat" onChange={this.handleChange}
-                                                   value={this.state.seat}
-                                                   id="seat" placeholder="Enter your seat" required>
+                                            <Label htmlFor="level" style={{color: "black"}}><strong>좌석 종류</strong></Label>
+                                            <Input type="select" name="level" onChange={this.handleChange}
+                                                   value={this.state.level}
+                                                   id="level" placeholder="Enter your seat" required>
                                                 <option value="1">일반</option>
                                                 <option value="2">우등</option>
                                             </Input>
@@ -302,9 +326,9 @@ class Reserve extends Component {
                                                 <Col xs="12">
                                                     <FormGroup>
                                                         <Label htmlFor="card"><strong style={{color: "black"}}>카드 회사</strong></Label>
-                                                        <Input type="select" name="cardcompany"
-                                                               value={this.state.cardcompany}
-                                                               onChange={this.handleChange} id="cardcompany">
+                                                        <Input type="select" name="card"
+                                                               value={this.state.card}
+                                                               onChange={this.handleChange} id="card">
                                                             <option value="신한">신한</option>
                                                             <option value="하나">하나</option>
                                                             <option value="국민">국민</option>
@@ -316,8 +340,8 @@ class Reserve extends Component {
                                             <Row>
                                                 <Col xs="12">
                                                     <FormGroup>
-                                                        <Label htmlFor="ccnumber"><strong style={{color: "black"}}>카드 번호</strong></Label>
-                                                        <Input type="text" id="ccnumber" onChange={this.handleChange}
+                                                        <Label htmlFor="cardnum"><strong style={{color: "black"}}>카드 번호</strong></Label>
+                                                        <Input type="text" id="cardnum" onChange={this.handleChange}
                                                                placeholder="0000 0000 0000 0000" required/>
                                                     </FormGroup>
                                                 </Col>

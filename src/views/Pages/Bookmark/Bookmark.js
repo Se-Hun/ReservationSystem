@@ -3,6 +3,14 @@ import {Link} from 'react-router-dom';
 import {Card, CardBody, Table} from 'reactstrap';
 import Button from '@material-ui/core/Button';
 
+const convert = {
+    Inchoen : "인천",
+    Seoul : "서울",
+    Daejeon : "대전",
+    Daegu : "대구",
+    Busan : "부산"
+}
+
 class Bookmark extends Component {
 
     state = {
@@ -75,14 +83,14 @@ class Bookmark extends Component {
             const render = bookmarks.map((bookmark, id) => {
                 return(
                     <tr key={id}>
-                        <td>{bookmark.departure}</td>
-                        <td>{bookmark.arrival}</td>
+                        <td>{convert[bookmark.departure]}</td>
+                        <td>{convert[bookmark.arrival]}</td>
                         <td>
                             <Link to={{
                                 pathname: '/home',
                                 state: {
-                                    departure: bookmark.departure,
-                                    destination: bookmark.arrival,
+                                    departure: convert[bookmark.departure],
+                                    destination: convert[bookmark.arrival],
                                 }
                             }} style={{textDecoration: "none"}}>
                                 <Button variant="contained"
