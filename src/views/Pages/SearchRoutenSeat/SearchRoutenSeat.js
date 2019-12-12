@@ -469,7 +469,7 @@ class SearchRoutenSeat extends Component {
                                             </FormGroup>
                                         </Col>
                                         <Col xs="6">
-                                            <Label htmlFor="age" style={{color: "black"}}><strong>편도/왕복</strong></Label>
+                                            <Label htmlFor="way" style={{color: "black"}}><strong>편도/왕복</strong></Label>
                                             <Input type="select" name="way" onChange={this.handleChange}
                                                    value={this.state.way}
                                                    id="way" required>
