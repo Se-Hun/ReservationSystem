@@ -120,15 +120,15 @@ class ConfirmReservation extends Component {
                     <td>{this.state.reserveTime[reserved.id] ? (
                         <Link to={{
                             pathname: '/editReservation', state: {
-                                peoplenum: this.state.peoplenum,
-                                disdegree: this.state.disdegree,
-                                seat: this.state.seat,
-                                departure: this.state.departure,
-                                destination: this.state.destination,
-                                date: this.state.date,
-                                time: this.state.time,
-                                train: this.state.train,
-                                route: this.state.route,
+                                peoplenum: reserved.peoplenum,
+                                disdegree: reserved.disdegree,
+                                seat: reserved.seat,
+                                departure: reserved.departure,
+                                destination: reserved.destination,
+                                date: reserved.date,
+                                time: reserved.time,
+                                train: reserved.train,
+                                route: reserved.route,
                             }
                         }} style={{textDecoration: "none"}}>
                             <Button>수정</Button>
@@ -139,15 +139,16 @@ class ConfirmReservation extends Component {
                     <td>{this.state.reserveTime[reserved.id] ? (
                         <Link to={{
                             pathname: '/confirmCancelReservation', state: {
-                                peoplenum: this.state.peoplenum,
-                                disdegree: this.state.disdegree,
-                                seat: this.state.seat,
-                                departure: this.state.departure,
-                                destination: this.state.destination,
-                                date: this.state.date,
-                                time: this.state.time,
-                                train: this.state.train,
-                                route: this.state.route,
+                                peoplenum: reserved.peoplenum,
+                                disdegree: reserved.disdegree,
+                                seat: reserved.seat,
+                                departure: reserved.departure,
+                                destination: reserved.destination,
+                                date: reserved.date,
+                                time: reserved.time,
+                                train: reserved.train,
+                                route: reserved.route,
+                                
                             }
                         }} style={{textDecoration: "none"}}>
                             <Button>취소</Button>
