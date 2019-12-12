@@ -156,7 +156,40 @@ class Reserve extends Component {
             Redirect : true
         })
     }
+    componentDidMount() {
+        this._handleCost()
+    }
 
+    _handleCost = () => {
+        let departure = this.state.departure
+        let destination = this.state.destination
+        let peoplenum = this.state.peoplenum
+        let cost = costmap[departure][destination]
+        let age = this.state.age
+        let way = this.state.way
+        let discountpercent = 1;
+        if (this.state.seat == 2) {
+            cost = cost + 10000
+        }
+        if (this.state.kind == 2) {
+            discountpercent = discountpercent * 0.8
+        } else if (this.state.kind == 3) {
+            discountpercent = discountpercent * 0.5
+        }
+        if (this.state.disdegree == 2) {
+            discountpercent = discountpercent * 0.95
+        } else if (this.state.disdegree == 3) {
+            discountpercent = discountpercent * 0.9
+        }
+        if(age=='children'){
+            discountpercent = discountpercent * 0.5
+        }
+        cost = cost * discountpercent * peoplenum * way
+        this.setState({
+            cost: cost
+        })
+        console.log(this.state.cost)
+    }
     _handleClickPayment = () => {
         this._handleSumbit()
     }
