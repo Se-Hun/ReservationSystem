@@ -63,11 +63,11 @@ class SearchRoutenSeat extends Component {
             destination : destination, // 검색할 도착지
             date: date, // 검색할 날짜
             time: time, // 검색할 시간
-            redirect: false,
             routeList: null, // 출발지-도착지를 통해 검색한 노선 목록
             seatList : null, // back-end에서 받아온 현재 기차의 전체 좌석 목록
             reservedList : null, // back-end에서 받아온 현재 기차의 좌석에서 예약된 목록
             presentCar : "2", // 현재 칸을 Default로 2번 칸으로 지정
+            selectedTrainNum : "",
             selectedSeatList : [] // 유저가 최종적으로 선택한 좌석 목록
         };
     }
@@ -78,6 +78,7 @@ class SearchRoutenSeat extends Component {
         let reservedSeats = await this._callApiForReservedSeatList(Info)
 
         this.setState({
+            selectedTrainNum : Info.split("_")[0],
             seatList: seats,
             reservedList : reservedSeats,
             isModalOpen: true,
@@ -341,7 +342,7 @@ class SearchRoutenSeat extends Component {
     }
 
     _handleSeatClick = (id) => {
-        const result = convertToTrainKind[this.state.kind] + "_" + this.state.presentCar + "_" + id
+        const result = this.state.presentCar + "_" + id
 
         let previousSelectedSeatList = this.state.selectedSeatList
         previousSelectedSeatList.push(result)
@@ -349,9 +350,6 @@ class SearchRoutenSeat extends Component {
         this.setState({
             selectedSeatList : previousSelectedSeatList
         })
-
-        console.log(previousSelectedSeatList.length)
-            console.log(this.state.peoplenum)
 
         if(previousSelectedSeatList.length.toString() === this.state.peoplenum) {
             this.setState({
@@ -412,7 +410,8 @@ class SearchRoutenSeat extends Component {
                     way : "1", // 편도/왕복(1 : 편도, 2 : 왕복)
                     date: this.state.date, // 검색할 날짜
                     time: this.state.time, // 검색할 시간
-                    selectedSeatList : this.state.selectedSeatList, // 유저가 최종적으로 선택한 좌석 목록["기차이름_칸_좌석", ...]
+                    selectedTrainNum : this.state.selectedTrainNum,
+                    selectedSeatList : this.state.selectedSeatList, // 유저가 최종적으로 선택한 좌석 목록["칸_좌석", ...]
                 }
             }}></Redirect>
         }

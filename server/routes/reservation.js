@@ -32,6 +32,9 @@ router.post('/reserve', (req, res) => {
     const cardnum = req.body.cardnum;
     const state = req.body.state;
     const seat = req.body.seat;
+    const level = req.body.level;
+
+    console.log(req.body)
 
     if(!departure)
         return res.status(404).send({code: '404', error: 1, shouldAttribute: "departure"});
@@ -55,6 +58,8 @@ router.post('/reserve', (req, res) => {
         return res.status(404).send({code: '404', error: 1, shouldAttribute: "state"});
     if(!seat)
         return res.status(404).send({code: '404', error: 1, shouldAttribute: "seat"});
+    if(!level)
+        return res.status(404).send({code: '404', error: 1, shouldAttribute: "level"})
 
     Reservation.reserve(req.body)
     .then(reservation => res.send(reservation._id))
@@ -131,6 +136,7 @@ router.post('/getReservation', (req, res) => {
     "cardnum": "3333-33-3333",
     "state": "0"
     "seat":["6000_새마을호","1_a"]
+    "level" : "1"
 }
 */
 // output : state
@@ -146,6 +152,7 @@ router.post('/edit', (req, res) => {
     const cardnum = req.body.cardnum;
     const state = req.body.state;
     const seat = req.body.seat;
+    const level = req.body.level;
 
     if(!departure)
         return res.status(404).send({code: '404', error: 1, shouldAttribute: "departure"});
@@ -169,6 +176,8 @@ router.post('/edit', (req, res) => {
         return res.status(404).send({code: '404', error: 1, shouldAttribute: "state"});
     if(!seat)
         return res.status(404).send({code: '404', error: 1, shouldAttribute: "seat"});
+    if(!level)
+        return res.status(404).send({code: '404', error: 1, shouldAttribute: "level"});
 
     Reservation.editReservation(req.body)
     .then(res.send({state: true}))

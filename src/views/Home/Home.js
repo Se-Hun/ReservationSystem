@@ -17,10 +17,8 @@ const converter = {
     인천: "Inchoen",
     서울: "Seoul",
     대전: "Daejeon",
-    광주: "Gwangju",
     대구: "Daegu",
     부산: "Busan",
-    울산: "Ulsan"
 }
 
 class Home extends Component {

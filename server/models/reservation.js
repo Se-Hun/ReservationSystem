@@ -13,7 +13,8 @@ const reservationSchema = new Schema(
         card: {type: String, required: true},
         cardnum: {type: String, required: true},
         state: {type: String, required: true},
-        seat: {type: Array, required: true}
+        seat: {type: Array, required: true},
+        level: {type: String, required: true}
     },
     {
         collection: 'reservation',
@@ -21,8 +22,8 @@ const reservationSchema = new Schema(
     }
 );
 
-reservationSchema.statics.reserve = function(departure, arrival, date, time, peoplenum, age, way, card, cardnum, state) {
-    var newReserve = new this(departure, arrival, date, time, peoplenum, age, way, card, cardnum, state);
+reservationSchema.statics.reserve = function(departure, arrival, date, time, peoplenum, age, way, card, cardnum, state, seat, level) {
+    var newReserve = new this(departure, arrival, date, time, peoplenum, age, way, card, cardnum, state, seat, level);
     return newReserve.save();
 }
 
@@ -34,23 +35,24 @@ reservationSchema.statics.getReservation = function(id) {
     return this.findOne({ _id: id});
 }
 
-reservationSchema.statics.editReservation = function(id, departure, arrival, date, time, peoplenum, age, way, card, cardnum, state) {
+reservationSchema.statics.editReservation = function(id, departure, arrival, date, time, peoplenum, age, way, card, cardnum, state, seat, level) {
     return this.update(
         { _id: id},
         { $set: {
-             "departure": departure,
-             "arrival": arrival,
-             "date": date,
-             "time": time,
-             "peoplenum": peoplenum,
-             "age": age,
-             "way": way,
-             "card": card,
-             "cardnum": cardnum,
-             "state": state,
-             // trainName, seat
-             "seat": seat
-            } 
+                 "departure": departure,
+                 "arrival": arrival,
+                 "date": date,
+                 "time": time,
+                 "peoplenum": peoplenum,
+                 "age": age,
+                 "way": way,
+                 "card": card,
+                 "cardnum": cardnum,
+                 "state": state,
+                 // trainName, seat
+                 "seat": seat,
+                "level" : level
+                }
         }
     );
 }
