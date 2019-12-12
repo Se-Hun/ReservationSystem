@@ -582,7 +582,7 @@ class SearchRoutenSeat extends Component {
                         </Table>
                     </CardBody>
                 </Card>
-                <Button onClick={() => this._openModal("6000_새마을")}>DEBUG</Button>
+                {/*<Button onClick={() => this._openModal("6000_새마을")}>DEBUG</Button>*/}
                 <Modal
                     visible={this.state.isModalOpen}
                     width="90%"
