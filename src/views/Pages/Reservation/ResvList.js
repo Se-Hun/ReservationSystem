@@ -36,7 +36,7 @@ class ResvList extends Component {
             let now = new Date();
             let time = reserved.time.split(':')
             let date = reserved.date.split('-')
-            let old = new Date(Number(date[0]), Number(date[1]), Number(date[2]), Number(time[0]), Number(time[1]), 0)
+            let old = new Date(Number(date[0]), Number(date[1]), Number(date[2]), Number(time[0]), Number(time[1]), 0, 0)
             let gap = now - old;
             if (old>now) {
                 Timelist[reserved._id] = true
