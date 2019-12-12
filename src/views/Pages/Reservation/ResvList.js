@@ -18,16 +18,14 @@ class ResvList extends Component {
 
     _getTimeList = async () => {
         let Timelist = []
-        console.log(this.state.ReserveList)
-        if (this.state.ReserveList == null) {
-            return "해당하는 예매 목록이 없습니다"
-        }
+        console.log(this.state.Data)
+        // if (this.state.ReserveList == null) {
+        //     return "해당하는 예매 목록이 없습니다"
+        // }
         this.state.Data.map((reserved, _id) => {
             let now = new Date().getHours();
             let time = reserved.time.split(':')
             let old = time[0]
-            console.log(now)
-            console.log(old)
             let gap = now - old;
             if (gap > 0) {
                 Timelist[reserved._id] = true
@@ -35,6 +33,7 @@ class ResvList extends Component {
                 Timelist[reserved._id] = false
             }
         })
+        console.log(Timelist)
         this.setState({
             reserveTime: Timelist
         })
