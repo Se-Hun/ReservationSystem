@@ -16,7 +16,7 @@ import {
     Row
 } from 'reactstrap';
 
-import {isLoggedIn, getPassword} from '../../../utils/auth'
+import {isLoggedIn} from '../../../utils/auth'
 
 class ChangeUserInfo extends Component {
     constructor(props) {
@@ -48,7 +48,8 @@ class ChangeUserInfo extends Component {
         let phonenum = this.state.phonenum
         let cardcompany = this.state.cardcompany
         let cardnum = this.state.cardnum
-        if(getPassword!=password)   {
+        if(sessionStorage.getItem('password')!=password)   {
+            console.log(sessionStorage.getItem('password')+" "+password)
             alert("비밀번호가 틀립니다!")
             return <Redirect to={{pathname:"/"}}></Redirect>
         }

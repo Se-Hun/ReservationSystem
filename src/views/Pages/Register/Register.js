@@ -87,7 +87,7 @@ class Register extends Component {
                     }
                 }
                 else {
-                    login(data.account, data.token, data.accountname, data.phonenum, data.cardcompany, data.cardnum, data.password)
+                    login(data.account, data.token, data.accountname, data.phonenum, data.cardcompany, data.cardnum)
                 }
 
                 if(!isLoggedIn()) {
