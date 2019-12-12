@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Redirect} from 'react-router-dom';
-
+import Modal from 'react-awesome-modal';
 import {
     Card,
     CardBody,
@@ -103,6 +103,7 @@ class Reserve extends Component {
         }
 
         this.state = {
+            isModalOpen : false,
             Redirect : false,
             peoplenum: peoplenum, // 인원수
             disdegree: disdegree, // 장애 정도(일반, 1급, 2급)
@@ -127,11 +128,7 @@ class Reserve extends Component {
         })
     }
 
-    handleSumbit = async(e) => {
-        e.preventDefault()
-
-        // console.log(this.state)
-
+    _handleSumbit = async() => {
         const _id = await this._addReservationList()
         if(_id.error) {
             alert("잘못된 접근입니다.")
@@ -155,6 +152,26 @@ class Reserve extends Component {
             const temp = await this._addTrainInfoReservationList(trainName + "_" + convertToTrainKind[kind], trainIndex[i])
             console.log(temp)
         }
+
+        this.setState({
+            Redirect : true
+        })
+    }
+
+    _handleClickPayment = () => {
+        this._handleSumbit()
+    }
+
+    _openModal = () => {
+        this.setState({
+            isModalOpen: true
+        })
+    }
+
+    _closeModal = () => {
+        this.setState({
+            isModalOpen: false
+        });
     }
 
     _addReservationList = () => {
@@ -272,6 +289,29 @@ class Reserve extends Component {
     }
 
     render() {
+        if(this.state.Redirect) {
+            return(
+                <Redirect to={{
+                    pathname : "/reservation",
+                    state : {
+                        peoplenum : this.state.peoplenum,
+                        disdegree : this.state.disdegree,
+                        level : this.state.level,
+                        age : this.state.age,
+                        way : this.state.way,
+                        departure : this.state.departure,
+                        arrival : this.state.destination,
+                        date : this.state.date,
+                        time : this.state.time,
+                        state : "0",
+                        seat : this.state.seat,
+                        card : this.state.card,
+                        cardnum : this.state.cardnum
+                    }
+                }}/>
+            )
+        }
+
         return(
             <div className="animated fadeIn" style={{marginTop: "20px"}}>
                 <Form>
@@ -438,7 +478,7 @@ class Reserve extends Component {
                                     <Col></Col>
                                     <Col col="6" sm="2" md="2" xl className="mb-3 mb-xl-0">
                                         <Button variant="contained" color="primary" style={{width: "100%", marginBottom : "20px"}}
-                                                onClick={this.handleSumbit}>예매</Button>
+                                                onClick={this._openModal}>예매</Button>
                                     </Col>
                                 </Row>
                             </CardBody>
@@ -446,6 +486,22 @@ class Reserve extends Component {
                     </Col>
                 </Row>
                 </Form>
+                <Modal
+                    visible={this.state.isModalOpen}
+                    width="40%"
+                    height="20%"
+                    effect="fadeInUp"
+                    onClickAway={this._closeModal}>
+                    <div className="Container">
+                        <h2 style={{textAlign: "center", marginTop: "20px"}}><strong>결제를 진행 하시겠습니까?</strong></h2>
+                        <Row>
+                            <Col style={{textAlign: "center", marginTop: "20px"}}>
+                            <Button variant="contained" color="primary" style={{marginRight: "20px", width: "30%"}} onClick={this._handleClickPayment}>예</Button>
+                            <Button variant="contained" color="secondary" style={{width: "30%"}} onClick={this._closeModal}>아니오</Button>
+                            </Col>
+                        </Row>
+                    </div>
+                </Modal>
             </div>
         )
     }
