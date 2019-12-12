@@ -57,6 +57,8 @@ class SearchRoutenSeat extends Component {
             disdegree: "1", // 장애 정도(일반, 1급, 2급)
             seat: "1", // 좌석 종류(일반, 우등)
             kind: "1", // 선택한 기차 종류(ktx, 무궁화호, 새마을호)
+            age : "children", // 연령대(children : 20세 미만, adult : 20세 이상)
+            way : "1", // 편도/왕복(1 : 편도, 2 : 왕복)
             departure : departure, // 검색할 출발지
             destination : destination, // 검색할 도착지
             date: date, // 검색할 날짜
@@ -195,9 +197,9 @@ class SearchRoutenSeat extends Component {
             // console.log(trainKind)
 
             if(convertToTrainId[trainKind] !== this.state.kind) {
-                console.log(this.state.kind)
-                console.log(trainKind)
-                console.log(convertToTrainId[trainKind])
+                // console.log(this.state.kind)
+                // console.log(trainKind)
+                // console.log(convertToTrainId[trainKind])
                 return null
             }
 
@@ -406,6 +408,8 @@ class SearchRoutenSeat extends Component {
                     destination : this.state.destination, // 검색할 도착지
                     seat: this.state.seat, // 좌석 종류(일반, 우등)
                     kind: this.state.kind, // 선택한 기차 종류(ktx, 무궁화호, 새마을호)
+                    age : "children", // 연령대(children : 20세 미만, adult : 20세 이상)
+                    way : "1", // 편도/왕복(1 : 편도, 2 : 왕복)
                     date: this.state.date, // 검색할 날짜
                     time: this.state.time, // 검색할 시간
                     selectedSeatList : this.state.selectedSeatList, // 유저가 최종적으로 선택한 좌석 목록["기차이름_칸_좌석", ...]
@@ -443,6 +447,28 @@ class SearchRoutenSeat extends Component {
                                             </Input>
                                         </FormGroup>
                                     </Col>
+                                    <Row>
+                                        <Col xs="6">
+                                            <FormGroup>
+                                                <Label htmlFor="age" style={{color: "black"}}><strong>연령대</strong></Label>
+                                                <Input type="select" name="age" onChange={this.handleChange}
+                                                       value={this.state.age}
+                                                       id="age" required>
+                                                    <option value="children">20세 미만</option>
+                                                    <option value="adult">20세 이상</option>
+                                                </Input>
+                                            </FormGroup>
+                                        </Col>
+                                        <Col xs="6">
+                                            <Label htmlFor="age" style={{color: "black"}}><strong>편도/왕복</strong></Label>
+                                            <Input type="select" name="way" onChange={this.handleChange}
+                                                   value={this.state.way}
+                                                   id="way" required>
+                                                <option value="1">편도</option>
+                                                <option value="2">왕복</option>
+                                            </Input>
+                                        </Col>
+                                    </Row>
                                     <Row>
                                         <Col xs="6">
                                             <FormGroup>
