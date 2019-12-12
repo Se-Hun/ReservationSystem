@@ -143,7 +143,7 @@ class Reserve extends Component {
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({
                 peoplenum : this.state.peoplenum,
-                disdegree : "",
+                disdegree :"",
             })
         }).then(res => res.json())
             .then(data => {
