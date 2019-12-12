@@ -127,8 +127,16 @@ class Reserve extends Component {
         // console.log(this.state)
 
         const _id = await this._addReservationList()
-        console.log(_id)
+        // console.log(_id)
 
+        const user_reservation_result = await this._addUserReservationList(_id)
+
+        const peoplenum = this.state.peoplenum
+        const trainName = this.state.selectedTrainNum
+        const trainIndex = this.state.selectedSeatList
+        for(var i = 0; i < peoplenum; i++) {
+            const temp = await this._addTrainInfoReservationList(trainName, trainIndex[i])
+        }
 
         /////// 1. 그 다음 User의 Reservation 목록이랑
         /////// 2. TrainInfo의  Reservation 목록 갱신해주어야함!!
@@ -184,6 +192,66 @@ class Reserve extends Component {
                     }
                 }
                 return data._id
+            })
+            .catch(err => console.log(err))
+    }
+
+    _addUserReservationList = (_id) => {
+        let url = "http://localhost:5000/api/user/reserve"
+
+        return fetch(url, {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({
+                account : sessionStorage.getItem("account"),
+                resvID : _id
+            })
+        }).then(res => res.json())
+            .then(data => {
+                console.log(data)
+
+                if (data.error) {
+                    const errorCode = data.error
+                    if (errorCode === 1) {
+                        alert(data.shouldAttribute + "을(를) 입력해주세요.")
+                        return
+                    } else {
+                        alert("잘못된 접근입니다.")
+                        window.location.reload()
+                        return
+                    }
+                }
+                return data.state
+            })
+            .catch(err => console.log(err))
+    }
+
+    _addTrainInfoReservationList = (trainName, trainIndex) => {
+        let url = "http://localhost:5000/api/trainInfo/reservate"
+
+        return fetch(url, {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({
+                trainName : trainName,
+                trainIndex : trainIndex
+            })
+        }).then(res => res.json())
+            .then(data => {
+                console.log(data)
+
+                if (data.error) {
+                    const errorCode = data.error
+                    if (errorCode === 1) {
+                        alert(data.shouldAttribute + "을(를) 입력해주세요.")
+                        return
+                    } else {
+                        alert("잘못된 접근입니다.")
+                        window.location.reload()
+                        return
+                    }
+                }
+                return data
             })
             .catch(err => console.log(err))
     }
