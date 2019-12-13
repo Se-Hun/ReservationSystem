@@ -251,7 +251,7 @@ class ResvContent extends Component {
           <Col lg={6}>
             <Card style={{marginTop: "20px"}}>
               <CardHeader>
-                <strong><i className="icon-info pr-1"></i> 예매 정보</strong>
+                <strong><i className="icon-info pr-1"></i> 모바일 승차권</strong>
               </CardHeader>
               <CardBody>
                 <Table responsive striped hover>
