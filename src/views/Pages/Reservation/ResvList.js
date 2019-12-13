@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Link, Redirect} from 'react-router-dom';
 import {Card, CardBody, CardHeader, Col, Row, Table} from 'reactstrap';
 import {Button} from "@material-ui/core";
+import {isLoggedIn} from "../../../utils/auth";
 
 const converter = {
     Inchoen : "인천",
@@ -27,6 +28,11 @@ class ResvList extends Component {
     }
 
     componentDidMount() {
+        if(!isLoggedIn()) {
+            alert("로그인을 해주세요.")
+            window.location.replace("/")
+            return
+        }
         this._getResvList()
     }
 

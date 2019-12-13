@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Card, CardBody, CardHeader, Col, Row, Table, Button, } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import {isLoggedIn} from "../../../utils/auth";
 
 class ResvContent extends Component {
   constructor(props) {
@@ -14,6 +15,11 @@ class ResvContent extends Component {
   }
 
   componentDidMount() {
+    if(!isLoggedIn()) {
+            alert("로그인을 해주세요.")
+            window.location.replace("/")
+            return
+        }
     this._getData()
   }
 
