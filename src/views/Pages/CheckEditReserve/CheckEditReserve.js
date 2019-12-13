@@ -106,7 +106,6 @@ class ConfirmEditReservation extends Component {
         });
     }
     toggleSmall() {
-
         this.setState({
             small: !this.state.small,
         });
@@ -276,7 +275,7 @@ class ConfirmEditReservation extends Component {
                                     </ModalBody>
                                     <ModalFooter>
                                         <Button color="primary" onClick={this.handleClickModal}>확인</Button>{' '}
-                                        <Button color="secondary" onClick={this.handleClickModal}>취소</Button>
+                                        <Button color="secondary" onClick={this.toggle}>취소</Button>
                                     </ModalFooter>
                                 </Modal>
                             </Card>
