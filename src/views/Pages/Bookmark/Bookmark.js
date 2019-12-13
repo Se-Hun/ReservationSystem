@@ -3,6 +3,8 @@ import {Link} from 'react-router-dom';
 import {Card, CardBody, Table} from 'reactstrap';
 import Button from '@material-ui/core/Button';
 
+import {isLoggedIn} from "../../../utils/auth";
+
 const convert = {
     Inchoen : "인천",
     Seoul : "서울",
@@ -20,6 +22,12 @@ class Bookmark extends Component {
     }
 
     componentDidMount() {
+        if(!isLoggedIn()) {
+            alert("로그인을 해주세요.")
+            window.location.replace("/")
+            return
+        }
+
         this._getBookMarks()
     }
 
