@@ -10,7 +10,7 @@ import {
     ModalHeader, ModalFooter, ModalBody, Modal
 } from 'reactstrap';
 import {getId} from '../../../utils/auth'
-import {Redirect} from 'react-router-dom'
+import {Link,Redirect} from 'react-router-dom'
 
 var id = getId()
 const convertToTrainKind = {
@@ -76,6 +76,7 @@ class ConfirmEditReservation extends Component {
             level=props.location.state.level
         }
         this.state = {
+            redirect:false,
             dropdownOpen: false,
             radioSelected: 2,
             peoplenum: peoplenum,
@@ -187,12 +188,14 @@ class ConfirmEditReservation extends Component {
                     window.location.reload()
                     return
                 }
-                return <Redirect to={{pathname:"/reservation"}}></Redirect>
+                this.setState({redirect:true})
+                return
             })
             .catch(err => console.log(err))
     }
     render() {
-
+        if(this.state.redirect==true)
+            return <Redirect to={{pathname: "/reservation"}}></Redirect>
         return (
             <div className="animated fadeIn">
                 <Form onSubmit={this.handleSumbit}>
