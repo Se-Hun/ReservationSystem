@@ -258,13 +258,13 @@ class ResvContent extends Component {
                   <tbody>
                     {this.state.resvData ? this._renderResvTable() : <tr><td>"Loading..."</td></tr>}
                   </tbody>
-
-                  {/*<tbody>*/}
-                    {/*{this.state.resvData ? this._renderReserveTable() : <tr><td>"Loading..."</td></tr>}*/}
-                  {/*</tbody>*/}
                 </Table>
               </CardBody>
+              <div align="center"><img src="http://postfiles13.naver.net/MjAxOTEyMTNfMTUy/MDAxNTc2MjQ1Mzk2MjEz.llV4juqbIvQ6IBym8FaIZMjLaKHiDZ4j_G7GHsY0iMUg.5U_jga9hDLLP2nF2sLKSCcJC71yKNig_9a2w4obXvVMg.PNG.sasing/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7_2019-12-13_%EC%98%A4%ED%9B%84_10.53.54.png?type=w580" display="block" width="300px" height="300px" align="center" margin="100px"></img></div>
+              <p></p>
+              <p></p>
             </Card>
+              
           </Col>
         </Row>
       </div>
