@@ -62,7 +62,7 @@ class ChangeUserInfo extends Component {
             .then(data => {
                 if(data.error) {
                     alert(data.notExact + "가 틀립니다.")
-                    window.location.reload()
+                    window.location.replace("/")
                 }
                 else {
                     alert("성공적으로 변경되었습니다.")
