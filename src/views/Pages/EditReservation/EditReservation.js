@@ -1,36 +1,17 @@
-import React, {Component, lazy, Suspense} from 'react';
-import {Bar, Line} from 'react-chartjs-2';
+import React, {Component} from 'react';
 import {
-    Badge,
     Button,
-    ButtonDropdown,
-    ButtonGroup,
-    ButtonToolbar,
     Card,
     CardBody,
-    CardFooter,
     CardHeader,
-    CardTitle,
     Col,
-    Dropdown,
-    DropdownItem,
-    DropdownMenu,
-    DropdownToggle, FormGroup, Input, Label,
-    Progress,
+    FormGroup, Input, Label,
     Row,
-    Table,
     Form,
     ModalHeader, ModalFooter, ModalBody, Modal
 } from 'reactstrap';
-import {CustomTooltips} from '@coreui/coreui-plugin-chartjs-custom-tooltips';
-import {getStyle, hexToRgba} from '@coreui/coreui/dist/js/coreui-utilities'
 import {Redirect} from 'react-router-dom'
 import {isLoggedIn} from '../../../utils/auth'
-const brandPrimary = getStyle('--primary')
-const brandSuccess = getStyle('--success')
-const brandInfo = getStyle('--info')
-const brandWarning = getStyle('--warning')
-const brandDanger = getStyle('--danger')
 const costmap = {
     Inchoen: {
         Incheon: 0,
@@ -92,7 +73,10 @@ class EditReservation extends Component {
         let age = 'adult'
         let way = 'oneway'
         let state = 0
+        let train = 0
+        let route = 0
         let seatList = []
+        console.log(props.location.state);
         if (props.location.state) {
             peoplenum = props.location.state.peoplenum
             departure = props.location.state.departure
@@ -107,6 +91,8 @@ class EditReservation extends Component {
             cardnum = props.location.state.cardnum
             state = props.location.state.state
             seat = props.location.state.seat
+            route=props.location.state.seat[0]
+            train=props.location.state.seat[1]
         }
         this.state = {
             dropdownOpen: false,
@@ -129,13 +115,12 @@ class EditReservation extends Component {
         };
 
     }
-    toggle() {
-        this.setState({
-            modal: !this.state.modal,
-        });
-    }
+    // toggle() {
+    //     this.setState({
+    //         modal: !this.state.modal,
+    //     });
+    // }
     toggleSmall() {
-
         this.setState({
             small: !this.state.small,
         });
@@ -166,6 +151,7 @@ class EditReservation extends Component {
         let departure = this.state.departure
         let destination = this.state.destination
         let peoplenum = this.state.peoplenum
+        // console.log(this.state.)
         console.log(departure+ " "+ destination)
         let cost = costmap[departure][destination]
         let discountpercent = 1;
@@ -370,9 +356,9 @@ class EditReservation extends Component {
                                                     <Col xs="12">
                                                         <FormGroup>
                                                             <Label htmlFor="ccnumber">Credit Card Number</Label>
-                                                            <Input type="text" name="cardnum"
-                                                                   onChange={this.handleChange}
-                                                                   placeholder="0000 0000 0000 0000" required/>
+                                                                <Input type="text" name="cardnum"
+                                                                   value={this.state.cardnum}
+                                                                   onChange={this.handleChange} id="cardnum"></Input>
                                                         </FormGroup>
                                                     </Col>
                                                 </Row>
