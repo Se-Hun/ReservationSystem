@@ -181,10 +181,11 @@ router.post('/modify', (req, res) => {
         .then((user) => {
             if(!user) {
                 // Code 2 : 해당하는 아이디가 없는 경우
-                return res.status(404).send({code: '404', error: 2})
+                return res.status(404).send({code: '404', error: 2, notExact : "user"})
             }
             else {
-                User.modify(account, accountname, phonenum, password, cardcompany, cardnum)
+                if(user.password === password) {
+                    User.modify(account, accountname, phonenum, password, cardcompany, cardnum)
                     .then((register_result) => {
                         console.log(register_result)
                         if(register_result) {
@@ -201,6 +202,10 @@ router.post('/modify', (req, res) => {
                         console.log(err)
                         res.status(500).send({code: '500', error: 3})
                     }) // Code 3 : BackEnd 나 DB 문제인 경우
+                }
+                else {
+                    res.status(404).send({code : "404", error : 2, notExact : "password"})
+                }
             }
         })
         .catch(err => {

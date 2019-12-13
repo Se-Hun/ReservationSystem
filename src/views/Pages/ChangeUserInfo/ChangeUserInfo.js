@@ -46,11 +46,7 @@ class ChangeUserInfo extends Component {
         let phonenum = this.state.phonenum
         let cardcompany = this.state.cardcompany
         let cardnum = this.state.cardnum
-        if(sessionStorage.getItem('password')!=password)   {
-            console.log(sessionStorage.getItem('password')+" "+password)
-            alert("비밀번호가 틀립니다!")
-            return <Redirect to={{pathname:"/"}}></Redirect>
-        }
+
         let body="{"
         body+='"account":"'+account+'", ';
         body+='"password":"'+password+'", ';
@@ -64,10 +60,12 @@ class ChangeUserInfo extends Component {
             body: body
         }).then(res => res.json())
             .then(data => {
-                if (!isLoggedIn()) {
-                    alert("로그인이 필요합니다.")
-                    window.location.replace("/Login")
-                } else {
+                if(data.error) {
+                    alert(data.notExact + "가 틀립니다.")
+                    window.location.reload()
+                }
+                else {
+                    alert("성공적으로 변경되었습니다.")
                     window.location.replace("/")
                 }
             })
