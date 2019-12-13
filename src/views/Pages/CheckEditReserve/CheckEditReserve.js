@@ -1,38 +1,16 @@
-import React, {Component, lazy, Suspense} from 'react';
-import {Bar, Line} from 'react-chartjs-2';
+import React, {Component} from 'react';
 import {
-    Badge,
     Button,
-    ButtonDropdown,
-    ButtonGroup,
-    ButtonToolbar,
     Card,
     CardBody,
-    CardFooter,
     CardHeader,
-    CardTitle,
     Col,
-    Dropdown,
-    DropdownItem,
-    DropdownMenu,
-    DropdownToggle, FormGroup, Input, Label,
-    Progress,
     Row,
-    Table,
     Form,
     ModalHeader, ModalFooter, ModalBody, Modal
 } from 'reactstrap';
-import {CustomTooltips} from '@coreui/coreui-plugin-chartjs-custom-tooltips';
-import {getStyle, hexToRgba} from '@coreui/coreui/dist/js/coreui-utilities'
 import {getId} from '../../../utils/auth'
 import {Redirect} from 'react-router-dom'
-//const Widget03 = lazy(() => import('../../../../../views/Widgets/Widget03'));
-
-const brandPrimary = getStyle('--primary')
-const brandSuccess = getStyle('--success')
-const brandInfo = getStyle('--info')
-const brandWarning = getStyle('--warning')
-const brandDanger = getStyle('--danger')
 
 var id = getId()
 const convertToTrainKind = {
@@ -76,9 +54,11 @@ class ConfirmEditReservation extends Component {
         let way = 'oneway'
         let state = 0
         let seatList = []
+        let id=""
+        let level=0;
         if (props.location.state) {
+            console.log(props.location.state)
             peoplenum = props.location.state.peoplenum
-            //disdegree = props.location.state.disdegree
             departure = props.location.state.departure
             destination = props.location.state.destination
             seatList = props.location.state.seatList
@@ -91,6 +71,9 @@ class ConfirmEditReservation extends Component {
             cardnum = props.location.state.cardnum
             state = props.location.state.state
             seat = props.location.state.seat
+            disdegree = props.location.state.disdegree
+            id = props.location.state.id
+            level=props.location.state.level
         }
         this.state = {
             dropdownOpen: false,
@@ -110,6 +93,9 @@ class ConfirmEditReservation extends Component {
             age: age,
             way: way,
             modal: false,
+            id:id,
+            state:state,
+            level:level
         };
     }
 
@@ -133,26 +119,26 @@ class ConfirmEditReservation extends Component {
     handleSumbit = (e) => {
         e.preventDefault()
         let url = "http://localhost:5000/api/reservation/edit"
-        let peoplenum = this.state.peoplenum
-        let disdegree = this.state.disdegree
+        let id=this.state.id
         let departure = this.state.departure
-        let destination = this.state.destination
-        let card = this.state.card
-        let cardnum = this.state.cardnum
-        let level = this.state.seat
+        let arrival = this.state.destination
         let date = this.state.date
         let time = this.state.time
-        let cost = this.state.cost
-        let way = this.state.way
+        let peoplenum = this.state.peoplenum
+        let disdegree = this.state.disdegree
         let age = this.state.age
+        let way = this.state.way
+        let card = this.state.card
+        let cardnum = this.state.cardnum
         let state = this.state.state
-        let seatList = this.state.seatList
+        let seat = this.state.seat
+        let level = this.state.level
         fetch(url, {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({
-                peoplenum: peoplenum, departure: departure, arrival: destination, age: age, way: way,
-                card: card, cardnum: cardnum, date: date, time: time, seat: seatList, state: state, level:level, disdegree: disdegree
+                id:id, departure: departure, arrival: arrival, date: date, time: time, peoplenum: peoplenum,
+                age: age, way: way, card: card, cardnum: cardnum, state: state, seat: seat, level:level, disdegree: disdegree
             })
         }).then(res => res.json())
             .then(data => {
@@ -166,30 +152,32 @@ class ConfirmEditReservation extends Component {
             })
             .catch(err => console.log(err))
     }
+
     loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>
+
     handleClickModal=(e)=>{
         e.preventDefault()
         let url = "http://localhost:5000/api/reservation/edit"
-        let peoplenum = this.state.peoplenum
-        let disdegree = this.state.disdegree
+        let id=this.state.id
         let departure = this.state.departure
-        let destination = this.state.destination
-        let card = this.state.card
-        let cardnum = this.state.cardnum
-        let level = this.state.seat
+        let arrival = this.state.destination
         let date = this.state.date
         let time = this.state.time
-        let cost = this.state.cost
-        let way = this.state.way
+        let peoplenum = this.state.peoplenum
+        let disdegree = this.state.disdegree
         let age = this.state.age
+        let way = this.state.way
+        let card = this.state.card
+        let cardnum = this.state.cardnum
         let state = this.state.state
-        let seatList = this.state.seatList
+        let seat = this.state.seat
+        let level = this.state.level
         fetch(url, {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({
-                peoplenum: peoplenum, departure: departure, arrival: destination, age: age, way: way,
-                card: card, cardnum: cardnum, date: date, time: time, seat: seatList, state: state, level:level, disdegree: disdegree
+                id:id, departure: departure, arrival: arrival, date: date, time: time, peoplenum: peoplenum,
+                age: age, way: way, card: card, cardnum: cardnum, state: state, seat: seat, level:level, disdegree: disdegree
             })
         }).then(res => res.json())
             .then(data => {
@@ -199,7 +187,7 @@ class ConfirmEditReservation extends Component {
                     window.location.reload()
                     return
                 }
-                return <Redirect to={{pathname: "/confirmReservation"}}></Redirect>
+                return <Redirect to={{pathname:"/reservation"}}></Redirect>
             })
             .catch(err => console.log(err))
     }

@@ -75,7 +75,9 @@ class EditReservation extends Component {
         let state = 0
         let train = 0
         let route = 0
+        let id=""
         let seatList = []
+        let level="0"
         console.log(props.location.state);
         if (props.location.state) {
             peoplenum = props.location.state.peoplenum
@@ -93,6 +95,8 @@ class EditReservation extends Component {
             seat = props.location.state.seat
             route=props.location.state.seat[0]
             train=props.location.state.seat[1]
+            id=props.location.state.id
+            level=props.location.state.level
         }
         this.state = {
             dropdownOpen: false,
@@ -111,7 +115,10 @@ class EditReservation extends Component {
             redirect: false,
             age: age,
             way: way,
-            modal: true,
+            modal: false,
+            state: state,
+            id:id,
+            level:level
         };
 
     }
@@ -120,6 +127,19 @@ class EditReservation extends Component {
     //         modal: !this.state.modal,
     //     });
     // }
+
+    _openModal = () => {
+        this.setState({
+            modal: true
+        })
+    }
+
+    _closeModal = () => {
+        this.setState({
+            isModalOpen: false
+        });
+    }
+
     toggleSmall() {
         this.setState({
             small: !this.state.small,
@@ -132,17 +152,18 @@ class EditReservation extends Component {
     }
     handleSumbit = (e) => {
         e.preventDefault()
-        let url = "http://localhost:5000/api/reservation/edit"
+        // let url = "http://localhost:5000/api/reservation/edit"
         this.setState({
             redirect: true
         })
     }
-    handleClickModal=(e)=>{
-        e.preventDefault()
-        this.setState({
-            modal: false
-        })
-    }
+    // handleClickModal=(e)=>{
+    //     e.preventDefault()
+    //     this.setState({
+    //         modal: false
+    //     })
+    // }
+
     componentDidMount() {
         this._handleCost()
     }
@@ -151,7 +172,6 @@ class EditReservation extends Component {
         let departure = this.state.departure
         let destination = this.state.destination
         let peoplenum = this.state.peoplenum
-        // console.log(this.state.)
         console.log(departure+ " "+ destination)
         let cost = costmap[departure][destination]
         let discountpercent = 1;
@@ -200,13 +220,15 @@ class EditReservation extends Component {
                         age : this.state.age,
                         state: this.state.state,
                         seat : this.state.seat,
+                        id: this.state.id,
+                        level: this.state.level
                     }
                 }}></Redirect>
             )
         }
         return (
             <div className="animated fadeIn">
-                <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
+                <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className} onClickAway={this._closeModal}>>
                     <ModalHeader toggle={this.toggle}>확인</ModalHeader>
                     <ModalBody>
                         예매를 수정하시겠습니까?
@@ -368,7 +390,7 @@ class EditReservation extends Component {
                                     <Row>
                                         <Col></Col>
                                         <Col col="6" sm="2" md="2" xl className="mb-3 mb-xl-0">
-                                            <Button type="submit" block color="primary">예매 수정</Button>
+                                            <Button type="submit" block color="primary" onClick={this._openModal}>예매 수정</Button>
                                         </Col>
                                     </Row>
                                 </CardBody>

@@ -156,8 +156,14 @@ class ResvList extends Component {
                                 destination: data.arrival,
                                 date: data.date,
                                 time: data.time,
-                                train: data.train,
-                                route: data.route,
+                                train: data.seat[0],
+                                id: data._id,
+                                card: data.card,
+                                cardnum: data.cardnum,
+                                age: data.age,
+                                way: data.way,
+                                state: data.state,
+                                level: data.level
                             }
                         }} style={{textDecoration: "none"}}>
                             <Button variant="contained" color="primary">수정</Button>

@@ -130,6 +130,7 @@ router.post('/getReservation', (req, res) => {
 // input: 아래 예시와 같은 형식의 데이터 
 /*
 {
+    "id":"예매id",
     "departure": "daejeon",
     "arrival": "seoul",
     "date": "2019-12-11",
@@ -147,6 +148,7 @@ router.post('/getReservation', (req, res) => {
 */
 // output : state
 router.post('/edit', (req, res) => {
+    const id = req.body.id;
     const departure = req.body.departure;
     const arrival = req.body.arrival;
     const date = req.body.date;
@@ -161,6 +163,8 @@ router.post('/edit', (req, res) => {
     const level = req.body.level;
     const disdegree = req.body.disdegree;
 
+    if(!id)
+        return res.status(404).send({code: '404', error: 1, shouldAttribute: "id"});
     if(!departure)
         return res.status(404).send({code: '404', error: 1, shouldAttribute: "departure"});
     if(!arrival)
@@ -188,7 +192,7 @@ router.post('/edit', (req, res) => {
     if(!disdegree)
         return res.status(404).send({code: '404', error: 1, shouldAttribute: "disdegree"});
 
-    Reservation.editReservation(departure, arrival, date, time, peoplenum, age, way, card, cardnum, state, seat, level, disdegree)
+    Reservation.editReservation(id, departure, arrival, date, time, peoplenum, age, way, card, cardnum, state, seat, level, disdegree)
     .then(res.send({state: true}))
     .catch(err => res.status(500).send({code: '500', error: 3, state: false}));
 })
