@@ -13,6 +13,7 @@ import {
     Form
 } from "reactstrap";
 import {Button} from "@material-ui/core";
+import {isLoggedIn} from "../../../utils/auth";
 
 const costmap = {
     Inchoen: {
@@ -77,7 +78,7 @@ class Reserve extends Component {
         let disdegree = null // 장애 정도(일반, 1급, 2급)
         let departure = null // 예약할 출발지
         let destination = null // 예약할 도착지
-        let level = null
+        let level = null // 좌석 종류(일반, 우등)
         let kind = null // 선택한 기차 종류(ktx, 무궁화호, 새마을호)
         let age = null // 연령대(children : 20세 미만, adult : 20세 이상)
         let way = null // 편도/왕복(1: 편도, 2 : 왕복)
@@ -190,6 +191,12 @@ class Reserve extends Component {
     }
 
     _handleClickPayment = () => {
+        if(!isLoggedIn()) {
+            alert("로그인을 먼저 해주세요.")
+            window.location.replace("/")
+            return
+        }
+
         this._handleSumbit()
         this._openModal2()
     }

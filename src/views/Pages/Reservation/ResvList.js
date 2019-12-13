@@ -162,17 +162,17 @@ class ResvList extends Component {
                     <td>{this.state.reserveTime[data._id] ? (
                         <Link to={{
                             pathname: '/confirmCancelReservation', state: {
-                                peoplenum: data.peoplenum,
-                                disdegree: data.disdegree,
-                                seat: data.seat,
-                                departure: data.departure,
-                                destination: data.arrival,
-                                date: data.date,
-                                time: data.time,
-                                train: data.seat[0],
+                                // peoplenum: data.peoplenum,
+                                // disdegree: data.disdegree,
+                                // seat: data.seat,
+                                // departure: data.departure,
+                                // destination: data.arrival,
+                                // date: data.date,
+                                // time: data.time,
+                                // train: data.seat[0],
                                 id: data._id,
-                                cardcompany: data.card,
-                                cardnum: data.cardnum
+                                // cardcompany: data.card,
+                                // cardnum: data.cardnum
                             }
                         }} style={{textDecoration: "none"}}>
                             <Button variant="contained" color="secondary">취소</Button>
