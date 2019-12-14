@@ -105,7 +105,7 @@ class Login extends Component {
                             <Button variant="outlined"
                                     size="large"
                                     style={{marginLeft: "60%", marginTop: "5px", marginBottom: "10px", fontWeight: "bold"}}>
-                              로그인
+                              회원가입
                             </Button>
                           </Link>
                         </Col>
